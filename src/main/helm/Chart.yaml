@@ -1,7 +1,7 @@
 apiVersion: v2
 name: access-control-service
 description: A Helm library chart for Access Control Service
-type: library
+type: application
 version: 1.0.0
 appVersion: "1.0.0"
 
@@ -26,10 +26,10 @@ dependencies:
     version: 1.3.0-incubating
     repository: https://downloads.apache.org/incubator/polaris/helm-chart/
     condition: polaris.enabled
-  - name: ilum-unity-catalog
+  - name: unitycatalog
     alias: unity-catalog
-    version: 0.1.0
-    repository: https://charts.ilum.cloud
+    version: 0.0.1-pre.1
+    repository: "file://../../../../../unitycatalog/unitycatalog/helm"
     condition: unity-catalog.enabled
   - name: hive-metastore
     version: 0.2.0

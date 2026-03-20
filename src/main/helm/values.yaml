@@ -3,30 +3,58 @@
 
 acs-backend:
   enabled: true
-  # Add overrides for acs-backend here
+  image:
+    repository: acs-backend
+    tag: "1.0.0-SNAPSHOT"
+    pullPolicy: IfNotPresent
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: api.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 acs-ui:
   enabled: true
-  # Link to the acs-backend service using the default service name pattern
-  backendApiUrl: "http://access-control-service-acs-backend:8080"
-  # Add other overrides for acs-ui here
+  image:
+    repository: acs-ui
+    tag: "1.0.0-SNAPSHOT"
+    pullPolicy: IfNotPresent
+  # Link to the acs-backend service using the ingress hostname for external or service name for internal
+  backendApiUrl: "http://api.localnet"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: acs.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 ingress-nginx:
-  enabled: false
+  enabled: true
   controller:
     replicaCount: 1
     # Other default configurations for the ingress controller can go here if needed
 
 keycloak:
-  enabled: false
+  enabled: true
   auth:
     adminUser: admin
-    # In a real environment, provide a secure password or use an existing secret
     adminPassword: admin
-  # Settings to simulate Azure AD can go here
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: idp.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 postgresql:
-  enabled: false
+  enabled: true
   auth:
     postgresPassword: admin_password
     username: access_control_user
@@ -34,106 +62,102 @@ postgresql:
     database: access_control_db
 
 gravitino:
-  enabled: false
-  # Uncomment below to link catalog with supporting services
-  # oidc:
-  #   issuerUrl: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
-  #   clientId: "gravitino-client"
-  # database:
-  #   host: "access-control-service-postgresql"
-  #   port: 5432
-  #   database: "access_control_db"
-  #   user: "access_control_user"
-  #   password: "user_password"
-  # storage:
-  #   type: "s3"
-  #   s3:
-  #     endpoint: "http://access-control-service-minio:9000"
-  #     bucket: "gravitino-warehouse"
-  #     accessKey: "minioadmin"
-  #     secretKey: "minioadmin"
-  # ingress:
-  #   enabled: true
-  #   className: "nginx"
-  #   hosts:
-  #     - host: gravitino.local
-  #       paths:
-  #         - path: /
-  #           pathType: Prefix
+  enabled: true
+  oidc:
+    issuerUrl: "http://idp.localnet/realms/access-control"
+    clientId: "gravitino-client"
+  database:
+    host: "access-control-service-postgresql"
+    port: 5432
+    database: "access_control_db"
+    user: "access_control_user"
+    password: "user_password"
+  storage:
+    type: "s3"
+    s3:
+      endpoint: "http://access-control-service-minio:9000"
+      bucket: "gravitino-warehouse"
+      accessKey: "minioadmin"
+      secretKey: "minioadmin"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: gravitino.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 polaris:
-  enabled: false
-  # Uncomment below to link catalog with supporting services
-  # auth:
-  #   type: "oidc"
-  #   oidcIssuerUrl: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
-  # database:
-  #   url: "jdbc:postgresql://<postgesql-release-name>-postgresql:5432/access_control_db"
-  #   username: "access_control_user"
-  #   password: "user_password"
-  # ingress:
-  #   enabled: true
-  #   className: "nginx"
-  #   hosts:
-  #     - host: polaris.local
-  #       paths:
-  #         - path: /
-  #           pathType: Prefix
+  enabled: true
+  auth:
+    type: "oidc"
+    oidcIssuerUrl: "http://idp.localnet/realms/access-control"
+  database:
+    url: "jdbc:postgresql://access-control-service-postgresql:5432/access_control_db"
+    username: "access_control_user"
+    password: "user_password"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: polaris.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 unity-catalog:
-  enabled: false
-  # Uncomment below to link catalog with supporting services
-  # auth:
-  #   oidc:
-  #     issuerUri: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
-  # database:
-  #   host: "access-control-service-postgresql"
-  #   database: "access_control_db"
-  #   user: "access_control_user"
-  #   password: "user_password"
-  # storage:
-  #   type: "s3"
-  #   s3:
-  #     endpoint: "http://access-control-service-minio:9000"
-  #     bucket: "unity-catalog"
-  #     accessKey: "minioadmin"
-  #     secretKey: "minioadmin"
-  # ingress:
-  #   enabled: true
-  #   className: "nginx"
-  #   hosts:
-  #     - host: unity-catalog.local
-  #       paths:
-  #         - path: /
-  #           pathType: Prefix
+  enabled: true
+  auth:
+    oidc:
+      issuerUri: "http://idp.localnet/realms/access-control"
+  database:
+    host: "access-control-service-postgresql"
+    database: "access_control_db"
+    user: "access_control_user"
+    password: "user_password"
+  storage:
+    type: "s3"
+    s3:
+      endpoint: "http://access-control-service-minio:9000"
+      bucket: "unity-catalog"
+      accessKey: "minioadmin"
+      secretKey: "minioadmin"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: unity.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 hive-metastore:
-  enabled: false
-  # Uncomment below to link catalog with supporting services
-  # auth:
-  #   oidc:
-  #     issuer: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
-  # database:
-  #   type: "postgres"
-  #   host: "access-control-service-postgresql"
-  #   database: "access_control_db"
-  #   user: "access_control_user"
-  #   password: "user_password"
-  # storage:
-  #   type: "s3"
-  #   s3:
-  #     endpoint: "http://access-control-service-minio:9000"
-  #     bucket: "hive-warehouse"
-  #     accessKey: "minioadmin"
-  #     secretKey: "minioadmin"
-  # ingress:
-  #   enabled: true
-  #   className: "nginx"
-  #   hosts:
-  #     - host: hive-metastore.local
-  #       paths:
-  #         - path: /
-  #           pathType: Prefix
+  enabled: true
+  auth:
+    oidc:
+      issuerUrl: "http://idp.localnet/realms/access-control"
+  database:
+    type: "postgres"
+    host: "access-control-service-postgresql"
+    database: "access_control_db"
+    user: "access_control_user"
+    password: "user_password"
+  storage:
+    type: "s3"
+    s3:
+      endpoint: "http://access-control-service-minio:9000"
+      bucket: "hive-warehouse"
+      accessKey: "minioadmin"
+      secretKey: "minioadmin"
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: hive.localnet
+        paths:
+          - path: /
+            pathType: Prefix
 
 minio:
   enabled: false
@@ -141,12 +165,22 @@ minio:
     rootUser: minioadmin
     rootPassword: minioadmin
   # Configuration for local object storage
-  defaultBuckets: "access-control, hive-warehouse, gravitino-warehouse"
+  defaultBuckets: "access-control, hive-warehouse, gravitino-warehouse, unity-catalog"
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - s3.localnet
+    consoleIngress:
+      enabled: true
+      ingressClassName: "nginx"
+      hosts:
+        - console.s3.localnet
 
 cert-manager:
-  enabled: false
+  enabled: true
   installCRDs: true
   # Uncomment below to setup a default cluster issuer for self-signed certificates
-  # clusterIssuer:
-  #   enabled: true
-  #   name: "selfsigned-issuer"
+  clusterIssuer:
+    enabled: true
+    name: "selfsigned-issuer"

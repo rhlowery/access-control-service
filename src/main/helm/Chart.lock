@@ -14,6 +14,9 @@ dependencies:
 - name: polaris
   repository: https://downloads.apache.org/incubator/polaris/helm-chart/
   version: 1.3.0-incubating
+- name: unitycatalog
+  repository: file://../../../../../unitycatalog/unitycatalog/helm
+  version: 0.0.1-pre.1
 - name: hive-metastore
   repository: https://hevaweb.github.io/heva-helm-charts/
   version: 0.2.0
@@ -29,5 +32,5 @@ dependencies:
 - name: minio
   repository: https://charts.min.io/
   version: 5.4.0
-digest: sha256:52cf058792095a2f52f95a64bc1784bde66808073fdba8a4882f486c44e80763
-generated: "2026-03-20T13:40:23.5491-04:00"
+digest: sha256:531eeff3b7497b5afafce213cfac526bc6f58af6e8566863f9ed46c54f30d767
+generated: "2026-03-20T14:00:24.140877-04:00"
