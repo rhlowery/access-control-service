@@ -19,20 +19,21 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   - name: gravitino
-    version: 0.1.0
-    repository: https://datastrato.github.io/helm-charts
+    version: 1.3.0
+    repository: "file://../../../../../apache/gravitino/dev/charts/gravitino"
     condition: gravitino.enabled
   - name: polaris
-    version: 0.1.0
-    repository: https://polaris-catalog.io/helm-charts
+    version: 1.3.0-incubating
+    repository: https://downloads.apache.org/incubator/polaris/helm-chart/
     condition: polaris.enabled
-  - name: unity-catalog
+  - name: ilum-unity-catalog
+    alias: unity-catalog
     version: 0.1.0
-    repository: https://unitycatalog.github.io/helm-charts
+    repository: https://charts.ilum.cloud
     condition: unity-catalog.enabled
   - name: hive-metastore
-    version: 0.1.0
-    repository: https://charts.bitnami.com/bitnami
+    version: 0.2.0
+    repository: https://hevaweb.github.io/heva-helm-charts/
     condition: hive-metastore.enabled
   - name: cert-manager
     version: 1.14.4
@@ -40,9 +41,14 @@ dependencies:
     condition: cert-manager.enabled
   - name: acs-backend
     version: 0.1.0
-    repository: https://rhlowery.github.io/acs-backend
+    repository: "file://../../../../acs-backend/src/main/helm/acs-backend"
     condition: acs-backend.enabled
-  - name: acs-ui
+  - name: frontend
+    alias: acs-ui
     version: 0.1.0
-    repository: https://rhlowery.github.io/acs-ui
+    repository: "file://../../../../acs-ui/frontend/helm/frontend"
     condition: acs-ui.enabled
+  - name: minio
+    version: 5.4.0
+    repository: https://charts.min.io/
+    condition: minio.enabled

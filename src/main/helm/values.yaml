@@ -40,11 +40,18 @@ gravitino:
   #   issuerUrl: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
   #   clientId: "gravitino-client"
   # database:
-  #   host: "<postgesql-release-name>-postgresql"
+  #   host: "access-control-service-postgresql"
   #   port: 5432
   #   database: "access_control_db"
   #   user: "access_control_user"
   #   password: "user_password"
+  # storage:
+  #   type: "s3"
+  #   s3:
+  #     endpoint: "http://access-control-service-minio:9000"
+  #     bucket: "gravitino-warehouse"
+  #     accessKey: "minioadmin"
+  #     secretKey: "minioadmin"
   # ingress:
   #   enabled: true
   #   className: "nginx"
@@ -80,10 +87,17 @@ unity-catalog:
   #   oidc:
   #     issuerUri: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
   # database:
-  #   host: "<postgesql-release-name>-postgresql"
+  #   host: "access-control-service-postgresql"
   #   database: "access_control_db"
   #   user: "access_control_user"
   #   password: "user_password"
+  # storage:
+  #   type: "s3"
+  #   s3:
+  #     endpoint: "http://access-control-service-minio:9000"
+  #     bucket: "unity-catalog"
+  #     accessKey: "minioadmin"
+  #     secretKey: "minioadmin"
   # ingress:
   #   enabled: true
   #   className: "nginx"
@@ -101,10 +115,17 @@ hive-metastore:
   #     issuer: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
   # database:
   #   type: "postgres"
-  #   host: "<postgesql-release-name>-postgresql"
+  #   host: "access-control-service-postgresql"
   #   database: "access_control_db"
   #   user: "access_control_user"
   #   password: "user_password"
+  # storage:
+  #   type: "s3"
+  #   s3:
+  #     endpoint: "http://access-control-service-minio:9000"
+  #     bucket: "hive-warehouse"
+  #     accessKey: "minioadmin"
+  #     secretKey: "minioadmin"
   # ingress:
   #   enabled: true
   #   className: "nginx"
@@ -113,6 +134,14 @@ hive-metastore:
   #       paths:
   #         - path: /
   #           pathType: Prefix
+
+minio:
+  enabled: false
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+  # Configuration for local object storage
+  defaultBuckets: "access-control, hive-warehouse, gravitino-warehouse"
 
 cert-manager:
   enabled: false

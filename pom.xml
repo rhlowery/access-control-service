@@ -26,6 +26,12 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>helm-dependency-update</id>
+                        <goals>
+                            <goal>dependency-update</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>helm-package</id>
                         <goals>
                             <goal>package</goal>
