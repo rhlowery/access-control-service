@@ -1,0 +1,123 @@
+# Default values for access-control-service library chart.
+# This is a YAML-formatted file.
+
+acs-backend:
+  enabled: true
+  # Add overrides for acs-backend here
+
+acs-ui:
+  enabled: true
+  # Link to the acs-backend service using the default service name pattern
+  backendApiUrl: "http://access-control-service-acs-backend:8080"
+  # Add other overrides for acs-ui here
+
+ingress-nginx:
+  enabled: false
+  controller:
+    replicaCount: 1
+    # Other default configurations for the ingress controller can go here if needed
+
+keycloak:
+  enabled: false
+  auth:
+    adminUser: admin
+    # In a real environment, provide a secure password or use an existing secret
+    adminPassword: admin
+  # Settings to simulate Azure AD can go here
+
+postgresql:
+  enabled: false
+  auth:
+    postgresPassword: admin_password
+    username: access_control_user
+    password: user_password
+    database: access_control_db
+
+gravitino:
+  enabled: false
+  # Uncomment below to link catalog with supporting services
+  # oidc:
+  #   issuerUrl: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
+  #   clientId: "gravitino-client"
+  # database:
+  #   host: "<postgesql-release-name>-postgresql"
+  #   port: 5432
+  #   database: "access_control_db"
+  #   user: "access_control_user"
+  #   password: "user_password"
+  # ingress:
+  #   enabled: true
+  #   className: "nginx"
+  #   hosts:
+  #     - host: gravitino.local
+  #       paths:
+  #         - path: /
+  #           pathType: Prefix
+
+polaris:
+  enabled: false
+  # Uncomment below to link catalog with supporting services
+  # auth:
+  #   type: "oidc"
+  #   oidcIssuerUrl: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
+  # database:
+  #   url: "jdbc:postgresql://<postgesql-release-name>-postgresql:5432/access_control_db"
+  #   username: "access_control_user"
+  #   password: "user_password"
+  # ingress:
+  #   enabled: true
+  #   className: "nginx"
+  #   hosts:
+  #     - host: polaris.local
+  #       paths:
+  #         - path: /
+  #           pathType: Prefix
+
+unity-catalog:
+  enabled: false
+  # Uncomment below to link catalog with supporting services
+  # auth:
+  #   oidc:
+  #     issuerUri: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
+  # database:
+  #   host: "<postgesql-release-name>-postgresql"
+  #   database: "access_control_db"
+  #   user: "access_control_user"
+  #   password: "user_password"
+  # ingress:
+  #   enabled: true
+  #   className: "nginx"
+  #   hosts:
+  #     - host: unity-catalog.local
+  #       paths:
+  #         - path: /
+  #           pathType: Prefix
+
+hive-metastore:
+  enabled: false
+  # Uncomment below to link catalog with supporting services
+  # auth:
+  #   oidc:
+  #     issuer: "http://<keycloak-release-name>-keycloak:80/realms/access-control"
+  # database:
+  #   type: "postgres"
+  #   host: "<postgesql-release-name>-postgresql"
+  #   database: "access_control_db"
+  #   user: "access_control_user"
+  #   password: "user_password"
+  # ingress:
+  #   enabled: true
+  #   className: "nginx"
+  #   hosts:
+  #     - host: hive-metastore.local
+  #       paths:
+  #         - path: /
+  #           pathType: Prefix
+
+cert-manager:
+  enabled: false
+  installCRDs: true
+  # Uncomment below to setup a default cluster issuer for self-signed certificates
+  # clusterIssuer:
+  #   enabled: true
+  #   name: "selfsigned-issuer"
