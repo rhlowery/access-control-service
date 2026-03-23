@@ -7,15 +7,15 @@ appVersion: "1.0.0"
 
 dependencies:
   - name: ingress-nginx
-    version: 4.10.0
+    version: 4.15.1
     repository: https://kubernetes.github.io/ingress-nginx
     condition: ingress-nginx.enabled
   - name: keycloak
-    version: 21.1.2
+    version: 25.2.0
     repository: https://charts.bitnami.com/bitnami
     condition: keycloak.enabled
   - name: postgresql
-    version: 12.5.1
+    version: 18.5.11
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   - name: gravitino
@@ -52,3 +52,11 @@ dependencies:
     version: 5.4.0
     repository: https://charts.min.io/
     condition: minio.enabled
+  - name: prometheus
+    version: 28.14.0
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: prometheus.enabled
+  - name: opentelemetry-collector
+    version: 0.147.1
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+    condition: opentelemetry-collector.enabled

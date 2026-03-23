@@ -1,60 +1,174 @@
 # Default values for access-control-service library chart.
 # This is a YAML-formatted file.
 
+global:
+  security:
+    allowInsecureImages: true
+
 acs-backend:
+  fullnameOverride: "acs-backend"
   enabled: true
   image:
-    repository: acs-backend
+    repository: rhlowery/acs-backend
     tag: "1.0.0-SNAPSHOT"
     pullPolicy: IfNotPresent
+  # Override acs-backend values
+  security:
+    publicKeyBase64: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFvMk9pY2h6SjcxS2ZBblN2SjBCdQpjK0VkQ3A3eXNFNmo4NHFvSVd2aUM4UDAvaG9pOXJqZDZ2YU5odDN6dVFwYmR2eHRodFBQYlBpWEp3UXJzMDh1ClNwRmFiMEtueTFELzJ3R1c1dmNoL3B2Y3JXbUVVSVhlaXViVU1KZmdjNDJqTnR5N3loaTlaWUJBc0Y4SkgvWEkKVjh4d1dhbGg1VDIyell2M0VDTnB5RUM3WEFqdVU0V0xpNEpyOFlxVGdRZlVxQW4xd1VIbnFhcUxCNVJzWDkvSwo3a0c1aXFhOGN0T2FsMDRIU2xvc0E4T0t2aGtLVmdrVWhvUkI5WS9qbHRERVM1bTFvbXZsSU9ValFjNUpRRXZBCnpIcjlzbFYwWFV2NkMvQk5LUENPVmh0RDJDRit6NUxKdmZWVE1nUm9hb1VHbG4xT2tZdHE2VGdBV29RMnZlQ3QKTndJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+    privateKeyBase64: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV1Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktRd2dnU2dBZ0VBQW9JQkFRQ2pZNkp5SE1udlVwOEMKZEs4blFHNXo0UjBLbnZLd1RxUHppcWdoYStJTHcvVCtHaUwydU4zcTlvMkczZk81Q2x0Mi9HMkcwODlzK0pjbgpCQ3V6VHk1S2tWcHZRcWZMVVAvYkFaYm05eUgrbTl5dGFZUlFoZDZLNXRRd2wrQnpqYU0yM0x2S0dMMWxnRUN3Clh3a2Y5Y2hYekhCWnFXSGxQYmJOaS9jUUkybklRTHRjQ081VGhZdUxnbXZ4aXBPQkI5U29DZlhCUWVlcHFvc0gKbEd4ZjM4cnVRYm1LcHJ4eTA1cVhUZ2RLV2l3RHc0cStHUXBXQ1JTR2hFSDFqK09XME1STG1iV2lhK1VnNVNOQgp6a2xBUzhETWV2MnlWWFJkUy9vTDhFMG84STVXRzBQWUlYN1Brc205OVZNeUJHaHFoUWFXZlU2UmkycnBPQUJhCmhEYTk0SzAzQWdNQkFBRUNnZjhxSDRYQjVhb3FDU0wxZngrby92TjY3STZRTG1wakNlTTY1b1J5R1Y0dHFsZC8KS3ozWVhkRFl3cmU2RFg3SU5lTmV5YlZ6RFNoczc2b0laUXJmTDRxL3JybWg5WTFNM1pVWTRWQUdPN0NIODZieApEa01PZjNUZ1dxSlo1TTM0L0lzWG1kRFFTWkNLbW9ZUzhtMW56L1hXck41S1AyRDl1T3RvRXEyZmU0SEtIbnhICnVqWjBGUzBJRTkrdHgrR1JhQXNwMHVqcG94S2ZPVXR6SXYydFhJMEtvTjM1N01SUkpKOFZvZ2dxODVwdCszSWEKcUUwMS8wVk1nUmNidVF0a01QbXkxNUxpNzZUV2tic1RxaXEyTGU4V1dPR3hHR2x0QStMa0MrcmdSd09sWGZTMgoxV2FFS3E4OXdtck1GaW5zQ3BEdkxaSzBBMVJQYndEcFpHOWg5eUVDZ1lFQTRFeHlxNTFJNzA3Q2NGeURKV3pKCnkxQ1U5Znh5K093dFREMTdOQ2R0UWNJVVJBZ1NZTi9PT3dEd2UwaFd5SmQwQTcvUXFCTy9QZ09KU0pXUVR6c3EKQ1ptTm5EQmtBTS9IWE9aMG5lQkVZeFNFSmUvQkxmZ0c2anZmRUJlaGQ5ZmhaR0RHTFk1b252NkVoYmlnc3BPNgpPakFSQVpDemZzeWlBR2JtdC9aMDBTOENnWUVBdW50ZUM3VVhRcFQ2aUNuRFVaTWdnMEN5eHB2bVF4R3NIU1dFCkhjcDVhSlExa2pIdWtQQjJHT0wwWGp4Q1ZrN2paNkRLc0ZobkFBZTdaM3ZmOU9KK2hOSEpHbitSZUpZYmtXMDEKMExRRTNLOGR3RllQL281SHV0Z1YzR1hpNkQ2dngrRG1nbEpiei9RRmhYOHhiL3pJNTZWNTJSbTR4QkhlZXJ2RwowUnN6a25rQ2dZQlppQ3A5dGxyV3EybVIwRnZKSkpPb1JKSXhYb1BHT1FBYjNxNi9NcjI1OGU2RStYUGNsM21LCnMrVktVS1hUakNFVEhnMzhDV1hkS3l3eGZRSU5ubUE1Vk1IaUJxN2taQXdBV1QxVGg2SEVxdnZVNk04RHVtMkkKTWozbi9vYkZmN2JJaXBpUXRyZXNQNHhHbEZ3UTdFYjUweFgydWZ2c01XSzVKbG9TTko2TW9RS0JnQ2Q2U25TTQpCN3FPczJMMEJHZFdrRUY1QnQvSXpUeFJsM0FzS3dYcmdUeEVjL3JaR3pvUHpkQ0M2MXl2d1JOb2EvZmFNRTZZCnlHVlhQYk13cEQ3QlhDdGVCZ2JZRHNIS2RWZWFHUlJ2cDcvWVNxSVhGaGU3b3kvSTR3ZmZnZVBNc1lYTTlMK08KRStXNE1Sc0x6RGw2K0VVaDRPTzI4RWlCeCttUHF3MUZodXR4QW9HQUZkOGJsN25Wa2VyK1NJUEIxMzQ1UlpHVQovczVueEJCU25xZGYvRHdXYWRPUFRBaDlvUWNJNkN4eStneU1hdkJmdUFZU25xRGdOQWpWakcvV2tyUnVya3hqClJ1ckRjMDdQaG1PK1NhWGJ2bHlneHZCbHpJRkd1dGRIQU56Wmo5ZVk3YU56NUduZGhKdUIzK0NzWmhTQjFNU2kKWjVteUVwMXNnQ2hzUVZDU2taUT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo="
+  appConfig:
+    databricksUrl: "http://unity-catalog-server:8080"
+    otelEndpoint: "http://otel-collector:4317"
+    environment: "dev"
+  # Use file: protocol for key locations to avoid MalformedURLException
+  env:
+    SMALLRYE_JWT_SIGN_KEY_LOCATION: "file:/deployments/keys/privateKey.pem"
+    MP_JWT_VERIFY_PUBLICKEY_LOCATION: "file:/deployments/keys/publicKey.pem"
+  readinessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 10
+  livenessProbe:
+    initialDelaySeconds: 90
+    periodSeconds: 20
+  service:
+    type: ClusterIP
+    nodePort: null
   ingress:
     enabled: true
     className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: "selfsigned-issuer"
     hosts:
-      - host: api.localnet
+      - host: api.localtest.me
         paths:
           - path: /
             pathType: Prefix
+    tls:
+      - secretName: api-sslip-tls
+        hosts:
+          - api.localtest.me
 
 acs-ui:
+  fullnameOverride: "acs-ui"
   enabled: true
   image:
-    repository: acs-ui
+    repository: rhlowery/acs-ui
     tag: "1.0.0-SNAPSHOT"
     pullPolicy: IfNotPresent
-  # Link to the acs-backend service using the ingress hostname for external or service name for internal
-  backendApiUrl: "http://api.localnet"
+  # Link to the acs-backend service using the ingress hostname
+  config:
+    apiUrl: "http://api.localtest.me"
   ingress:
     enabled: true
     className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: "selfsigned-issuer"
     hosts:
-      - host: acs.localnet
+      - host: acs.localtest.me
         paths:
           - path: /
             pathType: Prefix
+    tls:
+      - secretName: acs-sslip-tls
+        hosts:
+          - acs.localtest.me
 
 ingress-nginx:
-  enabled: true
+  enabled: false
   controller:
     replicaCount: 1
-    # Other default configurations for the ingress controller can go here if needed
+    admissionWebhooks:
+      enabled: false
+
 
 keycloak:
   enabled: true
+  image:
+    registry: quay.io
+    repository: keycloak/keycloak
+    tag: 25.0.1
+  command: ["/opt/keycloak/bin/kc.sh"]
+  args: ["start-dev", "--http-relative-path=/", "--cache=local"]
+  postgresql:
+    enabled: false
+  fullnameOverride: "keycloak"
+  externalDatabase:
+    host: postgresql
+    user: access_control_user
+    password: user_password
+    database: access_control_db
+  extraEnvVars:
+    - name: KC_CACHE
+      value: "local"
+    - name: KC_CACHE_STACK
+      value: ""
+    - name: KC_DB
+      value: "postgres"
+    - name: KC_DB_URL
+      value: "jdbc:postgresql://postgresql:5432/access_control_db"
+    - name: KC_DB_USERNAME
+      value: "access_control_user"
+    - name: KC_DB_PASSWORD
+      value: "user_password"
+    - name: KC_DB_SCHEMA
+      value: "public"
+    - name: KC_HOSTNAME_STRICT
+      value: "false"
+    - name: KC_HTTP_ENABLED
+      value: "true"
+    - name: KC_PROXY
+      value: "edge"
+    - name: KC_BOOTSTRAP_ADMIN_USERNAME
+      value: "admin"
+    - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+      value: "admin"
+    - name: KEYCLOAK_ADMIN
+      value: "admin"
+    - name: KEYCLOAK_ADMIN_PASSWORD
+      value: "admin"
+    - name: PROXY_ADDRESS_FORWARDING
+      value: "true"
+    - name: KC_HOSTNAME
+      value: "idp.localtest.me"
+    - name: KC_PROXY_HEADERS
+      value: "xforwarded"
+  readinessProbe:
+    initialDelaySeconds: 60
+  livenessProbe:
+    initialDelaySeconds: 90
+  containerSecurityContext:
+    enabled: true
+    readOnlyRootFilesystem: false
+    runAsUser: 1000
+    runAsGroup: 0
+  podSecurityContext:
+    enabled: true
+    fsGroup: 1000
+  defaultInitContainers:
+    prepareWriteDirs:
+      enabled: false
   auth:
     adminUser: admin
     adminPassword: admin
   ingress:
     enabled: true
-    className: "nginx"
-    hosts:
-      - host: idp.localnet
-        paths:
-          - path: /
-            pathType: Prefix
+    ingressClassName: "nginx"
+    hostname: idp.localtest.me
+    path: /
+    pathType: Prefix
+    annotations:
+      cert-manager.io/cluster-issuer: acs-ca-issuer
+      nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+    tls: true
 
 postgresql:
   enabled: true
+  fullnameOverride: "postgresql"
+  primary:
+    readinessProbe:
+      initialDelaySeconds: 30
+  image:
+    tag: latest
   auth:
     postgresPassword: admin_password
     username: access_control_user
@@ -62,12 +176,21 @@ postgresql:
     database: access_control_db
 
 gravitino:
+  fullnameOverride: "gravitino"
   enabled: true
+  mysql:
+    enabled: false
+  postgresql:
+    enabled: false
+  image:
+    registry: docker.io
+    repository: apache/gravitino
+    tag: "latest"
   oidc:
-    issuerUrl: "http://idp.localnet/realms/access-control"
+    issuerUrl: "http://idp.localtest.me/realms/access-control"
     clientId: "gravitino-client"
   database:
-    host: "access-control-service-postgresql"
+    host: "postgresql"
     port: 5432
     database: "access_control_db"
     user: "access_control_user"
@@ -75,7 +198,7 @@ gravitino:
   storage:
     type: "s3"
     s3:
-      endpoint: "http://access-control-service-minio:9000"
+      endpoint: "http://minio:9000"
       bucket: "gravitino-warehouse"
       accessKey: "minioadmin"
       secretKey: "minioadmin"
@@ -83,7 +206,7 @@ gravitino:
     enabled: true
     className: "nginx"
     hosts:
-      - host: gravitino.localnet
+      - host: gravitino.localtest.me
         paths:
           - path: /
             pathType: Prefix
@@ -92,61 +215,76 @@ polaris:
   enabled: true
   auth:
     type: "oidc"
-    oidcIssuerUrl: "http://idp.localnet/realms/access-control"
+    oidcIssuerUrl: "http://idp.localtest.me/realms/access-control"
+  fullnameOverride: "polaris"
   database:
-    url: "jdbc:postgresql://access-control-service-postgresql:5432/access_control_db"
+    url: "jdbc:postgresql://postgresql:5432/access_control_db"
     username: "access_control_user"
     password: "user_password"
   ingress:
     enabled: true
     className: "nginx"
     hosts:
-      - host: polaris.localnet
+      - host: polaris.localtest.me
         paths:
           - path: /
             pathType: Prefix
 
 unity-catalog:
   enabled: true
+  fullnameOverride: "unity-catalog"
+  postgresql:
+    enabled: false
   auth:
     oidc:
-      issuerUri: "http://idp.localnet/realms/access-control"
-  database:
-    host: "access-control-service-postgresql"
-    database: "access_control_db"
-    user: "access_control_user"
-    password: "user_password"
+      issuerUri: "http://idp.localtest.me/realms/access-control"
+  server:
+    db:
+      type: "postgresql"
+    postgresqlConfig:
+      host: "postgresql"
+      dbName: "access_control_db"
+      username: "access_control_user"
   storage:
     type: "s3"
     s3:
-      endpoint: "http://access-control-service-minio:9000"
+      endpoint: "http://minio:9000"
       bucket: "unity-catalog"
       accessKey: "minioadmin"
       secretKey: "minioadmin"
   ingress:
     enabled: true
-    className: "nginx"
-    hosts:
-      - host: unity.localnet
-        paths:
-          - path: /
-            pathType: Prefix
+    ingressClassName: "nginx"
+    host: unity.localtest.me
 
 hive-metastore:
   enabled: true
+  fullnameOverride: "hive-metastore"
+  postgresql:
+    enabled: false
+    fullnameOverride: "hive-metastore-postgresql"
+    image:
+      registry: docker.io
+      repository: bitnami/postgresql
+      tag: latest
+    auth:
+      username: hive
+      password: hive
+      database: metastore
   auth:
     oidc:
-      issuerUrl: "http://idp.localnet/realms/access-control"
-  database:
-    type: "postgres"
-    host: "access-control-service-postgresql"
-    database: "access_control_db"
-    user: "access_control_user"
-    password: "user_password"
+      issuerUrl: "http://idp.localtest.me/realms/access-control"
+  connections:
+    database:
+      type: "postgres"
+      host: "postgresql"
+      database: "access_control_db"
+      username: "access_control_user"
+      password: "user_password"
   storage:
     type: "s3"
     s3:
-      endpoint: "http://access-control-service-minio:9000"
+      endpoint: "http://minio:9000"
       bucket: "hive-warehouse"
       accessKey: "minioadmin"
       secretKey: "minioadmin"
@@ -154,13 +292,25 @@ hive-metastore:
     enabled: true
     className: "nginx"
     hosts:
-      - host: hive.localnet
+      - host: hive.localtest.me
         paths:
           - path: /
             pathType: Prefix
 
 minio:
-  enabled: false
+  enabled: true
+  fullnameOverride: "minio"
+  mode: standalone
+  replicas: 1
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
   auth:
     rootUser: minioadmin
     rootPassword: minioadmin
@@ -170,12 +320,12 @@ minio:
     enabled: true
     ingressClassName: "nginx"
     hosts:
-      - s3.localnet
+      - s3.localtest.me
     consoleIngress:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - console.s3.localnet
+        - console.s3.localtest.me
 
 cert-manager:
   enabled: true
@@ -184,3 +334,46 @@ cert-manager:
   clusterIssuer:
     enabled: true
     name: "selfsigned-issuer"
+
+prometheus:
+  enabled: true
+  fullnameOverride: "prometheus"
+  alertmanager:
+    enabled: false
+  prometheus-node-exporter:
+    enabled: false
+  prometheus-pushgateway:
+    enabled: false
+  server:
+    fullnameOverride: "prometheus-server"
+    persistentVolume:
+      enabled: false
+    # Enable remote write for Otel collector
+    extraArgs:
+      web.enable-remote-write-receiver: null
+
+opentelemetry-collector:
+  enabled: true
+  fullnameOverride: "otel-collector"
+  image:
+    repository: otel/opentelemetry-collector-contrib
+    tag: 0.113.0
+  mode: deployment
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    exporters:
+      prometheusremotewrite:
+        endpoint: "http://prometheus-server/api/v1/write"
+        resource_to_telemetry_conversion:
+          enabled: true
+    service:
+      pipelines:
+        metrics:
+          receivers: [otlp]
+          exporters: [prometheusremotewrite]
