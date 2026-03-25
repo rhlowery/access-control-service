@@ -1,0 +1,104 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-setup
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: keycloak-setup
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: wait-for-keycloak
+          image: curlimages/curl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until curl -s http://keycloak/health/live; do
+                echo "Waiting for Keycloak to be live..."
+                sleep 5
+              done
+              echo "Keycloak is live!"
+      containers:
+        - name: setup
+          image: "quay.io/keycloak/keycloak:25.0.1"
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KEYCLOAK_URL
+              value: "http://keycloak"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              # Login
+              /opt/keycloak/bin/kcadm.sh config credentials \
+                --server $KEYCLOAK_URL \
+                --realm master \
+                --user $KEYCLOAK_ADMIN \
+                --password $KEYCLOAK_ADMIN_PASSWORD
+
+              # Create Realm if it doesn't exist
+              if ! /opt/keycloak/bin/kcadm.sh get realms/access-control >/dev/null 2>&1; then
+                echo "Creating realm access-control..."
+                /opt/keycloak/bin/kcadm.sh create realms -s realm=access-control -s enabled=true
+              else
+                echo "Realm access-control already exists."
+              fi
+
+              # Create Minio or update mappers
+              ID=$(/opt/keycloak/bin/kcadm.sh get clients -r access-control -q clientId=minio --fields id --format csv --noquotes)
+              if [ -z "$ID" ]; then
+                echo "Creating minio client..."
+                /opt/keycloak/bin/kcadm.sh create clients -r access-control \
+                  -s clientId=minio \
+                  -s enabled=true \
+                  -s publicClient=false \
+                  -s secret=minio-secret \
+                  -s 'redirectUris=["http://console.s3.localtest.me/oauth_callback"]' \
+                  -s 'webOrigins=["http://console.s3.localtest.me"]' \
+                  -s standardFlowEnabled=true
+                ID=$(/opt/keycloak/bin/kcadm.sh get clients -r access-control -q clientId=minio --fields id --format csv --noquotes)
+              fi
+
+              if ! /opt/keycloak/bin/kcadm.sh get clients/$ID/protocol-mappers/models -r access-control | grep -q '"name" : "policy"'; then
+                echo "Adding policy claim mapper to minio client $ID..."
+                echo '{"name":"policy","protocol":"openid-connect","protocolMapper":"oidc-hardcoded-claim-mapper","config":{"claim.name":"policy","claim.value":"consoleAdmin","id.token.claim":"true","access.token.claim":"true","userinfo.token.claim":"true"}}' | /opt/keycloak/bin/kcadm.sh create clients/$ID/protocol-mappers/models -r access-control -f -
+              else
+                echo "Policy mapper already exists for minio."
+              fi
+
+              # Create Unity Catalog client
+              if ! /opt/keycloak/bin/kcadm.sh get clients -r access-control | grep -q '"clientId" : "unity-catalog-server"'; then
+                echo "Creating unity-catalog-server client..."
+                /opt/keycloak/bin/kcadm.sh create clients -r access-control \
+                  -s clientId=unity-catalog-server \
+                  -s enabled=true \
+                  -s publicClient=false \
+                  -s secret=unity-catalog-secret \
+                  -s 'redirectUris=["http://unity.localtest.me/*"]' \
+                  -s standardFlowEnabled=true
+              else
+                echo "Unity Catalog client already exists."
+              fi
+
+              # Create Gravitino client
+              if ! /opt/keycloak/bin/kcadm.sh get clients -r access-control | grep -q '"clientId" : "gravitino"'; then
+                echo "Creating gravitino client..."
+                /opt/keycloak/bin/kcadm.sh create clients -r access-control \
+                  -s clientId=gravitino \
+                  -s enabled=true \
+                  -s publicClient=false \
+                  -s secret=gravitino-secret \
+                  -s 'redirectUris=["http://gravitino.localtest.me/*"]' \
+                  -s standardFlowEnabled=true
+              else
+                echo "Gravitino client already exists."
+              fi
+
+              echo "Keycloak setup completed successfully!"

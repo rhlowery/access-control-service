@@ -1,0 +1,25 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.postgresql.clusterName | default "postgresql" }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: {{ .Values.postgresql.instances | default 1 }}
+  imageName: {{ .Values.postgresql.imageName | default "ghcr.io/cloudnative-pg/postgresql:16" }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgresql.auth.database | default "access_control_db" }}
+      owner: {{ .Values.postgresql.auth.username | default "access_control_user" }}
+      secret:
+        name: {{ .Values.postgresql.auth.secretName | default "postgresql-app-user" }}
+  postgresql:
+    parameters:
+      password_encryption: "md5"
+    pg_hba:
+      - host all all all md5
+  storage:
+    size: {{ .Values.postgresql.storage.size | default "1Gi" }}
+  {{- if .Values.postgresql.resources }}
+  resources:
+    {{- toYaml .Values.postgresql.resources | nindent 4 }}
+  {{- end }}

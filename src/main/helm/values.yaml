@@ -14,6 +14,7 @@ acs-backend:
     pullPolicy: IfNotPresent
   # Override acs-backend values
   security:
+    pemKeysEnabled: true
     publicKeyBase64: "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFvMk9pY2h6SjcxS2ZBblN2SjBCdQpjK0VkQ3A3eXNFNmo4NHFvSVd2aUM4UDAvaG9pOXJqZDZ2YU5odDN6dVFwYmR2eHRodFBQYlBpWEp3UXJzMDh1ClNwRmFiMEtueTFELzJ3R1c1dmNoL3B2Y3JXbUVVSVhlaXViVU1KZmdjNDJqTnR5N3loaTlaWUJBc0Y4SkgvWEkKVjh4d1dhbGg1VDIyell2M0VDTnB5RUM3WEFqdVU0V0xpNEpyOFlxVGdRZlVxQW4xd1VIbnFhcUxCNVJzWDkvSwo3a0c1aXFhOGN0T2FsMDRIU2xvc0E4T0t2aGtLVmdrVWhvUkI5WS9qbHRERVM1bTFvbXZsSU9ValFjNUpRRXZBCnpIcjlzbFYwWFV2NkMvQk5LUENPVmh0RDJDRit6NUxKdmZWVE1nUm9hb1VHbG4xT2tZdHE2VGdBV29RMnZlQ3QKTndJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
     privateKeyBase64: "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV1Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktRd2dnU2dBZ0VBQW9JQkFRQ2pZNkp5SE1udlVwOEMKZEs4blFHNXo0UjBLbnZLd1RxUHppcWdoYStJTHcvVCtHaUwydU4zcTlvMkczZk81Q2x0Mi9HMkcwODlzK0pjbgpCQ3V6VHk1S2tWcHZRcWZMVVAvYkFaYm05eUgrbTl5dGFZUlFoZDZLNXRRd2wrQnpqYU0yM0x2S0dMMWxnRUN3Clh3a2Y5Y2hYekhCWnFXSGxQYmJOaS9jUUkybklRTHRjQ081VGhZdUxnbXZ4aXBPQkI5U29DZlhCUWVlcHFvc0gKbEd4ZjM4cnVRYm1LcHJ4eTA1cVhUZ2RLV2l3RHc0cStHUXBXQ1JTR2hFSDFqK09XME1STG1iV2lhK1VnNVNOQgp6a2xBUzhETWV2MnlWWFJkUy9vTDhFMG84STVXRzBQWUlYN1Brc205OVZNeUJHaHFoUWFXZlU2UmkycnBPQUJhCmhEYTk0SzAzQWdNQkFBRUNnZjhxSDRYQjVhb3FDU0wxZngrby92TjY3STZRTG1wakNlTTY1b1J5R1Y0dHFsZC8KS3ozWVhkRFl3cmU2RFg3SU5lTmV5YlZ6RFNoczc2b0laUXJmTDRxL3JybWg5WTFNM1pVWTRWQUdPN0NIODZieApEa01PZjNUZ1dxSlo1TTM0L0lzWG1kRFFTWkNLbW9ZUzhtMW56L1hXck41S1AyRDl1T3RvRXEyZmU0SEtIbnhICnVqWjBGUzBJRTkrdHgrR1JhQXNwMHVqcG94S2ZPVXR6SXYydFhJMEtvTjM1N01SUkpKOFZvZ2dxODVwdCszSWEKcUUwMS8wVk1nUmNidVF0a01QbXkxNUxpNzZUV2tic1RxaXEyTGU4V1dPR3hHR2x0QStMa0MrcmdSd09sWGZTMgoxV2FFS3E4OXdtck1GaW5zQ3BEdkxaSzBBMVJQYndEcFpHOWg5eUVDZ1lFQTRFeHlxNTFJNzA3Q2NGeURKV3pKCnkxQ1U5Znh5K093dFREMTdOQ2R0UWNJVVJBZ1NZTi9PT3dEd2UwaFd5SmQwQTcvUXFCTy9QZ09KU0pXUVR6c3EKQ1ptTm5EQmtBTS9IWE9aMG5lQkVZeFNFSmUvQkxmZ0c2anZmRUJlaGQ5ZmhaR0RHTFk1b252NkVoYmlnc3BPNgpPakFSQVpDemZzeWlBR2JtdC9aMDBTOENnWUVBdW50ZUM3VVhRcFQ2aUNuRFVaTWdnMEN5eHB2bVF4R3NIU1dFCkhjcDVhSlExa2pIdWtQQjJHT0wwWGp4Q1ZrN2paNkRLc0ZobkFBZTdaM3ZmOU9KK2hOSEpHbitSZUpZYmtXMDEKMExRRTNLOGR3RllQL281SHV0Z1YzR1hpNkQ2dngrRG1nbEpiei9RRmhYOHhiL3pJNTZWNTJSbTR4QkhlZXJ2RwowUnN6a25rQ2dZQlppQ3A5dGxyV3EybVIwRnZKSkpPb1JKSXhYb1BHT1FBYjNxNi9NcjI1OGU2RStYUGNsM21LCnMrVktVS1hUakNFVEhnMzhDV1hkS3l3eGZRSU5ubUE1Vk1IaUJxN2taQXdBV1QxVGg2SEVxdnZVNk04RHVtMkkKTWozbi9vYkZmN2JJaXBpUXRyZXNQNHhHbEZ3UTdFYjUweFgydWZ2c01XSzVKbG9TTko2TW9RS0JnQ2Q2U25TTQpCN3FPczJMMEJHZFdrRUY1QnQvSXpUeFJsM0FzS3dYcmdUeEVjL3JaR3pvUHpkQ0M2MXl2d1JOb2EvZmFNRTZZCnlHVlhQYk13cEQ3QlhDdGVCZ2JZRHNIS2RWZWFHUlJ2cDcvWVNxSVhGaGU3b3kvSTR3ZmZnZVBNc1lYTTlMK08KRStXNE1Sc0x6RGw2K0VVaDRPTzI4RWlCeCttUHF3MUZodXR4QW9HQUZkOGJsN25Wa2VyK1NJUEIxMzQ1UlpHVQovczVueEJCU25xZGYvRHdXYWRPUFRBaDlvUWNJNkN4eStneU1hdkJmdUFZU25xRGdOQWpWakcvV2tyUnVya3hqClJ1ckRjMDdQaG1PK1NhWGJ2bHlneHZCbHpJRkd1dGRIQU56Wmo5ZVk3YU56NUduZGhKdUIzK0NzWmhTQjFNU2kKWjVteUVwMXNnQ2hzUVZDU2taUT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo="
   appConfig:
@@ -47,6 +48,13 @@ acs-backend:
       - secretName: api-sslip-tls
         hosts:
           - api.localtest.me
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 acs-ui:
   fullnameOverride: "acs-ui"
@@ -72,6 +80,13 @@ acs-ui:
       - secretName: acs-sslip-tls
         hosts:
           - acs.localtest.me
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
 ingress-nginx:
   enabled: false
@@ -79,7 +94,6 @@ ingress-nginx:
     replicaCount: 1
     admissionWebhooks:
       enabled: false
-
 
 keycloak:
   enabled: true
@@ -93,7 +107,7 @@ keycloak:
     enabled: false
   fullnameOverride: "keycloak"
   externalDatabase:
-    host: postgresql
+    host: postgresql-rw
     user: access_control_user
     password: user_password
     database: access_control_db
@@ -105,7 +119,7 @@ keycloak:
     - name: KC_DB
       value: "postgres"
     - name: KC_DB_URL
-      value: "jdbc:postgresql://postgresql:5432/access_control_db"
+      value: "jdbc:postgresql://postgresql-rw:5432/access_control_db"
     - name: KC_DB_USERNAME
       value: "access_control_user"
     - name: KC_DB_PASSWORD
@@ -116,8 +130,6 @@ keycloak:
       value: "false"
     - name: KC_HTTP_ENABLED
       value: "true"
-    - name: KC_PROXY
-      value: "edge"
     - name: KC_BOOTSTRAP_ADMIN_USERNAME
       value: "admin"
     - name: KC_BOOTSTRAP_ADMIN_PASSWORD
@@ -126,10 +138,6 @@ keycloak:
       value: "admin"
     - name: KEYCLOAK_ADMIN_PASSWORD
       value: "admin"
-    - name: PROXY_ADDRESS_FORWARDING
-      value: "true"
-    - name: KC_HOSTNAME
-      value: "idp.localtest.me"
     - name: KC_PROXY_HEADERS
       value: "xforwarded"
   readinessProbe:
@@ -157,23 +165,39 @@ keycloak:
     path: /
     pathType: Prefix
     annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/x-forwarded-proto: "http"
       cert-manager.io/cluster-issuer: acs-ca-issuer
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
-    tls: true
+    tls: false
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 
 postgresql:
   enabled: true
-  fullnameOverride: "postgresql"
-  primary:
-    readinessProbe:
-      initialDelaySeconds: 30
-  image:
-    tag: latest
+  clusterName: "postgresql"
+  instances: 1
+  imageName: "ghcr.io/cloudnative-pg/postgresql:16"
   auth:
-    postgresPassword: admin_password
-    username: access_control_user
-    password: user_password
-    database: access_control_db
+    database: "access_control_db"
+    username: "access_control_user"
+    password: "user_password"
+    secretName: "postgresql-app-user"
+  storage:
+    size: "1Gi"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 
 gravitino:
   fullnameOverride: "gravitino"
@@ -187,10 +211,12 @@ gravitino:
     repository: apache/gravitino
     tag: "latest"
   oidc:
+    enabled: true
     issuerUrl: "http://idp.localtest.me/realms/access-control"
-    clientId: "gravitino-client"
+    clientId: "gravitino"
+    secretId: "gravitino-secret"
   database:
-    host: "postgresql"
+    host: "postgresql-rw"
     port: 5432
     database: "access_control_db"
     user: "access_control_user"
@@ -210,6 +236,13 @@ gravitino:
         paths:
           - path: /
             pathType: Prefix
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
 
 polaris:
   enabled: true
@@ -218,7 +251,7 @@ polaris:
     oidcIssuerUrl: "http://idp.localtest.me/realms/access-control"
   fullnameOverride: "polaris"
   database:
-    url: "jdbc:postgresql://postgresql:5432/access_control_db"
+    url: "jdbc:postgresql://postgresql-rw:5432/access_control_db"
     username: "access_control_user"
     password: "user_password"
   ingress:
@@ -229,6 +262,18 @@ polaris:
         paths:
           - path: /
             pathType: Prefix
+  extraEnvVars:
+    - name: POLARIS_AUTHENTICATOR_TYPE
+      value: "oidc"
+    - name: POLARIS_OIDC_ISSUER_URL
+      value: "http://idp.localtest.me/realms/access-control"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
 unity-catalog:
   enabled: true
@@ -236,15 +281,29 @@ unity-catalog:
   postgresql:
     enabled: false
   auth:
-    oidc:
-      issuerUri: "http://idp.localtest.me/realms/access-control"
+    enabled: true
+    provider: "other"
+    authorizationUrl: "http://idp.localtest.me/realms/access-control/protocol/openid-connect/auth"
+    tokenUrl: "http://idp.localtest.me/realms/access-control/protocol/openid-connect/token"
+    clientSecret: "unity-catalog-secret"
+    clientSecretName: "unity-catalog-oidc-secret"
   server:
+    deployment:
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 500m
+          memory: 1Gi
     db:
       type: "postgresql"
-    postgresqlConfig:
-      host: "postgresql"
-      dbName: "access_control_db"
-      username: "access_control_user"
+      postgresqlConfig:
+        host: "postgresql-rw"
+        dbName: "access_control_db"
+        username: "access_control_user"
+        passwordSecretName: "postgresql-app-user"
+        passwordSecretKey: "password"
   storage:
     type: "s3"
     s3:
@@ -265,19 +324,21 @@ hive-metastore:
     fullnameOverride: "hive-metastore-postgresql"
     image:
       registry: docker.io
-      repository: bitnami/postgresql
-      tag: latest
+      repository: ghcr.io/cloudnative-pg/postgresql #bitnami/postgresql
+      tag: 16 #latest
     auth:
       username: hive
       password: hive
       database: metastore
   auth:
     oidc:
+      enabled: true
       issuerUrl: "http://idp.localtest.me/realms/access-control"
+      clientId: "hive-metastore"
   connections:
     database:
       type: "postgres"
-      host: "postgresql"
+      host: "postgresql-rw"
       database: "access_control_db"
       username: "access_control_user"
       password: "user_password"
@@ -296,6 +357,13 @@ hive-metastore:
         paths:
           - path: /
             pathType: Prefix
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
 
 minio:
   enabled: true
@@ -314,6 +382,15 @@ minio:
   auth:
     rootUser: minioadmin
     rootPassword: minioadmin
+  oidc:
+    enabled: true
+    configUrl: "http://keycloak/realms/access-control/.well-known/openid-configuration"
+    clientId: "minio"
+    clientSecret: "minio-secret"
+    claimName: "policy"
+    scopes: "openid,profile,email"
+    redirectUri: "http://console.s3.localtest.me/oauth_callback"
+    displayName: "Keycloak"
   # Configuration for local object storage
   defaultBuckets: "access-control, hive-warehouse, gravitino-warehouse, unity-catalog"
   ingress:
@@ -321,14 +398,18 @@ minio:
     ingressClassName: "nginx"
     hosts:
       - s3.localtest.me
-    consoleIngress:
-      enabled: true
-      ingressClassName: "nginx"
-      hosts:
-        - console.s3.localtest.me
+  consoleIngress:
+    enabled: true
+    ingressClassName: "nginx"
+    path: /
+    hosts:
+      - "console.s3.localtest.me"
+  consoleService:
+    type: ClusterIP
+    port: 9001
 
 cert-manager:
-  enabled: true
+  enabled: false
   installCRDs: true
   # Uncomment below to setup a default cluster issuer for self-signed certificates
   clusterIssuer:
