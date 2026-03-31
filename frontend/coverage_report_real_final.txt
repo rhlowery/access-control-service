@@ -1,0 +1,980 @@
+
+> acs-ui-frontend@1.0.0 coverage
+> vitest run --coverage
+
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+[90mstderr[2m | src/services/__tests__/AuthService.test.js[2m > [22m[2mAuthService[2m > [22m[2mfetches auth config correctly
+[22m[39mFailed to fetch auth config TypeError: originalResponse.clone is not a function
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:183:46[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at AuthServiceWrapper.getConfig [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/AuthService.js:12:30[90m)[39m
+    at [90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/__tests__/AuthService.test.js:21:24
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1258:20
+
+[90mstderr[2m | src/services/__tests__/AuthService.test.js[2m > [22m[2mAuthService[2m > [22m[2mreturns empty config on failure
+[22m[39mFailed to fetch auth config Error: Network error
+    at [90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/__tests__/AuthService.test.js:27:41
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:296:11
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1258:26
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1681:20
+    at new Promise (<anonymous>)
+    at runWithCancel [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1678:10[90m)[39m
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1660:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1627:10[90m)[39m
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:2309:64
+
+[90mstderr[2m | src/services/__tests__/AuthService.test.js[2m > [22m[2mAuthService[2m > [22m[2mfetches providers correctly
+[22m[39mFailed to fetch providers TypeError: originalResponse.clone is not a function
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:183:46[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at AuthServiceWrapper.getProviders [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/AuthService.js:25:30[90m)[39m
+    at [90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/__tests__/AuthService.test.js:39:27
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1258:20
+
+[90mstderr[2m | src/services/__tests__/AuthService.test.js[2m > [22m[2mAuthService[2m > [22m[2mfetches current user and maps roles based on persona
+[22m[39mFailed to fetch current user TypeError: originalResponse.clone is not a function
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:183:46[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at AuthServiceWrapper.getCurrentUser [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/AuthService.js:57:30[90m)[39m
+    at [90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/__tests__/AuthService.test.js:74:22
+    at [90mfile:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@vitest/runner[24m/dist/index.js:1258:20
+
+ [32m✓[39m src/services/__tests__/CatalogService.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/UserService.test.js [2m([22m[2m10 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/AuditService.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [31m❯[39m src/services/__tests__/AuthService.test.js [2m([22m[2m10 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[32m 15[2mms[22m[39m
+[31m     [31m×[31m fetches auth config correctly[39m[32m 7[2mms[22m[39m
+     [32m✓[39m returns empty config on failure[32m 1[2mms[22m[39m
+[31m     [31m×[31m fetches providers correctly[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m handles login successfully[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m throws error on failed login[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m fetches current user and maps roles based on persona[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m handles logout[39m[32m 0[2mms[22m[39m
+     [32m✓[39m returns false for roles when user is not loaded[32m 0[2mms[22m[39m
+     [32m✓[39m maps APPROVER persona correctly[32m 0[2mms[22m[39m
+     [32m✓[39m maps AUDITOR persona correctly[32m 0[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/RequestService.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[90mstderr[2m | src/App.test.jsx[2m > [22m[2mApp[2m > [22m[2mshows dashboard when user is successfully authenticated
+[22m[39mFailed to fetch data TypeError: originalResponse.clone is not a function
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:183:46[90m)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at fetchRequests [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/App.jsx:177:22[90m)[39m
+
+[90mstdout[2m | src/pages/__tests__/CatalogPage.test.jsx[2m > [22m[2mCatalogPage[2m > [22m[2mtriggers right-click and opens access request form
+[22m[39mRight click on { name: [32m'test-node'[39m }
+
+ [32m✓[39m src/components/catalog/__tests__/CatalogTree.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m src/components/requests/__tests__/AccessRequestForm.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/CatalogPage.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+[90mstderr[2m | AuthServiceWrapper.getCurrentUser (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/services/AuthService.js:63:21)
+[22m[39mFailed to fetch current user TypeError: fetch failed
+[90m    at node:internal/deps/undici/undici:16416:13[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at until [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@open-draft/until[24m/lib/index.mjs:4:18[90m)[39m
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:178:63[90m)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at AuthServiceWrapper.getCurrentUser [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/AuthService.js:57:30[90m)[39m {
+  [cause]: AggregateError: 
+  [90m    at internalConnectMultiple (node:net:1134:18)[39m
+  [90m    at afterConnectMultiple (node:net:1715:7)[39m {
+    code: [32m'ECONNREFUSED'[39m,
+    [errors]: [ [36m[Error][39m, [36m[Error][39m ]
+  }
+}
+
+ [32m✓[39m src/pages/__tests__/SettingsPage.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 99[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/LoginPage.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 119[2mms[22m[39m
+[90mstderr[2m | src/pages/__tests__/ReviewerDashboard.test.jsx[2m > [22m[2mReviewerDashboard[2m > [22m[2mtoggles live-stream for audit logs
+[22m[39mWarning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+Warning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+
+[90mstderr[2m | src/pages/__tests__/ReviewerDashboard.test.jsx[2m > [22m[2mReviewerDashboard[2m > [22m[2mshows integrity placeholder
+[22m[39mWarning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+Warning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+
+ [32m✓[39m src/pages/__tests__/ReviewerDashboard.test.jsx [2m([22m[2m8 tests[22m[2m)[22m[32m 279[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/UserGroupManagement.test.jsx [2m([22m[2m8 tests[22m[2m)[22m[33m 317[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/ApproverDashboard.test.jsx [2m([22m[2m12 tests[22m[2m)[22m[33m 342[2mms[22m[39m
+[90mstderr[2m | src/App.test.jsx[2m > [22m[2mApp[2m > [22m[2mrenders sidebar links according to roles
+[22m[39mFailed to fetch data TypeError: originalResponse.clone is not a function
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:183:46[90m)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at fetchRequests [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/App.jsx:177:22[90m)[39m
+
+ [31m❯[39m src/App.test.jsx [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1045[2mms[22m[39m
+     [32m✓[39m shows login page when user is not authenticated[32m 27[2mms[22m[39m
+[31m     [31m×[31m shows dashboard when user is successfully authenticated[39m[33m 1005[2mms[22m[39m
+     [32m✓[39m renders sidebar links according to roles[32m 10[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 7 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp[2m > [22mshows dashboard when user is successfully authenticated
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find an element with the text: /Mock Admin/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex min-h-screen bg-background text-[var(--text)] transition-colors duration-300"[39m
+    [36m>[39m
+      [36m<aside[39m
+        [33mclass[39m=[32m"w-[260px] bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-6 flex flex-col gap-8 sticky top-0 h-screen transition-all duration-300"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"brand flex items-center gap-2 text-2xl font-bold bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-shield text-[var(--primary)]"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"32"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"32"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span>[39m
+            [0mACS UI[0m
+          [36m</span>[39m
+        [36m</div>[39m
+        [36m<nav[39m
+          [33mclass[39m=[32m"flex flex-col gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav-link group active"[39m
+            [33mhref[39m=[32m"#"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-activity group-hover:scale-110 transition-transform"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M22 12h-4l-3 9L9 3l-3 9H2"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mDashboard[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav-link group "[39m
+            [33mhref[39m=[32m"#"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-clock group-hover:scale-110 transition-transform"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"12"[39m
+                [33mcy[39m=[32m"12"[39m
+                [33mr[39m=[32m"10"[39m
+              [36m/>[39m
+              [36m<polyline[39m
+                [33mpoints[39m=[32m"12 6 12 12 16 14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mAccess Requests[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav-link group "[39m
+            [33mhref[39m=[32m"#"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-database group-hover:scale-110 transition-transform"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<ellipse[39m
+                [33mcx[39m=[32m"12"[39m
+                [33mcy[39m=[32m"5"[39m
+                [33mrx[39m=[32m"9"[39m
+                [33mry[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 5V19A9 3 0 0 0 21 19V5"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M3 12A9 3 0 0 0 21 12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mData Catalog[0m
+          [36m</a>[39m
+        [36m</nav>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex-1"[39m
+        [36m/>[39m
+        [36m<nav[39m
+          [33mclass[39m=[32m"flex flex-col gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav-link group "[39m
+            [33mhref[39m=[32m"#"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-settings group-hover:rotate-45 transition-transform"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"[39m
+              [36m/>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"12"[39m
+                [33mcy[39m=[32m"12"[39m
+                [33mr[39m=[32m"3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mSettings[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"nav-link text-danger hover:bg-danger/10 group cursor-pointer"[39m
+            [33mhref[39m=[32m"#"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-log-out group-hover:translate-x-1 transition-transform"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"20"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"20"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"[39m
+              [36m/>[39m
+              [36m<polyline[39m
+                [33mpoints[39m=[32m"16 17 21 12 16 7"[39m
+              [36m/>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"21"[39m
+                [33mx2[39m=[32m"9"[39m
+                [33my1[39m=[32m"12"[39m
+                [33my2[39m=[32m"12"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mLogout[0m
+          [36m</a>[39m
+        [36m</nav>[39m
+      [36m</aside>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"flex-1 flex flex-col overflow-hidden"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"flex items-center justify-between p-6 bg-transparent"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"search-bar glass px-6 py-2 flex items-center gap-3 w-[380px] hover:ring-2 ring-primary/20 transition-all"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-search text-[var(--text-muted)]"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<circle[39m
+                [33mcx[39m=[32m"11"[39m
+                [33mcy[39m=[32m"11"[39m
+                [33mr[39m=[32m"8"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m21 21-4.3-4.3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<input[39m
+              [33mclass[39m=[32m"bg-transparent border-none text-[var(--text)] w-full outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600"[39m
+              [33mplaceholder[39m=[32m"Search resources, requests..."[39m
+              [33mtype[39m=[32m"text"[39m
+            [36m/>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex items-center gap-6"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"relative cursor-pointer group"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-bell group-hover:rotate-12 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M10.3 21a1.94 1.94 0 0 0 3.4 0"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full ring-2 ring-background"[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"user-profile glass flex items-center gap-3 px-3 py-1.5 hover:scale-105 transition-transform cursor-pointer"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"avatar w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white font-bold text-sm"[39m
+              [36m>[39m
+                [0ma[0m
+              [36m</div>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"font-medium hidden sm:inline"[39m
+              [36m>[39m
+                [0madmin[0m
+              [36m</span>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex-1 overflow-auto custom-scrollbar"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"max-w-7xl mx-auto w-full"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"dashboard-content space-y-8 p-6"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"grid grid-cols-1 md:grid-cols-3 gap-6"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-primary group hover:translate-y-[-4px] transition-all"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                  [36m>[39m
+                    [0mTotal Requests[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                  [36m>[39m
+                    [0m0[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-warning group hover:translate-y-[-4px] transition-all"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                  [36m>[39m
+                    [0mPending Approval[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                  [36m>[39m
+                    [0m0[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-success group hover:translate-y-[-4px] transition-all"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                  [36m>[39m
+                    [0mActive Permissions[0m
+                  [36m</span>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                  [36m>[39m
+                    [0m0[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div>[39m
+                [36m<h2[39m
+                  [33mclass[39m=[32m"text-2xl font-bold mb-6 font-outfit"[39m
+                [36m>[39m
+                  [0mRecent Access Requests[0m
+                [36m</h2>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"grid grid-cols-1 xl:grid-cols-3 gap-6"[39m
+                [36m/>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mclass[39m=[32m"dark"[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex min-h-screen bg-background text-[var(--text)] transition-colors duration-300"[39m
+      [36m>[39m
+        [36m<aside[39m
+          [33mclass[39m=[32m"w-[260px] bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-6 flex flex-col gap-8 sticky top-0 h-screen transition-all duration-300"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"brand flex items-center gap-2 text-2xl font-bold bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33mclass[39m=[32m"lucide lucide-shield text-[var(--primary)]"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"32"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"32"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span>[39m
+              [0mACS UI[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<nav[39m
+            [33mclass[39m=[32m"flex flex-col gap-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"nav-link group active"[39m
+              [33mhref[39m=[32m"#"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-activity group-hover:scale-110 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M22 12h-4l-3 9L9 3l-3 9H2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mDashboard[0m
+            [36m</a>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"nav-link group "[39m
+              [33mhref[39m=[32m"#"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-clock group-hover:scale-110 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"10"[39m
+                [36m/>[39m
+                [36m<polyline[39m
+                  [33mpoints[39m=[32m"12 6 12 12 16 14"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mAccess Requests[0m
+            [36m</a>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"nav-link group "[39m
+              [33mhref[39m=[32m"#"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-database group-hover:scale-110 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<ellipse[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"5"[39m
+                  [33mrx[39m=[32m"9"[39m
+                  [33mry[39m=[32m"3"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 5V19A9 3 0 0 0 21 19V5"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 12A9 3 0 0 0 21 12"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mData Catalog[0m
+            [36m</a>[39m
+          [36m</nav>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex-1"[39m
+          [36m/>[39m
+          [36m<nav[39m
+            [33mclass[39m=[32m"flex flex-col gap-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"nav-link group "[39m
+              [33mhref[39m=[32m"#"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-settings group-hover:rotate-45 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mSettings[0m
+            [36m</a>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"nav-link text-danger hover:bg-danger/10 group cursor-pointer"[39m
+              [33mhref[39m=[32m"#"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-log-out group-hover:translate-x-1 transition-transform"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"20"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"20"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"[39m
+                [36m/>[39m
+                [36m<polyline[39m
+                  [33mpoints[39m=[32m"16 17 21 12 16 7"[39m
+                [36m/>[39m
+                [36m<line[39m
+                  [33mx1[39m=[32m"21"[39m
+                  [33mx2[39m=[32m"9"[39m
+                  [33my1[39m=[32m"12"[39m
+                  [33my2[39m=[32m"12"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [0mLogout[0m
+            [36m</a>[39m
+          [36m</nav>[39m
+        [36m</aside>[39m
+        [36m<main[39m
+          [33mclass[39m=[32m"flex-1 flex flex-col overflow-hidden"[39m
+        [36m>[39m
+          [36m<header[39m
+            [33mclass[39m=[32m"flex items-center justify-between p-6 bg-transparent"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"search-bar glass px-6 py-2 flex items-center gap-3 w-[380px] hover:ring-2 ring-primary/20 transition-all"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33mclass[39m=[32m"lucide lucide-search text-[var(--text-muted)]"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"11"[39m
+                  [33mcy[39m=[32m"11"[39m
+                  [33mr[39m=[32m"8"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m21 21-4.3-4.3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<input[39m
+                [33mclass[39m=[32m"bg-transparent border-none text-[var(--text)] w-full outline-none placeholder:text-gray-400 dark:placeholder:text-gray-600"[39m
+                [33mplaceholder[39m=[32m"Search resources, requests..."[39m
+                [33mtype[39m=[32m"text"[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex items-center gap-6"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"relative cursor-pointer group"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33mclass[39m=[32m"lucide lucide-bell group-hover:rotate-12 transition-transform"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"20"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"20"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"[39m
+                  [36m/>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M10.3 21a1.94 1.94 0 0 0 3.4 0"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full ring-2 ring-background"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"user-profile glass flex items-center gap-3 px-3 py-1.5 hover:scale-105 transition-transform cursor-pointer"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"avatar w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white font-bold text-sm"[39m
+                [36m>[39m
+                  [0ma[0m
+                [36m</div>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"font-medium hidden sm:inline"[39m
+                [36m>[39m
+                  [0madmin[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</header>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex-1 overflow-auto custom-scrollbar"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"max-w-7xl mx-auto w-full"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"dashboard-content space-y-8 p-6"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"grid grid-cols-1 md:grid-cols-3 gap-6"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-primary group hover:translate-y-[-4px] transition-all"[39m
+                  [36m>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                    [36m>[39m
+                      [0mTotal Requests[0m
+                    [36m</span>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                    [36m>[39m
+                      [0m0[0m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-warning group hover:translate-y-[-4px] transition-all"[39m
+                  [36m>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                    [36m>[39m
+                      [0mPending Approval[0m
+                    [36m</span>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                    [36m>[39m
+                      [0m0[0m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"stat-card glass p-6 border-l-4 border-success group hover:translate-y-[-4px] transition-all"[39m
+                  [36m>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-label block text-sm text-[var(--text-muted)] mb-1 uppercase tracking-wider font-bold"[39m
+                    [36m>[39m
+                      [0mActive Permissions[0m
+                    [36m</span>[39m
+                    [36m<span[39m
+                      [33mclass[39m=[32m"stat-value text-3xl font-bold font-outfit"[39m
+                    [36m>[39m
+                      [0m0[0m
+                    [36m</span>[39m
+                  [36m</div>[39m
+                [36m</div>[39m
+                [36m<div>[39m
+                  [36m<h2[39m
+                    [33mclass[39m=[32m"text-2xl font-bold mb-6 font-outfit"[39m
+                  [36m>[39m
+                    [0mRecent Access Requests[0m
+                  [36m</h2>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"grid grid-cols-1 xl:grid-cols-3 gap-6"[39m
+                  [36m/>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</main>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+[90m [2m❯[22m Proxy.waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:[2m163:27[22m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m48:11[22m[39m
+    [90m 46|[39m     [34mrender[39m([33m<[39m[33mApp[39m [33m/[39m[33m>[39m)[33m;[39m
+    [90m 47|[39m
+    [90m 48|[39m     await waitFor(() => expect(screen.getByText(/Mock Admin/i)).toBeIn…
+    [90m   |[39m           [31m^[39m
+    [90m 49|[39m     expect(screen.getByText(/Recent Access Requests/i)).toBeInTheDocum…
+    [90m 50|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches auth config correctly
+[31m[1mAssertionError[22m: expected { authServerUrl: '', clientId: '' } to deeply equal { …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "authServerUrl": "http://auth.test",[39m
+[32m-   "clientId": "test-client",[39m
+[31m+   "authServerUrl": "",[39m
+[31m+   "clientId": "",[39m
+[2m  }[22m
+
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m22:24[22m[39m
+    [90m 20|[39m
+    [90m 21|[39m         [35mconst[39m config [33m=[39m [35mawait[39m [33mAuthService[39m[33m.[39m[34mgetConfig[39m()[33m;[39m
+    [90m 22|[39m         [34mexpect[39m(config)[33m.[39m[34mtoEqual[39m(mockConfig)[33m;[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 23|[39m         [34mexpect[39m(fetchMock)[33m.[39m[34mtoHaveBeenCalledWith[39m([32m'/api/auth/config'[39m)[33m;[39m
+    [90m 24|[39m     })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches providers correctly
+[31m[1mAssertionError[22m: expected [] to deeply equal [ { id: 'oidc', name: 'OIDC', …(1) } ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- [[39m
+[32m-   {[39m
+[32m-     "id": "oidc",[39m
+[32m-     "name": "OIDC",[39m
+[32m-     "type": "OIDC",[39m
+[32m-   },[39m
+[32m- ][39m
+[31m+ [][39m
+
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m40:27[22m[39m
+    [90m 38|[39m
+    [90m 39|[39m         [35mconst[39m providers [33m=[39m [35mawait[39m [33mAuthService[39m[33m.[39m[34mgetProviders[39m()[33m;[39m
+    [90m 40|[39m         [34mexpect[39m(providers)[33m.[39m[34mtoEqual[39m(mockProviders)[33m;[39m
+    [90m   |[39m                           [31m^[39m
+    [90m 41|[39m     })[33m;[39m
+    [90m 42|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mhandles login successfully
+[31m[1mTypeError[22m: originalResponse.clone is not a function[39m
+[90m [2m❯[22m Object.passthrough node_modules/@mswjs/interceptors/src/interceptors/fetch/index.ts:[2m91:51[22m[39m
+[90m [2m❯[22m RequestController.passthrough node_modules/@mswjs/interceptors/src/RequestController.ts:[2m50:4[22m[39m
+[90m [2m❯[22m handleRequest node_modules/@mswjs/interceptors/src/utils/handleRequest.ts:[2m201:11[22m[39m
+[90m [2m❯[22m globalThis.fetch node_modules/@mswjs/interceptors/src/interceptors/fetch/index.ts:[2m185:6[22m[39m
+[36m [2m❯[22m AuthServiceWrapper.login src/services/AuthService.js:[2m36:26[22m[39m
+    [90m 34|[39m
+    [90m 35|[39m     [35masync[39m [34mlogin[39m(userId[33m,[39m password[33m,[39m providerId [33m=[39m [32m'local'[39m) {
+    [90m 36|[39m         [35mconst[39m response [33m=[39m [35mawait[39m [34mfetch[39m([34mgetApiUrl[39m([32m'/api/auth/login'[39m)[33m,[39m {
+    [90m   |[39m                          [31m^[39m
+    [90m 37|[39m             method[33m:[39m [32m'POST'[39m[33m,[39m
+    [90m 38|[39m             headers[33m:[39m { [32m'Content-Type'[39m[33m:[39m [32m'application/json'[39m }[33m,[39m
+[90m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m50:24[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mthrows error on failed login
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'Invalid credentials' but got 'originalResponse.clone is not a funct…'[39m
+
+Expected: [32m"Invalid credentials"[39m
+Received: [31m"originalResponse.clone is not a function"[39m
+
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m64:58[22m[39m
+    [90m 62|[39m         })[33m;[39m
+    [90m 63|[39m
+    [90m 64|[39m         await expect(AuthService.login('admin', 'wrong')).rejects.toTh…
+    [90m   |[39m                                                          [31m^[39m
+    [90m 65|[39m     })[33m;[39m
+    [90m 66|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches current user and maps roles based on persona
+[31m[1mAssertionError[22m: expected null to deeply equal { userId: 'admin', persona: 'ADMIN' }[39m
+
+[32m- Expected:[39m
+{
+  "persona": "ADMIN",
+  "userId": "admin",
+}
+
+[31m+ Received:[39m
+null
+
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m75:22[22m[39m
+    [90m 73|[39m
+    [90m 74|[39m         [35mconst[39m user [33m=[39m [35mawait[39m [33mAuthService[39m[33m.[39m[34mgetCurrentUser[39m()[33m;[39m
+    [90m 75|[39m         [34mexpect[39m(user)[33m.[39m[34mtoEqual[39m(mockUser)[33m;[39m
+    [90m   |[39m                      [31m^[39m
+    [90m 76|[39m
+    [90m 77|[39m         [34mexpect[39m([33mAuthService[39m[33m.[39m[34mhasRole[39m([32m'ADMIN'[39m))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mhandles logout
+[31m[1mTypeError[22m: Cannot redefine property: reload[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m83:30[22m[39m
+    [90m 81|[39m
+    [90m 82|[39m     [34mit[39m([32m'handles logout'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 83|[39m         const reloadSpy = vi.spyOn(window.location, 'reload').mockImpl…
+    [90m   |[39m                              [31m^[39m
+    [90m 84|[39m         fetchMock[33m.[39m[34mmockResolvedValueOnce[39m({ ok[33m:[39m [35mtrue[39m })[33m;[39m
+    [90m 85|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (14)[39m
+[2m      Tests [22m [1m[31m7 failed[39m[22m[2m | [22m[1m[32m87 passed[39m[22m[90m (94)[39m
+[2m   Start at [22m 10:21:21
+[2m   Duration [22m 2.11s[2m (transform 1.26s, setup 1.58s, import 2.35s, tests 2.43s, environment 7.55s)[22m
+

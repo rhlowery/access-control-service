@@ -101,4 +101,18 @@ spec:
                 echo "Gravitino client already exists."
               fi
 
+              # Create acs-backend client
+              if ! /opt/keycloak/bin/kcadm.sh get clients -r access-control | grep -q '"clientId" : "acs-backend"'; then
+                echo "Creating acs-backend client..."
+                /opt/keycloak/bin/kcadm.sh create clients -r access-control \
+                  -s clientId=acs-backend \
+                  -s enabled=true \
+                  -s publicClient=true \
+                  -s 'redirectUris=["http://api.localtest.me/*", "http://acs.localtest.me/*"]' \
+                  -s 'webOrigins=["http://api.localtest.me", "http://acs.localtest.me"]' \
+                  -s standardFlowEnabled=true
+              else
+                echo "acs-backend client already exists."
+              fi
+
               echo "Keycloak setup completed successfully!"

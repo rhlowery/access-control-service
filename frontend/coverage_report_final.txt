@@ -1,0 +1,208 @@
+
+> acs-ui-frontend@1.0.0 coverage
+> vitest run --coverage
+
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90m/Users/loweryr/git/github/rhlowery/acs-ui/frontend[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32m✓[39m src/services/__tests__/UserService.test.js [2m([22m[2m10 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/CatalogService.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [31m❯[39m src/services/__tests__/AuthService.test.js [2m([22m[2m9 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+[31m     [31m×[31m fetches auth config correctly[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m returns empty config on failure[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m fetches providers correctly[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m handles login successfully[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m throws error on failed login[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m fetches current user and maps roles based on persona[39m[32m 0[2mms[22m[39m
+     [32m✓[39m returns false for roles when user is not loaded[32m 0[2mms[22m[39m
+     [32m✓[39m maps APPROVER persona correctly[32m 0[2mms[22m[39m
+     [32m✓[39m maps AUDITOR persona correctly[32m 0[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/RequestService.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m src/services/__tests__/AuditService.test.js [2m([22m[2m3 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [31m❯[39m src/App.test.jsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 58[2mms[22m[39m
+     [32m✓[39m shows login page when user is not authenticated[32m 54[2mms[22m[39m
+[31m     [31m×[31m shows dashboard when user is successfully authenticated[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m renders sidebar links according to roles[39m[32m 0[2mms[22m[39m
+ [32m✓[39m src/components/catalog/__tests__/CatalogTree.test.jsx [2m([22m[2m4 tests[22m[2m)[22m[32m 80[2mms[22m[39m
+[90mstdout[2m | src/pages/__tests__/CatalogPage.test.jsx[2m > [22m[2mCatalogPage[2m > [22m[2mtriggers right-click and opens access request form
+[22m[39mRight click on { name: [32m'test-node'[39m }
+
+ [32m✓[39m src/components/requests/__tests__/AccessRequestForm.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 138[2mms[22m[39m
+[90mstderr[2m | src/pages/__tests__/CatalogPage.test.jsx
+[22m[39mFailed to fetch current user TypeError: fetch failed
+[90m    at node:internal/deps/undici/undici:16416:13[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
+    at until [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@open-draft/until[24m/lib/index.mjs:4:18[90m)[39m
+    at Object.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:178:63[90m)[39m
+    at RequestController.passthrough [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetchUtils-CoU35g3M.mjs:198:3[90m)[39m
+    at handleRequest [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/handleRequest-Y97UwBbF.mjs:184:74[90m)[39m
+    at globalThis.fetch [90m(file:///Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39mnode_modules/[4m@mswjs/interceptors[24m/lib/node/fetch-G1DVwDKG.mjs:242:4[90m)[39m
+    at AuthServiceWrapper.getCurrentUser [90m(/Users/loweryr/git/github/rhlowery/acs-ui/frontend/[39msrc/services/AuthService.js:57:30[90m)[39m {
+  [cause]: AggregateError: 
+  [90m    at internalConnectMultiple (node:net:1134:18)[39m
+  [90m    at afterConnectMultiple (node:net:1715:7)[39m {
+    code: [32m'ECONNREFUSED'[39m,
+    [errors]: [ [36m[Error][39m, [36m[Error][39m ]
+  }
+}
+
+ [32m✓[39m src/pages/__tests__/CatalogPage.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 125[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/SettingsPage.test.jsx [2m([22m[2m5 tests[22m[2m)[22m[32m 162[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/LoginPage.test.jsx [2m([22m[2m3 tests[22m[2m)[22m[32m 172[2mms[22m[39m
+[90mstderr[2m | src/pages/__tests__/ReviewerDashboard.test.jsx[2m > [22m[2mReviewerDashboard[2m > [22m[2mtoggles live-stream for audit logs
+[22m[39mWarning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+Warning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+
+[90mstderr[2m | src/pages/__tests__/ReviewerDashboard.test.jsx[2m > [22m[2mReviewerDashboard[2m > [22m[2mshows integrity placeholder
+[22m[39mWarning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+Warning: An update to ReviewerDashboard inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at ReviewerDashboard (/Users/loweryr/git/github/rhlowery/acs-ui/frontend/src/pages/ReviewerDashboard.jsx:16:70)
+
+ [32m✓[39m src/pages/__tests__/ReviewerDashboard.test.jsx [2m([22m[2m8 tests[22m[2m)[22m[33m 332[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/ApproverDashboard.test.jsx [2m([22m[2m12 tests[22m[2m)[22m[33m 407[2mms[22m[39m
+ [32m✓[39m src/pages/__tests__/UserGroupManagement.test.jsx [2m([22m[2m8 tests[22m[2m)[22m[33m 395[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp[2m > [22mshows dashboard when user is successfully authenticated
+[31m[1mTypeError[22m: fetch.mockResolvedValue is not a function[39m
+[36m [2m❯[22m src/App.test.jsx:[2m40:11[22m[39m
+    [90m 38|[39m
+    [90m 39|[39m     [90m// Mock the data stats/requests calls that happen after login[39m
+    [90m 40|[39m     fetch[33m.[39m[34mmockResolvedValue[39m({
+    [90m   |[39m           [31m^[39m
+    [90m 41|[39m         ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 42|[39m         json[33m:[39m [35masync[39m () [33m=>[39m []
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp[2m > [22mrenders sidebar links according to roles
+[31m[1mTypeError[22m: fetch.mockResolvedValue is not a function[39m
+[36m [2m❯[22m src/App.test.jsx:[2m55:11[22m[39m
+    [90m 53|[39m     [33mAuthService[39m[33m.[39mgetCurrentUser[33m.[39m[34mmockResolvedValue[39m(mockUser)[33m;[39m
+    [90m 54|[39m     AuthService.hasRole.mockImplementation((role) => role === 'ADMIN' …
+    [90m 55|[39m     fetch[33m.[39m[34mmockResolvedValue[39m({
+    [90m   |[39m           [31m^[39m
+    [90m 56|[39m         ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 57|[39m         json[33m:[39m [35masync[39m () [33m=>[39m []
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches auth config correctly
+[31m[1mTypeError[22m: fetch.mockResolvedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m15:15[22m[39m
+    [90m 13|[39m     [34mit[39m([32m'fetches auth config correctly'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 14|[39m         const mockConfig = { authServerUrl: 'http://auth.test', client…
+    [90m 15|[39m         fetch[33m.[39m[34mmockResolvedValueOnce[39m({
+    [90m   |[39m               [31m^[39m
+    [90m 16|[39m             ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 17|[39m             json[33m:[39m [35masync[39m () [33m=>[39m mockConfig
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mreturns empty config on failure
+[31m[1mTypeError[22m: fetch.mockRejectedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m26:15[22m[39m
+    [90m 24|[39m
+    [90m 25|[39m     [34mit[39m([32m'returns empty config on failure'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 26|[39m         fetch[33m.[39m[34mmockRejectedValueOnce[39m([35mnew[39m [33mError[39m([32m'Network error'[39m))[33m;[39m
+    [90m   |[39m               [31m^[39m
+    [90m 27|[39m         [35mconst[39m config [33m=[39m [35mawait[39m [33mAuthService[39m[33m.[39m[34mgetConfig[39m()[33m;[39m
+    [90m 28|[39m         [34mexpect[39m(config)[33m.[39m[34mtoEqual[39m({ authServerUrl[33m:[39m [32m''[39m[33m,[39m clientId[33m:[39m [32m''[39m })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches providers correctly
+[31m[1mTypeError[22m: fetch.mockResolvedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m33:15[22m[39m
+    [90m 31|[39m     [34mit[39m([32m'fetches providers correctly'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 32|[39m         const mockProviders = [{ id: 'oidc', name: 'OIDC', type: 'OIDC…
+    [90m 33|[39m         fetch[33m.[39m[34mmockResolvedValueOnce[39m({
+    [90m   |[39m               [31m^[39m
+    [90m 34|[39m             ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 35|[39m             json[33m:[39m [35masync[39m () [33m=>[39m mockProviders
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mhandles login successfully
+[31m[1mTypeError[22m: fetch.mockResolvedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m44:15[22m[39m
+    [90m 42|[39m     [34mit[39m([32m'handles login successfully'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 43|[39m         [35mconst[39m mockResult [33m=[39m { status[33m:[39m [32m'success'[39m[33m,[39m userId[33m:[39m [32m'admin'[39m }[33m;[39m
+    [90m 44|[39m         fetch[33m.[39m[34mmockResolvedValueOnce[39m({
+    [90m   |[39m               [31m^[39m
+    [90m 45|[39m             ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 46|[39m             json[33m:[39m [35masync[39m () [33m=>[39m mockResult
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mthrows error on failed login
+[31m[1mTypeError[22m: fetch.mockResolvedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m58:15[22m[39m
+    [90m 56|[39m
+    [90m 57|[39m     [34mit[39m([32m'throws error on failed login'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m 58|[39m         fetch[33m.[39m[34mmockResolvedValueOnce[39m({
+    [90m   |[39m               [31m^[39m
+    [90m 59|[39m             ok[33m:[39m [35mfalse[39m[33m,[39m
+    [90m 60|[39m             json[33m:[39m [35masync[39m () [33m=>[39m ({ error[33m:[39m [32m'Invalid credentials'[39m })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/services/__tests__/AuthService.test.js[2m > [22mAuthService[2m > [22mfetches current user and maps roles based on persona
+[31m[1mTypeError[22m: fetch.mockResolvedValueOnce is not a function[39m
+[36m [2m❯[22m src/services/__tests__/AuthService.test.js:[2m68:15[22m[39m
+    [90m 66|[39m     it('fetches current user and maps roles based on persona', async (…
+    [90m 67|[39m         [35mconst[39m mockUser [33m=[39m { userId[33m:[39m [32m'admin'[39m[33m,[39m persona[33m:[39m [32m'ADMIN'[39m }[33m;[39m
+    [90m 68|[39m         fetch[33m.[39m[34mmockResolvedValueOnce[39m({
+    [90m   |[39m               [31m^[39m
+    [90m 69|[39m             ok[33m:[39m [35mtrue[39m[33m,[39m
+    [90m 70|[39m             json[33m:[39m [35masync[39m () [33m=>[39m mockUser
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (14)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m85 passed[39m[22m[90m (93)[39m
+[2m   Start at [22m 10:20:36
+[2m   Duration [22m 1.93s[2m (transform 2.13s, setup 1.73s, import 3.53s, tests 1.92s, environment 12.18s)[22m
+

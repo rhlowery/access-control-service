@@ -4,6 +4,13 @@
 global:
   security:
     allowInsecureImages: true
+  postgresql:
+    host: "postgresql-rw"
+    database: "access_control_db"
+    username: "access_control_user"
+    password: "user_password"
+  oidc:
+    authServerUrl: "http://idp.localtest.me/realms/access-control"
 
 acs-backend:
   fullnameOverride: "acs-backend"
@@ -55,6 +62,9 @@ acs-backend:
     limits:
       cpu: 500m
       memory: 512Mi
+  oidc:
+    authServerUrl: "http://idp.localtest.me/realms/access-control"
+    clientSecret: "REPLACE_ME_SECRET"
   postgresql:
     host: "postgresql-rw"
     database: "access_control_db"
@@ -64,13 +74,13 @@ acs-backend:
 acs-ui:
   fullnameOverride: "acs-ui"
   enabled: true
+  config:
+    apiUrl: "http://api.localtest.me"
   image:
     repository: rhlowery/acs-ui
     tag: "1.0.0-SNAPSHOT"
     pullPolicy: IfNotPresent
   # Link to the acs-backend service using the ingress hostname
-  config:
-    apiUrl: "http://api.localtest.me"
   ingress:
     enabled: true
     className: "nginx"
@@ -103,52 +113,31 @@ ingress-nginx:
 keycloak:
   enabled: true
   image:
-    registry: quay.io
-    repository: keycloak/keycloak
+    repository: quay.io/keycloak/keycloak
     tag: 25.0.1
-  command: ["/opt/keycloak/bin/kc.sh"]
-  args: ["start-dev", "--http-relative-path=/", "--cache=local"]
-  postgresql:
-    enabled: false
-  fullnameOverride: "keycloak"
-  externalDatabase:
+    pullPolicy: IfNotPresent
+  adminUser: admin
+  adminPassword: admin
+  db:
+    vendor: postgres
     host: postgresql-rw
-    user: access_control_user
+    username: access_control_user
     password: user_password
     database: access_control_db
-  extraEnvVars:
-    - name: KC_CACHE
-      value: "local"
-    - name: KC_CACHE_STACK
-      value: ""
-    - name: KC_DB
-      value: "postgres"
-    - name: KC_DB_URL
-      value: "jdbc:postgresql://postgresql-rw:5432/access_control_db"
-    - name: KC_DB_USERNAME
-      value: "access_control_user"
-    - name: KC_DB_PASSWORD
-      value: "user_password"
-    - name: KC_DB_SCHEMA
-      value: "public"
-    - name: KC_HOSTNAME_STRICT
-      value: "false"
-    - name: KC_HTTP_ENABLED
-      value: "true"
-    - name: KC_BOOTSTRAP_ADMIN_USERNAME
-      value: "admin"
-    - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-      value: "admin"
-    - name: KEYCLOAK_ADMIN
-      value: "admin"
-    - name: KEYCLOAK_ADMIN_PASSWORD
-      value: "admin"
-    - name: KC_PROXY_HEADERS
-      value: "xforwarded"
-  readinessProbe:
-    initialDelaySeconds: 60
-  livenessProbe:
-    initialDelaySeconds: 90
+  ingress:
+    enabled: true
+    className: "nginx"
+    host: idp.localtest.me
+    tls:
+      enabled: false
+      secretName: keycloak-tls
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
   containerSecurityContext:
     enabled: true
     readOnlyRootFilesystem: false
@@ -160,29 +149,6 @@ keycloak:
   defaultInitContainers:
     prepareWriteDirs:
       enabled: false
-  auth:
-    adminUser: admin
-    adminPassword: admin
-  ingress:
-    enabled: true
-    ingressClassName: "nginx"
-    hostname: idp.localtest.me
-    path: /
-    pathType: Prefix
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-      nginx.ingress.kubernetes.io/x-forwarded-proto: "http"
-      cert-manager.io/cluster-issuer: acs-ca-issuer
-      nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
-    tls: false
-  resources:
-    requests:
-      cpu: 200m
-      memory: 512Mi
-    limits:
-      cpu: 1
-      memory: 1Gi
 
 postgresql:
   enabled: true

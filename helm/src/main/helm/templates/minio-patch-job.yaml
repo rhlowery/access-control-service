@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: minio-patch
+  name: infra-patch
   namespace: {{ .Release.Namespace }}
 spec:
   template:
     spec:
-      serviceAccountName: minio-patch-sa
+      serviceAccountName: infra-patch-sa
       containers:
         - name: patch
-          image: bitnami/kubectl:latest
+          image: alpine/k8s:1.29.2
           command:
             - /bin/bash
             - -c
@@ -17,18 +17,20 @@ spec:
               IP=$(kubectl get svc keycloak -n {{ .Release.Namespace }} -o jsonpath='{.spec.clusterIP}')
               echo "Patching Minio with hostAlias for idp.localtest.me and wait-for-keycloak init container..."
               kubectl patch deployment minio -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/health/live; do echo waiting for keycloak; sleep 2; done\"]}]}}}}"
+              echo "Patching acs-backend with hostAlias for idp.localtest.me..."
+              kubectl patch deployment acs-backend -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}]}}}}"
       restartPolicy: OnFailure
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: minio-patch-sa
+  name: infra-patch-sa
   namespace: {{ .Release.Namespace }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: minio-patch-cluster-role
+  name: infra-patch-cluster-role
 rules:
   - apiGroups: ["apps"]
     resources: ["deployments"]
@@ -40,12 +42,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: minio-patch-cluster-rb
+  name: infra-patch-cluster-rb
 subjects:
   - kind: ServiceAccount
-    name: minio-patch-sa
+    name: infra-patch-sa
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: minio-patch-cluster-role
+  name: infra-patch-cluster-role
   apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Set up QEMU (for multi-arch Docker builds)
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build with Maven
+      run: ./mvnw clean package -DskipTests
+
+    - name: Build and Push Container Images (Only on Main)
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        # Login to registry if needed
+        # echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        ./mvnw package -Pcontainer -DskipTests
+
+    - name: Lint Helm Charts
+      run: |
+        ./mvnw -pl backend helm:lint
+        ./mvnw -pl frontend helm:lint
+        ./mvnw -pl helm helm:lint
+
+    - name: Package Umbrella Helm Chart
+      run: ./mvnw -pl helm helm:package
