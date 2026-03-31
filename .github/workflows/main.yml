@@ -34,8 +34,6 @@ jobs:
     - name: Build and Push Container Images (Only on Main)
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
-        # Login to registry if needed
-        # echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
         ./mvnw package -Pcontainer -DskipTests
 
     - name: Lint Helm Charts

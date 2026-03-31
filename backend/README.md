@@ -50,12 +50,12 @@ Tests include:
 
 | Variable | Description | Default |
 |:---|:---|:---|
-| `OIDC_AUTH_SERVER_URL` | OIDC discovery endpoint | `http://localhost:8180/realms/acs` |
+| `OIDC_AUTH_SERVER_URL` | The discovery endpoint for the OIDC IdP | `http://idp.localtest.me/realms/access-control` |
 | `OIDC_CLIENT_ID` | OIDC client identifier | `acs-backend` |
 | `OIDC_CLIENT_SECRET` | OIDC client secret | (required for production) |
-| `DB_URL` | PostgreSQL JDBC URL | `jdbc:postgresql://localhost:5432/acs` |
-| `DB_USERNAME` | Database user | `acs` |
-| `DB_PASSWORD` | Database password | `acs` |
+| `DB_URL` | PostgreSQL JDBC URL | `jdbc:postgresql://localhost:5432/access-control-db` |
+| `DB_USERNAME` | Database user | `access-control-user` |
+| `DB_PASSWORD` | Database password | `user_password` |
 
 ## Packaging
 
@@ -70,7 +70,7 @@ java -jar target/quarkus-app/quarkus-run.jar
 
 ### Docker Image
 ```shell
-./mvnw package -Dquarkus.container-image.build=true
+./mvnw -Pcontainer package
 ```
 
 ### Native Executable
@@ -84,9 +84,9 @@ The Helm chart is located at `src/main/helm/acs-backend/`.
 
 ```shell
 helm install acs-backend src/main/helm/acs-backend/ \
-  --set oidc.authServerUrl=http://keycloak:8080/realms/acs \
+  --set oidc.authServerUrl=http://idp.localtest.me/realms/access-control \
   --set postgresql.host=postgresql-rw \
-  --set postgresql.database=acs
+  --set postgresql.database=access_control_db
 ```
 
 Features:

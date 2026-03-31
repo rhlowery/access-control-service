@@ -247,7 +247,7 @@ Authentication is configured via environment variables:
 
 | Variable | Description | Example |
 |:---|:---|:---|
-| `OIDC_AUTH_SERVER_URL` | The discovery endpoint for the OIDC IdP | `http://keycloak:8080/realms/acs` |
+| `OIDC_AUTH_SERVER_URL` | The discovery endpoint for the OIDC IdP | `http://idp.localtest.me/realms/access-control` |
 | `OIDC_CLIENT_ID` | The registered OIDC client ID | `acs-backend` |
 | `OIDC_CLIENT_SECRET` | The OIDC client secret | (from K8s Secret) |
 | `DB_URL` | PostgreSQL JDBC connection string | `jdbc:postgresql://pg:5432/acs` |

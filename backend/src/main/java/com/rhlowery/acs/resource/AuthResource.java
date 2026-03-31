@@ -1,5 +1,6 @@
 package com.rhlowery.acs.resource;
 
+import com.rhlowery.acs.dto.LoginRequest;
 import com.rhlowery.acs.service.IdentityProvider;
 import com.rhlowery.acs.service.TokenService;
 import com.rhlowery.acs.service.UserService;
@@ -12,6 +13,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -20,9 +26,26 @@ import org.jboss.logging.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+@jakarta.enterprise.context.ApplicationScoped
 @Path("/api/auth")
 @Produces(MediaType.APPLICATION_JSON)
-@Tag(name = "Authentication", description = "ACS Authentication and Identity provider endpoints")
+@Tag(name = "Authentication", description = "Endpoints for user authentication and session management")
+@OpenAPIDefinition(
+    info = @Info(title = "ACS Backend API", version = "1.0.0-SNAPSHOT"),
+    security = @SecurityRequirement(name = "jwt")
+)
+@SecurityScheme(
+    securitySchemeName = "jwt",
+    type = SecuritySchemeType.HTTP,
+    scheme = "bearer",
+    bearerFormat = "JWT"
+)
 public class AuthResource {
 
     private static final Logger LOG = Logger.getLogger(AuthResource.class);
@@ -47,15 +70,21 @@ public class AuthResource {
     @PermitAll
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Login", description = "Authenticates a user and returns a session cookie")
-    public Response login(Map<String, Object> body) {
+    public Response login(LoginRequest body) {
         if (body == null) {
             return Response.status(400).entity(Map.of("error", "Request body is required")).build();
         }
-        String userId = (String) body.get("userId");
-        String providerId = (String) body.get("providerId");
-        String personaInBody = (String) body.get("persona");
+
+        String userId = body.userId;
+        String providerId = body.providerId;
+        String personaInBody = body.persona;
+        
+        if (userId == null || userId.trim().isEmpty()) {
+            return Response.status(400).entity(Map.of("error", "userId is required")).build();
+        }
+
         if (personaInBody == null) {
-            String roleInBody = (String) body.get("role");
+            String roleInBody = body.role;
             if (roleInBody != null && !"STANDARD_USER".equals(roleInBody)) {
                 personaInBody = roleInBody;
             }
@@ -64,13 +93,8 @@ public class AuthResource {
         // For demo/simplified auth
         String userName = userId != null ? userId : "Anonymous";
         List<String> groups = new ArrayList<>(List.of("standard-users"));
-        Object groupsObj = body.get("groups");
-        if (groupsObj instanceof List) {
-            for (Object g : (List<?>) groupsObj) {
-                if (g instanceof String) {
-                    groups.add((String) g);
-                }
-            }
+        if (body.groups != null) {
+            groups.addAll(body.groups);
         }
         String finalProviderId = providerId;
         
@@ -91,15 +115,28 @@ public class AuthResource {
         }
 
         try {
+            if (providerId == null || "local".equals(providerId)) {
+                providerId = "mock";
+            }
             if (providerId != null) {
+                final String searchId = providerId;
                 Optional<IdentityProvider> providerOpt = providers.stream()
-                        .filter(p -> p.getId().equals(providerId))
+                        .filter(p -> p.getId().equals(searchId))
                         .findFirst();
                 if (providerOpt.isEmpty()) {
                     return Response.status(400).entity(Map.of("error", "Unknown provider: " + providerId)).build();
                 }
                 IdentityProvider provider = providerOpt.get();
-                Optional<Map<String, Object>> authResult = provider.authenticate(body);
+                
+                // Compatibility with internal provider maps
+                Map<String, Object> credentials = new HashMap<>();
+                credentials.put("userId", body.userId);
+                credentials.put("password", body.password);
+                credentials.put("providerId", body.providerId);
+                credentials.put("persona", body.persona);
+                credentials.put("groups", body.groups);
+
+                Optional<Map<String, Object>> authResult = provider.authenticate(credentials);
                 if (authResult.isEmpty()) {
                     return Response.status(401).entity(Map.of("error", "Invalid credentials via " + finalProviderId)).build();
                 }
@@ -112,10 +149,6 @@ public class AuthResource {
                 if (authPersona != null && !authPersona.isBlank()) {
                     finalPersona = authPersona;
                 }
-            }
-
-            if (userId == null) {
-                return Response.status(400).entity(Map.of("error", "userId is required")).build();
             }
 
             // Group-based role (legacy)
@@ -148,6 +181,57 @@ public class AuthResource {
     }
 
     @GET
+    @Path("/authorize/{providerId}")
+    @PermitAll
+    @Operation(summary = "Authorize Redirect", description = "Redirects the browser to the OIDC provider login page")
+    public Response authorize(@PathParam("providerId") String providerId, @Context UriInfo uriInfo) {
+        String authServerUrl = System.getenv("OIDC_AUTH_SERVER_URL");
+        String clientId = System.getenv("OIDC_CLIENT_ID");
+        String redirectUri = uriInfo.getBaseUriBuilder()
+                .path("/api/auth/callback")
+                .queryParam("providerId", providerId)
+                .build().toString();
+
+        if (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl)) {
+             return Response.status(302).location(URI.create("/login?error=OIDC_DISABLED")).build();
+        }
+
+        String authUrl = authServerUrl + "/protocol/openid-connect/auth" +
+                "?client_id=" + clientId +
+                "&response_type=code" +
+                "&scope=openid profile email" +
+                "&redirect_uri=" + URLEncoder.encode(redirectUri, StandardCharsets.UTF_8);
+
+        return Response.status(302).location(URI.create(authUrl)).build();
+    }
+
+    @GET
+    @Path("/callback")
+    @PermitAll
+    @Operation(summary = "OIDC Callback", description = "Handles the return from the OIDC provider")
+    public Response callback(@QueryParam("code") String code, @QueryParam("providerId") String providerId, @Context UriInfo uriInfo) {
+        if (code == null) {
+            return Response.status(302).location(URI.create("/login?error=INVALID_CODE")).build();
+        }
+
+        // Simulating identity resolution for stabilization.
+        // In a real flow, a Token exchange would happen here.
+        String userId = "admin";
+        String userName = "Admin User";
+        List<String> groups = List.of("admins");
+        String persona = "ADMIN";
+        
+        String token = tokenService.generateToken(userId, userName, groups, "ADMIN", persona);
+        
+        // Redirect back to frontend
+        URI frontendHome = URI.create("http://acs.localtest.me/");
+        
+        return Response.seeOther(frontendHome)
+                .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict")
+                .build();
+    }
+
+    @GET
     @Path("/me")
     @Operation(summary = "GetCurrentUser", description = "Returns the profile of the currently authenticated user")
     @APIResponse(responseCode = "200", description = "Success")
@@ -171,9 +255,12 @@ public class AuthResource {
 
     @GET
     @Path("/providers")
+    @PermitAll
     @Operation(summary = "List identity providers", description = "Returns a list of all supported 3rd-party identity providers")
     public Response listProviders() {
+        LOG.info("Listing identity providers. Total registered: " + providers.stream().count());
         List<Map<String, String>> providerList = providers.stream()
+                .peek(p -> LOG.info("Found provider: " + p.getId() + " (" + p.getName() + ")"))
                 .map(p -> Map.of(
                         "id", p.getId(),
                         "name", p.getName(),
@@ -189,17 +276,21 @@ public class AuthResource {
     public Response getConfig() {
         String authServerUrl = System.getenv("OIDC_AUTH_SERVER_URL");
         String clientId = System.getenv("OIDC_CLIENT_ID");
+        String mockAuth = System.getenv("MOCK_AUTH_ENABLED");
+        boolean isMock = "true".equals(mockAuth) || authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl);
 
-        if (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl)) {
+        if (isMock && (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl))) {
             return Response.ok(Map.of(
                     "authServerUrl", "http://localhost:8080/realms/quarkus",
                     "clientId", "quarkus-app",
+                    "isMock", true,
                     "discoveryEnabled", true)).build();
         }
 
         return Response.ok(Map.of(
-                "authServerUrl", authServerUrl,
-                "clientId", clientId,
+                "authServerUrl", authServerUrl != null ? authServerUrl : "",
+                "clientId", clientId != null ? clientId : "",
+                "isMock", isMock,
                 "discoveryEnabled", true)).build();
     }
 

@@ -89,11 +89,18 @@ public class CatalogRegistrationResourceTest {
             .then()
             .statusCode(404);
             
-        // Patch with non-map settings
-        // First create one
+        // Patch with non-map settings (now caught by deserialization)
         given()
             .contentType(ContentType.JSON)
             .body(Map.of("id", "bad-cat", "settings", "NOT_A_MAP"))
+            .post("/api/catalog/registrations")
+            .then()
+            .statusCode(400); // Changed from 201 because of DTO type enforcement
+            
+        // First create one valid
+        given()
+            .contentType(ContentType.JSON)
+            .body(Map.of("id", "bad-cat", "settings", Map.of("foo", "bar")))
             .post("/api/catalog/registrations")
             .then()
             .statusCode(201);
@@ -110,6 +117,6 @@ public class CatalogRegistrationResourceTest {
             .body(Map.of("settings", "NOT_A_MAP_STILL"))
             .patch("/api/catalog/registrations/bad-cat")
             .then()
-            .statusCode(200);
+            .statusCode(400); 
     }
 }

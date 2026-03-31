@@ -17,11 +17,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              until curl -s http://keycloak/health/live; do
-                echo "Waiting for Keycloak to be live..."
+              until curl -s http://keycloak:9000/health/ready; do
+                echo "Waiting for Keycloak to be ready..."
                 sleep 5
               done
-              echo "Keycloak is live!"
+              echo "Keycloak is ready!"
       containers:
         - name: setup
           image: "quay.io/keycloak/keycloak:25.0.1"

@@ -46,6 +46,9 @@ acs-backend:
     className: "nginx"
     annotations:
       cert-manager.io/cluster-issuer: "selfsigned-issuer"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://acs.localtest.me"
     hosts:
       - host: api.localtest.me
         paths:
@@ -86,6 +89,9 @@ acs-ui:
     className: "nginx"
     annotations:
       cert-manager.io/cluster-issuer: "selfsigned-issuer"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://acs.localtest.me"
     hosts:
       - host: acs.localtest.me
         paths:
@@ -355,7 +361,7 @@ minio:
     rootPassword: minioadmin
   oidc:
     enabled: true
-    configUrl: "http://keycloak/realms/access-control/.well-known/openid-configuration"
+    configUrl: "http://idp.localtest.me/realms/access-control/.well-known/openid-configuration"
     clientId: "minio"
     clientSecret: "minio-secret"
     claimName: "policy"
@@ -378,6 +384,7 @@ minio:
   consoleService:
     type: ClusterIP
     port: 9001
+
 
 cert-manager:
   enabled: false

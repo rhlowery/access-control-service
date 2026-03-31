@@ -8,7 +8,7 @@
     </parent>
     
     <artifactId>frontend</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,12 +107,13 @@
     </build>
     <profiles>
         <profile>
-            <id>docker</id>
+            <id>container</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
+                        <version>${docker-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>build-image</id>
@@ -126,7 +127,7 @@
                             <dockerHost>${docker.host}</dockerHost>
                             <images>
                                 <image>
-                                    <name>acs-ui-frontend:${project.version}</name>
+                                    <name>rhlowery/acs-ui:${project.version}</name>
                                     <build>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
                                         <tags>

@@ -1,10 +1,10 @@
 package com.rhlowery.acs.resource;
 
+import com.rhlowery.acs.dto.CatalogRegistration;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -14,8 +14,6 @@ import org.jboss.logging.Logger;
 
 /**
  * REST Resource for dynamic catalog registration and management.
- * Allows on-the-fly onboarding of new catalog instances by providing connection settings
- * and metadata without requiring a service restart.
  */
 @jakarta.enterprise.context.ApplicationScoped
 @Path("/api/catalog/registrations")
@@ -25,16 +23,17 @@ import org.jboss.logging.Logger;
 public class CatalogRegistrationResource {
 
     private static final Logger LOG = Logger.getLogger(CatalogRegistrationResource.class);
-    private final Map<String, Map<String, Object>> registrations = new ConcurrentHashMap<>();
+    private final Map<String, CatalogRegistration> registrations = new ConcurrentHashMap<>();
 
     @POST
     @Operation(summary = "Register a new catalog", description = "Adds a new catalog connection to the system")
     @APIResponse(responseCode = "201", description = "Catalog registered successfully")
-    public Response registerCatalog(Map<String, Object> registration) {
-        String id = (String) registration.get("id");
-        if (id == null) return Response.status(400).entity(Map.of("error", "Missing id")).build();
-        LOG.infof("Registering catalog: %s", id);
-        registrations.put(id, new HashMap<>(registration));
+    public Response registerCatalog(CatalogRegistration registration) {
+        if (registration == null || registration.id == null) {
+            return Response.status(400).entity(Map.of("error", "Missing id")).build();
+        }
+        LOG.infof("Registering catalog: %s", registration.id);
+        registrations.put(registration.id, registration);
         return Response.status(201).entity(registration).build();
     }
 
@@ -47,10 +46,8 @@ public class CatalogRegistrationResource {
     @GET
     @Path("/{id}")
     @Operation(summary = "Get catalog details", description = "Returns details for a specific catalog registration")
-    @APIResponse(responseCode = "200", description = "Found")
-    @APIResponse(responseCode = "404", description = "Not Found")
     public Response getRegistration(@PathParam("id") String id) {
-        Map<String, Object> registration = registrations.get(id);
+        CatalogRegistration registration = registrations.get(id);
         if (registration == null) return Response.status(404).build();
         return Response.ok(registration).build();
     }
@@ -58,43 +55,22 @@ public class CatalogRegistrationResource {
     @PATCH
     @Path("/{id}")
     @Operation(summary = "Update catalog settings", description = "Partially updates the settings for an existing catalog registration")
-    public Response updateRegistration(@PathParam("id") String id, Map<String, Object> update) {
-        Map<String, Object> existing = registrations.get(id);
+    public Response updateRegistration(@PathParam("id") String id, CatalogRegistration update) {
+        CatalogRegistration existing = registrations.get(id);
         if (existing == null) return Response.status(404).build();
         
-        LOG.infof("Updating catalog: %s with: %s", id, update);
+        LOG.infof("Updating catalog: %s", id);
         
-        // Ensure we are working with a mutable copy
-        Map<String, Object> mutableExisting = new HashMap<>(existing);
-        
-        Object settingsObj = update.get("settings");
-        if (settingsObj instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> newSettings = (Map<String, Object>) settingsObj;
-            
-            Object existingSettingsObj = mutableExisting.get("settings");
-            Map<String, Object> existingSettings;
-            if (existingSettingsObj instanceof Map) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> casted = (Map<String, Object>) existingSettingsObj;
-                existingSettings = new HashMap<>(casted);
-            } else {
-                existingSettings = new HashMap<>();
+        if (update.name != null) existing.name = update.name;
+        if (update.type != null) existing.type = update.type;
+        if (update.settings != null) {
+            if (existing.settings == null) {
+                existing.settings = new java.util.HashMap<>();
             }
-            
-            existingSettings.putAll(newSettings);
-            mutableExisting.put("settings", existingSettings);
+            existing.settings.putAll(update.settings);
         }
         
-        // Update other top-level fields
-        update.forEach((k, v) -> {
-            if (!"settings".equals(k)) {
-                mutableExisting.put(k, v);
-            }
-        });
-        
-        registrations.put(id, mutableExisting);
-        return Response.ok(mutableExisting).build();
+        return Response.ok(existing).build();
     }
 
     @DELETE

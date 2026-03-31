@@ -22,7 +22,8 @@ class AuthServiceWrapper {
 
     async getProviders() {
         try {
-            const response = await fetch(getApiUrl('/api/auth/providers'));
+            // Added cache-buster to ensure we bypass any stale browser/proxy results
+            const response = await fetch(getApiUrl(`/api/auth/providers?cb=${Date.now()}`));
             if (response.ok) {
                 return await response.json();
             }
@@ -45,6 +46,10 @@ class AuthServiceWrapper {
         }
 
         return await response.json();
+    }
+
+    authorize(providerId) {
+        window.location.href = getApiUrl(`/api/auth/authorize/${providerId}`);
     }
 
     async logout() {

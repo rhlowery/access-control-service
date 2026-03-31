@@ -66,8 +66,8 @@ public class AuditResource {
     @POST
     @Path("/log/ui")
     @Operation(summary = "Log UI event", description = "Logs client-side events to the server console")
-    public Response logUi(Map<String, Object> body) {
-        LOG.infof("[UI-LOG] level=%s message=%s", body.get("level"), body.get("message"));
+    public Response logUi(com.rhlowery.acs.dto.UiLogRequest request) {
+        LOG.infof("[UI-LOG] level=%s message=%s", request.level, request.message);
         return Response.noContent().build();
     }
 

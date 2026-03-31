@@ -75,16 +75,13 @@ export const LoginPage = ({ onLoginSuccess }) => {
   useEffect(() => {
     const fetchAuthData = async () => {
       try {
-        const [config, providerList] = await Promise.all([
-          AuthService.getConfig(),
-          AuthService.getProviders()
-        ]);
-        setProviders(providerList || []);
-
-        if (AuthService.isMockAuth()) {
-          setIsMockMode(true);
-          setMockUsers(AuthService.getMockUsers());
-        }
+        const configData = await AuthService.getConfig();
+        const providersData = await AuthService.getProviders();
+        console.log('[ACS] Auth Config:', configData);
+        console.log('[ACS] Discovered Providers:', providersData);
+        setMockUsers(AuthService.getMockUsers());
+        setProviders(providersData);
+        setIsMockMode(configData.isMock === true);
       } catch (err) {
         console.error('Failed to initialize auth', err);
       } finally {
@@ -122,7 +119,7 @@ export const LoginPage = ({ onLoginSuccess }) => {
   };
 
   const handleOidclogin = (providerId) => {
-    handleLogin(null, providerId);
+    AuthService.authorize(providerId);
   };
 
   if (loading) {

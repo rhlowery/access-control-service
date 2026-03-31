@@ -1,5 +1,6 @@
 package com.rhlowery.acs.resource;
 
+import com.rhlowery.acs.dto.PolicyRequest;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -62,18 +63,14 @@ public class CatalogResource {
     @POST
     @Path("/{catalogId}/nodes/policy")
     @Operation(summary = "Apply policy to a node", description = "Applies a security or audit policy to the specified catalog node")
-    @RequestBody(description = "Policy application request containing path, action, and principal", required = true,
-                 content = @Content(mediaType = MediaType.APPLICATION_JSON,
-                                    schema = @Schema(implementation = Map.class),
-                                    examples = @org.eclipse.microprofile.openapi.annotations.media.ExampleObject(value = "{\"path\": \"/data/table\", \"action\": \"READ\", \"principal\": \"user1\"}")))
     @APIResponse(responseCode = "202", description = "Policy application accepted")
     @APIResponse(responseCode = "404", description = "Catalog not found")
     public Response applyPolicy(@Parameter(description = "ID of the catalog", required = true) @PathParam("catalogId") String catalogId,
-                                Map<String, String> request) {
+                                PolicyRequest request) {
 
-        String path = request.get("path");
-        String action = request.get("action");
-        String principal = request.get("principal");
+        String path = request.path;
+        String action = request.action;
+        String principal = request.principal;
         
         try {
             catalogService.applyPolicy(catalogId, path, action, principal);

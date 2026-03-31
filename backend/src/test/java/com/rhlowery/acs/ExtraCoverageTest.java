@@ -84,7 +84,7 @@ public class ExtraCoverageTest {
             .contentType(ContentType.JSON)
             .body(Map.of("providerId", "oidc"))
             .post("/api/auth/login")
-            .then().statusCode(401);
+            .then().statusCode(400); // Expecting 400 for missing userId
 
         // Logout
         given()

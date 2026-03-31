@@ -48,15 +48,13 @@ public class ProxyResource {
     @Path("/sql/execute")
     @Operation(summary = "Execute SQL", description = "Proxies a SQL execution request to the Databricks SQL Warehouse placeholder")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response executeSql(Map<String, Object> request, @HeaderParam("Authorization") String auth) {
-        String statement = (String) request.get("statement");
-        if (statement == null || statement.trim().isEmpty()) {
+    public Response executeSql(com.rhlowery.acs.domain.SqlRequest request, @HeaderParam("Authorization") String auth) {
+        if (request == null || request.statement() == null || request.statement().trim().isEmpty()) {
             return Response.status(400).entity(Map.of("error", "Empty statement")).build();
         }
-        LOG.infof("SQL Execute: %s", statement);
+        LOG.infof("SQL Execute: %s", request.statement());
         try {
-            com.rhlowery.acs.domain.SqlRequest sqlReq = new com.rhlowery.acs.domain.SqlRequest(statement, null);
-            Map<String, Object> response = databricksClient.executeSql(auth, sqlReq);
+            Map<String, Object> response = databricksClient.executeSql(auth, request);
             return Response.ok(response).build();
         } catch (Exception e) {
             LOG.error("SQL Execute error", e);

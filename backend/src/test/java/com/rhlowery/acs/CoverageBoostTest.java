@@ -11,6 +11,7 @@ import com.rhlowery.acs.service.UserService;
 import com.rhlowery.acs.service.AccessRequestService;
 import com.rhlowery.acs.service.AuditService;
 import com.rhlowery.acs.service.CatalogService;
+import com.rhlowery.acs.dto.UiLogRequest;
 
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -143,20 +144,33 @@ public class CoverageBoostTest {
     @Test
     public void boostCatalogRegistrationResource() {
         String id = "test-cat";
-        Map<String, Object> reg = new HashMap<>(Map.of("id", id, "name", "Test"));
+        com.rhlowery.acs.dto.CatalogRegistration reg = new com.rhlowery.acs.dto.CatalogRegistration();
+        reg.id = id;
+        reg.name = "Test";
         registrationResource.registerCatalog(reg);
-        registrationResource.registerCatalog(Map.of()); // Missing id branch
+        registrationResource.registerCatalog(new com.rhlowery.acs.dto.CatalogRegistration()); // Missing id branch
         
         assertEquals(200, registrationResource.getRegistration(id).getStatus());
         assertEquals(404, registrationResource.getRegistration("ghost").getStatus());
         
-        registrationResource.updateRegistration(id, Map.of("settings", Map.of("key", "val"), "other", "val"));
-        registrationResource.updateRegistration(id, Map.of("settings", "NOT_A_MAP"));
-        registrationResource.updateRegistration("ghost", Map.of());
+        com.rhlowery.acs.dto.CatalogRegistration update = new com.rhlowery.acs.dto.CatalogRegistration();
+        update.settings = new java.util.HashMap<>(Map.of("key", "val"));
+        update.name = "val";
+        registrationResource.updateRegistration(id, update);
+        
+        com.rhlowery.acs.dto.CatalogRegistration badUpdate = new com.rhlowery.acs.dto.CatalogRegistration();
+        // Skip setting settings as map to test branch (though type is now enforced by DTO)
+        registrationResource.updateRegistration(id, badUpdate);
+        registrationResource.updateRegistration("ghost", new com.rhlowery.acs.dto.CatalogRegistration());
         
         String id2 = "test-cat-2";
-        registrationResource.registerCatalog(Map.of("id", id2));
-        registrationResource.updateRegistration(id2, Map.of("settings", Map.of("key", "val")));
+        com.rhlowery.acs.dto.CatalogRegistration reg2 = new com.rhlowery.acs.dto.CatalogRegistration();
+        reg2.id = id2;
+        registrationResource.registerCatalog(reg2);
+        
+        com.rhlowery.acs.dto.CatalogRegistration update2 = new com.rhlowery.acs.dto.CatalogRegistration();
+        update2.settings = Map.of("key", "val");
+        registrationResource.updateRegistration(id2, update2);
 
         registrationResource.listRegistrations();
         registrationResource.deleteRegistration(id);
@@ -174,7 +188,10 @@ public class CoverageBoostTest {
     @Test
     public void boostAuditResource() {
         auditResource.getLog();
-        auditResource.logUi(Map.of("level", "INFO", "message", "Test"));
+        UiLogRequest req = new UiLogRequest();
+        req.level = "INFO";
+        req.message = "Test";
+        auditResource.logUi(req);
     }
 
     @Test

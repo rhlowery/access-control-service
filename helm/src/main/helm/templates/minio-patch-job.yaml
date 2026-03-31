@@ -16,9 +16,17 @@ spec:
             - |
               IP=$(kubectl get svc keycloak -n {{ .Release.Namespace }} -o jsonpath='{.spec.clusterIP}')
               echo "Patching Minio with hostAlias for idp.localtest.me and wait-for-keycloak init container..."
-              kubectl patch deployment minio -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/health/live; do echo waiting for keycloak; sleep 2; done\"]}]}}}}"
-              echo "Patching acs-backend with hostAlias for idp.localtest.me..."
-              kubectl patch deployment acs-backend -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}]}}}}"
+              kubectl patch deployment minio -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/realms/access-control/.well-known/openid-configuration | grep -q issuer; do echo waiting for access-control realm; sleep 2; done\"]}]}}}}"
+              echo "Patching acs-backend with hostAlias and wait-for-keycloak..."
+              kubectl patch deployment acs-backend -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/realms/access-control/.well-known/openid-configuration | grep -q issuer; do echo waiting for access-control realm; sleep 2; done\"]}]}}}}"
+              echo "Patching gravitino with hostAlias and wait-for-keycloak..."
+              kubectl patch deployment gravitino -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/realms/access-control/.well-known/openid-configuration | grep -q issuer; do echo waiting for access-control realm; sleep 2; done\"]}]}}}}"
+              echo "Patching unity-catalog-server with hostAlias and wait-for-keycloak..."
+              kubectl patch deployment unity-catalog-server -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/realms/access-control/.well-known/openid-configuration | grep -q issuer; do echo waiting for access-control realm; sleep 2; done\"]}]}}}}"
+              echo "Patching polaris with hostAlias and wait-for-keycloak..."
+              kubectl patch deployment polaris -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}], \"initContainers\": [{\"name\": \"wait-for-keycloak\", \"image\": \"curlimages/curl:latest\", \"command\": [\"/bin/sh\", \"-c\", \"until curl -s http://keycloak/realms/access-control/.well-known/openid-configuration | grep -q issuer; do echo waiting for access-control realm; sleep 2; done\"]}]}}}}"
+              echo "Patching unity-catalog-ui with hostAlias..."
+              kubectl patch deployment unity-catalog-ui -n {{ .Release.Namespace }} --patch "{\"spec\": {\"template\": {\"spec\": {\"hostAliases\": [{\"ip\": \"$IP\", \"hostnames\": [\"idp.localtest.me\"]}]}}}}"
       restartPolicy: OnFailure
 ---
 apiVersion: v1

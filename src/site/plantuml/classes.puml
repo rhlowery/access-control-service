@@ -1,0 +1,81 @@
+@startuml
+package "com.rhlowery.acs.domain" {
+    class AccessRequest {
+        +id: String
+        +requesterId: String
+        +userId: String
+        +catalogName: String
+        +schemaName: String
+        +tableName: String
+        +privileges: List<String>
+        +status: String
+        +createdAt: Long
+        +updatedAt: Long
+        +justification: String
+        +approverGroups: List<String>
+        +metadata: Map<String, Object>
+    }
+
+    class AuditEntry {
+        +id: String
+        +type: String
+        +actor: String
+        +userId: String
+        +timestamp: Long
+        +serverTimestamp: Long
+        +details: Map<String, Object>
+        +signature: String
+        +signer: String
+    }
+
+    class CatalogNode {
+        +name: String
+        +type: NodeType
+        +path: String
+        +implementation: String
+    }
+
+    enum NodeType {
+        CATALOG
+        SCHEMA
+        TABLE
+        VOLUME
+    }
+}
+
+package "com.rhlowery.acs.service" {
+    interface AccessRequestService {
+        +getAllRequests()
+        +getRequestById()
+        +saveRequests()
+    }
+
+    interface AuditService {
+        +log()
+        +getLogs()
+    }
+
+    interface CatalogProvider {
+        +getCatalogId(): String
+        +getChildren(path): List<CatalogNode>
+        +applyPolicy(path, action, principal)
+        +getEffectivePermissions(path, principal): String
+    }
+}
+
+package "com.rhlowery.acs.resource" {
+    class CatalogResource {
+        +getNodes()
+        +applyPolicy()
+        +getPermissions()
+        +listProviders()
+    }
+}
+
+AccessRequestService ..> AccessRequest
+AuditService ..> AuditEntry
+CatalogResource ..> CatalogProvider
+CatalogResource ..> CatalogNode
+CatalogProvider ..> CatalogNode
+CatalogNode ..> NodeType
+@enduml

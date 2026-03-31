@@ -1,4 +1,5 @@
 package com.rhlowery.acs.domain;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
@@ -14,11 +15,18 @@ import java.util.List;
  * @param persona System-wide persona (Optional)
  */
 @RegisterForReflection
+@Schema(name = "User", description = "A user profile within the access control system")
 public record User(
+    @Schema(description = "Unique identifier of the user", example = "alice")
     String id,
+    @Schema(description = "Full name of the user", example = "Alice User")
     String name,
+    @Schema(description = "Email address", example = "alice@example.com")
     String email,
+    @Schema(description = "Primary role", example = "ADMIN")
     String role, // ADMIN, STANDARD_USER
+    @Schema(description = "List of associated group IDs", example = "[\"admins\"]")
     List<String> groups,
+    @Schema(description = "Current persona assignment", example = "ADMIN")
     String persona
 ) {}
