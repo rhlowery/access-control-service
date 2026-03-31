@@ -1,30 +1,22 @@
-import { getApiUrl } from '../config';
+import { api } from './ApiService';
 
-const API_BASE = getApiUrl('/api/catalog');
+const API_BASE = '/api/catalog';
 
 export const CatalogService = {
   async getRegistrations() {
-    const response = await fetch(`${API_BASE}/registrations`);
-    if (!response.ok) throw new Error('Failed to fetch registrations');
-    return response.json();
+    return await api.get(`${API_BASE}/registrations`);
   },
 
   async getNodes(catalogId, path = '/') {
     const query = path !== '/' ? `?path=${encodeURIComponent(path)}` : '';
-    const response = await fetch(`${API_BASE}/${catalogId}/nodes${query}`);
-    if (!response.ok) throw new Error('Failed to fetch nodes');
-    return response.json();
+    return await api.get(`${API_BASE}/${catalogId}/nodes${query}`);
   },
 
   async getPermissions(catalogId, path) {
-    const response = await fetch(`${API_BASE}/${catalogId}/nodes/permissions?path=${encodeURIComponent(path)}`);
-    if (!response.ok) throw new Error('Failed to fetch permissions');
-    return response.json();
+    return await api.get(`${API_BASE}/${catalogId}/nodes/permissions?path=${encodeURIComponent(path)}`);
   },
 
   async searchCatalog(query) {
-    const response = await fetch(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
-    if (!response.ok) throw new Error('Failed to search catalog');
-    return response.json();
+    return await api.get(`${API_BASE}/search?q=${encodeURIComponent(query)}`);
   }
 };

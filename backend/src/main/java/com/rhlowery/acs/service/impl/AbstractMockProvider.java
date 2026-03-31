@@ -17,6 +17,23 @@ public abstract class AbstractMockProvider implements CatalogProvider {
         this.implClass = implClass;
     }
 
+    public AbstractMockProvider(String catalogId) {
+        this(catalogId, "MockProvider");
+    }
+
+    @Override
+    public String getProviderName() {
+        return catalogId.substring(0, 1).toUpperCase() + catalogId.substring(1) + " Provider";
+    }
+
+    @Override
+    public java.util.Map<String, String> getCapabilities() {
+        java.util.Map<String, String> caps = new java.util.HashMap<>();
+        caps.put("type", "mock");
+        caps.put("discovery", "static");
+        return caps;
+    }
+
     @Override
     public String getCatalogId() {
         return catalogId;

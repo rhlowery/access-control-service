@@ -12,3 +12,4 @@ data:
   DB_USERNAME: {{ .Values.postgresql.username | quote }}
   OIDC_AUTH_SERVER_URL: {{ .Values.global.oidc.authServerUrl | default .Values.oidc.authServerUrl | quote }}
   OIDC_CLIENT_ID: {{ .Values.oidc.clientId | quote }}
+  CORS_ORIGINS: {{ .Values.appConfig.corsOrigins | quote }}

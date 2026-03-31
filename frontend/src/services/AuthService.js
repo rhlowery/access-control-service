@@ -1,4 +1,4 @@
-import { getApiUrl } from '../config';
+import { api } from './ApiService';
 
 class AuthServiceWrapper {
     constructor() {
@@ -9,11 +9,8 @@ class AuthServiceWrapper {
     async getConfig() {
         if (this.config) return this.config;
         try {
-            const response = await fetch(getApiUrl('/api/auth/config'));
-            if (response.ok) {
-                this.config = await response.json();
-                return this.config;
-            }
+            this.config = await api.get('/api/auth/config');
+            return this.config;
         } catch (error) {
             console.error('Failed to fetch auth config', error);
         }
@@ -22,11 +19,8 @@ class AuthServiceWrapper {
 
     async getProviders() {
         try {
-            // Added cache-buster to ensure we bypass any stale browser/proxy results
-            const response = await fetch(getApiUrl(`/api/auth/providers?cb=${Date.now()}`));
-            if (response.ok) {
-                return await response.json();
-            }
+            // Using cb query param to bypass cache if needed, although ApiService can handle headers
+            return await api.get(`/api/auth/providers?cb=${Date.now()}`);
         } catch (error) {
             console.error('Failed to fetch providers', error);
         }
@@ -34,38 +28,34 @@ class AuthServiceWrapper {
     }
 
     async login(userId, password, providerId = 'local') {
-        const response = await fetch(getApiUrl('/api/auth/login'), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, password, providerId })
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'Login failed');
-        }
-
-        return await response.json();
+        const result = await api.post('/api/auth/login', { userId, password, providerId });
+        this.user = result;
+        return result;
     }
 
     authorize(providerId) {
-        window.location.href = getApiUrl(`/api/auth/authorize/${providerId}`);
+        // Redirection is still handled via direct URL
+        window.location.href = api.baseUrl + `/api/auth/authorize/${providerId}`;
     }
 
     async logout() {
-        await fetch(getApiUrl('/api/auth/logout'), { method: 'POST' });
+        try {
+            await api.post('/api/auth/logout');
+        } catch (e) {
+            console.warn('Logout request failed, proceeding with local clear');
+        }
+        this.user = null;
         window.location.reload();
     }
 
     async getCurrentUser() {
+        if (this.user) return this.user;
         try {
-            const response = await fetch(getApiUrl('/api/auth/me'));
-            if (response.ok) {
-                this.user = await response.json();
-                return this.user;
-            }
+            this.user = await api.get('/api/auth/me');
+            return this.user;
         } catch (error) {
-            console.error('Failed to fetch current user', error);
+            // 401 is handled by ApiService (redirecting or just throwing)
+            this.user = null;
         }
         return null;
     }
@@ -86,7 +76,6 @@ class AuthServiceWrapper {
 
     hasRole(role) {
         if (!this.user) return false;
-        // Map persona to roles for backward compatibility with existing UI logic
         const persona = this.user.persona || 'NONE';
         if (role === 'ADMIN') return ['ADMIN', 'SECURITY_ADMIN', 'PLATFORM_ADMIN'].includes(persona);
         if (role === 'APPROVER') return ['APPROVER', 'ADMIN'].includes(persona);

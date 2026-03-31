@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { 
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  NavLink,
+  Navigate,
+  useLocation
+} from 'react-router-dom';
+import { 
   Users, 
   Database, 
   Shield, 
@@ -23,51 +32,53 @@ import { SettingsPage } from './pages/SettingsPage';
 import { UserGroupManagement } from './pages/UserGroupManagement';
 import { AuthService } from './services/AuthService';
 import { getApiUrl } from './config';
+import { api } from './services/ApiService';
+import { LoginPage } from './pages/LoginPage';
 
-const Sidebar = ({ activeTab, setActiveTab }) => (
+const Sidebar = () => (
   <aside className="w-[260px] bg-[var(--sidebar-bg)] border-r border-[var(--border)] p-6 flex flex-col gap-8 sticky top-0 h-screen transition-all duration-300">
     <div className="brand flex items-center gap-2 text-2xl font-bold bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">
       <Shield size={32} className="text-[var(--primary)]" />
       <span>ACS UI</span>
     </div>
     <nav className="flex flex-col gap-2">
-      <a href="#" className={`nav-link group ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
+      <NavLink to="/dashboard" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
         <Activity size={20} className="group-hover:scale-110 transition-transform" />
         Dashboard
-      </a>
-      <a href="#" className={`nav-link group ${activeTab === 'access-requests' ? 'active' : ''}`} onClick={() => setActiveTab('access-requests')}>
+      </NavLink>
+      <NavLink to="/requests" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
         <Clock size={20} className="group-hover:scale-110 transition-transform" />
         Access Requests
-      </a>
-      <a href="#" className={`nav-link group ${activeTab === 'catalog' ? 'active' : ''}`} onClick={() => setActiveTab('catalog')}>
+      </NavLink>
+      <NavLink to="/catalog" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
         <Database size={20} className="group-hover:scale-110 transition-transform" />
         Data Catalog
-      </a>
+      </NavLink>
       {AuthService.hasRole('APPROVER') && (
-        <a href="#" className={`nav-link group ${activeTab === 'approvals' ? 'active' : ''}`} onClick={() => setActiveTab('approvals')}>
+        <NavLink to="/approvals" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
           <CheckCircle2 size={20} className="group-hover:scale-110 transition-transform" />
           Approvals
-        </a>
+        </NavLink>
       )}
       {AuthService.hasRole('AUDITOR') && (
-        <a href="#" className={`nav-link group ${activeTab === 'audit' ? 'active' : ''}`} onClick={() => setActiveTab('audit')}>
+        <NavLink to="/audit" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
           <Activity size={20} className="group-hover:scale-110 transition-transform" />
           Audit Logs
-        </a>
+        </NavLink>
       )}
       {AuthService.hasRole('ADMIN') && (
-        <a href="#" className={`nav-link group ${activeTab === 'identity' ? 'active' : ''}`} onClick={() => setActiveTab('identity')}>
+        <NavLink to="/identity" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
           <Users size={20} className="group-hover:scale-110 transition-transform" />
           Identity & Access
-        </a>
+        </NavLink>
       )}
     </nav>
     <div className="flex-1"></div>
     <nav className="flex flex-col gap-2">
-      <a href="#" className={`nav-link group ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}>
+      <NavLink to="/settings" className={({isActive}) => `nav-link group ${isActive ? 'active' : ''}`}>
         <Settings size={20} className="group-hover:rotate-45 transition-transform" />
         Settings
-      </a>
+      </NavLink>
       <a href="#" className="nav-link text-danger hover:bg-danger/10 group cursor-pointer" onClick={() => AuthService.logout()}>
         <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
         Logout
@@ -146,11 +157,8 @@ const Dashboard = ({ stats, requests }) => (
   </div>
 );
 
-import { LoginPage } from './pages/LoginPage';
-
 const App = () => {
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('dashboard');
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -174,11 +182,8 @@ const App = () => {
 
   const fetchRequests = async () => {
     try {
-      const reqRes = await fetch(getApiUrl('/api/storage/requests'));
-      if (reqRes.ok) {
-        const reqData = await reqRes.json();
-        setRequests(reqData || []);
-      }
+      const reqData = await api.get('/api/storage/requests');
+      setRequests(reqData || []);
     } catch (err) {
       console.error('Failed to fetch data', err);
     }
@@ -208,30 +213,30 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen bg-background text-[var(--text)] transition-colors duration-300">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main className="flex-1 flex flex-col overflow-hidden">
-          <Header username={user?.userId || user?.name || (user?.email?.split('@')[0])} />
-          
-          <div className="flex-1 overflow-auto custom-scrollbar">
-            {loading ? (
-              <div className="flex items-center justify-center h-[60vh]">
-                <Activity size={48} className="text-primary spin-slow" />
-              </div>
-            ) : (
+      <Router>
+        <div className="flex min-h-screen bg-background text-[var(--text)] transition-colors duration-300">
+          <Sidebar />
+          <main className="flex-1 flex flex-col overflow-hidden">
+            <Header username={user?.userId || user?.name || (user?.email?.split('@')[0])} />
+            
+            <div className="flex-1 overflow-auto custom-scrollbar">
               <div className="max-w-7xl mx-auto w-full">
-                {activeTab === 'dashboard' && <Dashboard stats={stats} requests={requests.slice(0, 3)} />}
-                {activeTab === 'access-requests' && <Dashboard stats={stats} requests={requests} />}
-                {activeTab === 'catalog' && <CatalogPage />}
-                {activeTab === 'approvals' && <ApproverDashboard />}
-                {activeTab === 'audit' && <ReviewerDashboard />}
-                {activeTab === 'identity' && <UserGroupManagement />}
-                {activeTab === 'settings' && <SettingsPage />}
+                <Routes>
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard stats={stats} requests={requests.slice(0, 3)} />} />
+                  <Route path="/requests" element={<Dashboard stats={stats} requests={requests} />} />
+                  <Route path="/catalog" element={<CatalogPage />} />
+                  <Route path="/approvals" element={<ApproverDashboard />} />
+                  <Route path="/audit" element={<ReviewerDashboard />} />
+                  <Route path="/identity" element={<UserGroupManagement />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                </Routes>
               </div>
-            )}
-          </div>
-        </main>
-      </div>
+            </div>
+          </main>
+        </div>
+      </Router>
     </ThemeProvider>
   );
 };
