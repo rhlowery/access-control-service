@@ -55,6 +55,11 @@ acs-backend:
     limits:
       cpu: 500m
       memory: 512Mi
+  postgresql:
+    host: "postgresql-rw"
+    database: "access_control_db"
+    username: "access_control_user"
+    password: "user_password"
 
 acs-ui:
   fullnameOverride: "acs-ui"
