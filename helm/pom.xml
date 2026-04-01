@@ -37,9 +37,9 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>helm-dependency-update</id>
+                        <id>helm-dependency-build</id>
                         <goals>
-                            <goal>dependency-update</goal>
+                            <goal>dependency-build</goal>
                         </goals>
                     </execution>
                     <execution>
@@ -51,6 +51,36 @@
                 </executions>
                 <configuration>
                     <chartDirectory>${project.basedir}/src/main/helm</chartDirectory>
+                    <helmExtraRepos>
+                        <helmExtraRepo>
+                            <name>ingress-nginx</name>
+                            <url>https://kubernetes.github.io/ingress-nginx</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>polaris</name>
+                            <url>https://downloads.apache.org/incubator/polaris/helm-chart/</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>hive-metastore</name>
+                            <url>https://hevaweb.github.io/heva-helm-charts/</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>cert-manager</name>
+                            <url>https://charts.jetstack.io</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>minio</name>
+                            <url>https://charts.min.io/</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>prometheus</name>
+                            <url>https://prometheus-community.github.io/helm-charts</url>
+                        </helmExtraRepo>
+                        <helmExtraRepo>
+                            <name>opentelemetry-collector</name>
+                            <url>https://open-telemetry.github.io/opentelemetry-helm-charts</url>
+                        </helmExtraRepo>
+                    </helmExtraRepos>
                 </configuration>
             </plugin>
             <plugin>
