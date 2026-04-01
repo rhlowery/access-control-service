@@ -14,12 +14,12 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 @RegisterForReflection
 @Schema(name = "Group", description = "A user group within the access control system")
 public record Group(
-    @Schema(description = "Unique identifier of the group", example = "admins")
+    @Schema(description = "Unique identifier of the group", examples = {"admins"})
     String id,
-    @Schema(description = "Display name of the group", example = "Administrators")
+    @Schema(description = "Display name of the group", examples = {"Administrators"})
     String name,
-    @Schema(description = "Brief description of the group's purpose", example = "System administrators with full access")
+    @Schema(description = "Brief description of the group's purpose", examples = {"System administrators with full access"})
     String description,
-    @Schema(description = "Persona associated with this group", example = "ADMIN")
+    @Schema(description = "Persona associated with this group", examples = {"ADMIN"})
     String persona
 ) {}

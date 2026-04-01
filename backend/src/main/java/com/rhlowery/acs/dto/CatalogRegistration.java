@@ -9,13 +9,13 @@ import java.util.Map;
 @Schema(name = "CatalogRegistration", description = "Metadata and settings for a catalog connection")
 public class CatalogRegistration {
 
-    @Schema(description = "The unique identifier for the catalog connection", example = "prod-uc", required = true)
+    @Schema(description = "The unique identifier for the catalog connection", examples = {"prod-uc"}, required = true)
     public String id;
 
-    @Schema(description = "The display name of the catalog", example = "Production Unity Catalog")
+    @Schema(description = "The display name of the catalog", examples = {"Production Unity Catalog"})
     public String name;
 
-    @Schema(description = "The type of catalog (e.g., UNITY_CATALOG, GLUE, HIVE)", example = "UNITY_CATALOG")
+    @Schema(description = "The type of catalog (e.g., UNITY_CATALOG, GLUE, HIVE)", examples = {"UNITY_CATALOG"})
     public String type;
 
     @Schema(description = "Configuration settings for the catalog (e.g., host, port, token)")

@@ -30,7 +30,7 @@
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
         <maven-exec-plugin.version>3.1.1</maven-exec-plugin.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
-        <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
         <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
         <maven-jxr-plugin.version>3.3.0</maven-jxr-plugin.version>
         <maven-changelog-plugin.version>2.3</maven-changelog-plugin.version>
@@ -41,7 +41,7 @@
         <spotbugs-maven-plugin.version>4.8.3.1</spotbugs-maven-plugin.version>
         <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
         <maven-scm-publish-plugin.version>3.2.1</maven-scm-publish-plugin.version>
-        <maven-allure-plugin.version>2.17.0</maven-allure-plugin.version>
+        <maven-allure-plugin.version>2.12.0</maven-allure-plugin.version>
         <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
         <quarkus.container-image.build>false</quarkus.container-image.build>
         <quarkus.container-image.name>acs-backend</quarkus.container-image.name>
@@ -202,6 +202,16 @@
                     <version>${maven-jacoco-plugin.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>${maven-allure-plugin.version}</version>
+                    <configuration>
+                        <reportVersion>${allure.version}</reportVersion>
+                        <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                        <reportDirectory>${project.build.directory}/site/allure-report</reportDirectory>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <version>${spotbugs-maven-plugin.version}</version>
@@ -246,6 +256,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-publish-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -323,10 +337,11 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.17.0</version>
+                <version>${maven-allure-plugin.version}</version>
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/site/allure-report</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>

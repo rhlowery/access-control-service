@@ -17,16 +17,16 @@ import java.util.List;
 @RegisterForReflection
 @Schema(name = "User", description = "A user profile within the access control system")
 public record User(
-    @Schema(description = "Unique identifier of the user", example = "alice")
+    @Schema(description = "Unique identifier of the user", examples = {"alice"})
     String id,
-    @Schema(description = "Full name of the user", example = "Alice User")
+    @Schema(description = "Full name of the user", examples = {"Alice User"})
     String name,
-    @Schema(description = "Email address", example = "alice@example.com")
+    @Schema(description = "Email address", examples = {"alice@example.com"})
     String email,
-    @Schema(description = "Primary role", example = "ADMIN")
+    @Schema(description = "Primary role", examples = {"ADMIN"})
     String role, // ADMIN, STANDARD_USER
-    @Schema(description = "List of associated group IDs", example = "[\"admins\"]")
+    @Schema(description = "List of associated group IDs", examples = {"[\"admins\"]"})
     List<String> groups,
-    @Schema(description = "Current persona assignment", example = "ADMIN")
+    @Schema(description = "Current persona assignment", examples = {"ADMIN"})
     String persona
 ) {}
