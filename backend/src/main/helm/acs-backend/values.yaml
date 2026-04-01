@@ -219,6 +219,8 @@ appConfig:
   otelEndpoint: "http://otel-collector:4317"
   # environment name used for resource tagging and conditional logic.
   environment: "development"
+  # corsOrigins to restrict browser access to the API.
+  corsOrigins: "*"
 
 # security contains sensitive credentials and keys.
 security:

@@ -23,6 +23,10 @@ import org.jboss.logging.Logger;
 public class CatalogRegistrationResource {
 
     private static final Logger LOG = Logger.getLogger(CatalogRegistrationResource.class);
+
+    @jakarta.inject.Inject
+    com.rhlowery.acs.service.CatalogService catalogService;
+
     private final Map<String, CatalogRegistration> registrations = new ConcurrentHashMap<>();
 
     @POST
@@ -34,13 +38,23 @@ public class CatalogRegistrationResource {
         }
         LOG.infof("Registering catalog: %s", registration.id);
         registrations.put(registration.id, registration);
+        
+        // If it's a mock, we can dynamically register a provider for it
+        if ("mock".equalsIgnoreCase(registration.type)) {
+            // This is a simplified example of dynamic provider instantiation
+            // In a real system, this would use a factory
+            com.rhlowery.acs.service.CatalogProvider provider = 
+                new com.rhlowery.acs.service.impl.AbstractMockProvider(registration.id) {};
+            catalogService.registerProvider(provider);
+        }
+        
         return Response.status(201).entity(registration).build();
     }
 
     @GET
     @Operation(summary = "List registered catalogs", description = "Returns a list of all currently registered catalog connections")
     public Response listRegistrations() {
-        return Response.ok(new ArrayList<>(registrations.values())).build();
+        return Response.ok(new java.util.ArrayList<>(registrations.values())).build();
     }
 
     @GET

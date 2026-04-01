@@ -1,48 +1,30 @@
-import { getApiUrl } from '../config';
+import { api } from './ApiService';
 
-const API_BASE = getApiUrl('/api/storage/requests');
+const API_BASE = '/api/storage/requests';
 
 export const RequestService = {
   async getRequests() {
-    const response = await fetch(API_BASE);
-    if (!response.ok) throw new Error('Failed to fetch requests');
-    return response.json();
+    return await api.get(API_BASE);
   },
 
   async submitRequest(request) {
-    const response = await fetch(API_BASE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(request)
-    });
-    if (!response.ok) throw new Error('Failed to submit request');
-    return response.json();
+    return await api.post(API_BASE, request);
   },
 
   async approveRequest(id) {
-    const response = await fetch(`${API_BASE}/${id}/approve`, { method: 'POST' });
-    if (!response.ok) throw new Error('Failed to approve request');
-    return response.json();
+    return await api.post(`${API_BASE}/${id}/approve`);
   },
 
   async rejectRequest(id, reason) {
-    const response = await fetch(`${API_BASE}/${id}/reject`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reason })
-    });
-    if (!response.ok) throw new Error('Failed to reject request');
-    return response.json();
+    return await api.post(`${API_BASE}/${id}/reject`, { reason });
   },
 
   async verifyRequest(id) {
-    const response = await fetch(`${API_BASE}/${id}/verify`, { method: 'POST' });
-    if (!response.ok) throw new Error('Failed to verify request');
-    return response.json();
+    return await api.post(`${API_BASE}/${id}/verify`);
   },
 
   streamRequests(callback) {
-    const eventSource = new EventSource(`${API_BASE}/stream`);
+    const eventSource = new EventSource(api.baseUrl + `${API_BASE}/stream`);
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       callback(data);

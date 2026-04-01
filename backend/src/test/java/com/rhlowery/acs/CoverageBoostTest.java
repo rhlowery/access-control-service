@@ -137,7 +137,7 @@ public class CoverageBoostTest {
         catalogService.verifyPolicy("uc-oss", "/main", "READ", "principal");
         catalogService.verifyPolicy("non-existent", "/main", "READ", "principal");
         catalogService.listProviders();
-        catalogService.getProviders();
+        catalogService.getProviderRegistrations();
         catalogService.clear();
     }
 

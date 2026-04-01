@@ -15,11 +15,16 @@ public class DefaultCatalogService implements CatalogService {
     @jakarta.inject.Inject
     jakarta.enterprise.inject.Instance<CatalogProvider> providersInstance;
 
-    private List<CatalogProvider> providers;
+    private final List<CatalogProvider> providers = new java.util.concurrent.CopyOnWriteArrayList<>();
 
     @jakarta.annotation.PostConstruct
     void init() {
-        this.providers = providersInstance.stream().collect(Collectors.toList());
+        providersInstance.stream().forEach(providers::add);
+    }
+
+    public void registerProvider(CatalogProvider provider) {
+        LOG.infof("Dynamically registering provider: %s", provider.getCatalogId());
+        providers.add(provider);
     }
 
     @Override
@@ -45,13 +50,22 @@ public class DefaultCatalogService implements CatalogService {
     @Override
     public List<String> listProviders() {
         return providers.stream()
-            .map(p -> p.getClass().getName())
+            .map(p -> String.format("%s (%s) - %s", p.getProviderName(), p.getCatalogId(), p.getClass().getName()))
             .collect(Collectors.toList());
     }
 
     @Override
-    public List<String> getProviders() {
-        return listProviders();
+    public List<com.rhlowery.acs.dto.CatalogRegistration> getProviderRegistrations() {
+        return providers.stream()
+            .map(p -> {
+                com.rhlowery.acs.dto.CatalogRegistration reg = new com.rhlowery.acs.dto.CatalogRegistration();
+                reg.id = p.getCatalogId();
+                reg.name = p.getProviderName();
+                reg.type = p.getCapabilities().getOrDefault("type", "unknown");
+                reg.settings = new java.util.HashMap<>(p.getCapabilities());
+                return reg;
+            })
+            .collect(Collectors.toList());
     }
 
     @Override
