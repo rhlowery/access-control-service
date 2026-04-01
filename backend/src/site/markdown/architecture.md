@@ -33,10 +33,84 @@ graph TD
     BFF -- "Discovers metadata from" --> Metastores["Various Metastores (Unity, Polaris, etc.)"]
 ```
 
-## Domain Model (UML)
+## Internal Architecture (C4 Level 3)
+```mermaid
+graph TB
+    subgraph resources ["JAX-RS Resources"]
+        AuthRes["AuthResource"]
+        AccReqRes["AccessRequestResource"]
+        CatRes["CatalogResource"]
+        AudRes["AuditResource"]
+        UserRes["UserResource"]
+        MetaRes["MetastoreResource"]
+        ProxyRes["ProxyResource"]
+    end
 
-The core domain entities managed by the ACS Backend for auditing, policy enforcement, and request lifecycle management.
+    subgraph services ["Business Services"]
+        UserSvc["UserService"]
+        AccReqSvc["AccessRequestService"]
+        CatSvc["CatalogService"]
+        TokSvc["TokenService"]
+    end
 
+    subgraph infrastructure ["Infrastructure"]
+        Augmentor["AcsSecurityIdentityAugmentor"]
+        Lineage["LineageService"]
+        Health["HealthCheck"]
+        MockIdP["MockIdentityProvider"]
+    end
+
+    subgraph persistence ["JPA Entities"]
+        UserEnt["UserEntity"]
+        GroupEnt["GroupEntity"]
+        AccReqEnt["AccessRequestEntity"]
+        AuditEnt["AuditEntryEntity"]
+    end
+
+    AuthRes --> TokSvc
+    AuthRes --> UserSvc
+    AccReqRes --> AccReqSvc
+    AccReqRes --> CatSvc
+    AccReqRes --> Lineage
+    CatRes --> CatSvc
+    AudRes --> AccReqSvc
+    UserRes --> UserSvc
+    Augmentor --> UserSvc
+
+    UserSvc --> UserEnt
+    UserSvc --> GroupEnt
+    AccReqSvc --> AccReqEnt
+```
+
+## Persona Resolution Strategy (UML Activity)
+```mermaid
+flowchart TD
+    Start([Request Arrives]) --> Auth{Authenticated?}
+    Auth -->|No| Anon[Return Anonymous]
+    Auth -->|Yes| P1{DB User has persona?}
+    P1 -->|Yes| UseDB["Use DB Persona"]
+    P1 -->|No| P2{Group has persona mapping?}
+    P2 -->|Yes| UseGroup["Use Group Persona"]
+    P2 -->|No| P3{JWT has persona claim?}
+    P3 -->|Yes| UseJWT["Use JWT Persona"]
+    P3 -->|No| Default["No Persona (standard user)"]
+
+    UseDB --> Enrich
+    UseGroup --> Enrich
+    UseJWT --> Enrich
+    Default --> Enrich
+
+    Enrich["Add persona + roles to SecurityIdentity"]
+    Enrich --> AdminCheck{Persona == REQUESTER?}
+    AdminCheck -->|Yes| SkipAdmin["Skip admin role promotion"]
+    AdminCheck -->|No| PromoteAdmin{Has admin group/persona?}
+    PromoteAdmin -->|Yes| AddAdmin["Add ADMIN, SECURITY_ADMIN, AUDITOR roles"]
+    PromoteAdmin -->|No| SkipAdmin
+    SkipAdmin --> Done([Return Augmented Identity])
+    AddAdmin --> Done
+```
+
+## Domain Model (UML Class Diagram)
 ```mermaid
 classDiagram
     class User {
@@ -44,63 +118,51 @@ classDiagram
         +String name
         +String email
         +String role
+        +String persona
         +List~String~ groups
     }
     class Group {
         +String id
         +String name
         +String description
+        +String persona
     }
     class AccessRequest {
         +String id
         +String requesterId
         +String userId
-        +String principalType
         +String catalogName
         +String schemaName
         +String tableName
-        +String resourceType
-        +List~String~ privileges
         +String status
-        +Long createdAt
-        +Long updatedAt
         +String justification
         +String rejectionReason
+        +List~String~ privileges
         +List~String~ approverGroups
-        +Map~String,Object~ metadata
+        +Map metadata
+        +Long expirationTime
     }
-    class Persona {
+    class AuditEntry {
         +String id
-        +String name
-        +String description
+        +String actor
+        +String type
+        +String details
+        +long timestamp
     }
     class CatalogNode {
+        +String id
         +String name
-        +NodeType type
+        +String type
         +String path
-        +List~String~ approvers
-        +String owner
-        +String comment
         +String permissions
     }
-    class NodeType {
-        <<enumeration>>
-        CATALOG
-        DATABASE
-        SCHEMA
-        TABLE
-        VOLUME
-        MODEL
-        COMPUTE
-        NAMESPACE
-    }
 
-    User "1" -- "*" AccessRequest : initiates/requests_for
-    Group "*" -- "*" User : member_of
-    AccessRequest "*" -- "1" CatalogNode : targets
-    CatalogNode "1" -- "1" NodeType : is_of_type
-    User "*" -- "1" Persona : assigned_persona
-    Group "*" -- "1" Persona : assigned_persona
+    User "1" --> "*" AccessRequest : creates
+    User "*" --> "*" Group : belongs to
+    Group "1" --> "*" User : contains
+    AccessRequest "*" --> "1" CatalogNode : targets
+    AccessRequest "*" --> "*" Group : requires approval from
+    AuditEntry "*" --> "1" User : involves
 ```
 
 ## Generic Catalog Interface

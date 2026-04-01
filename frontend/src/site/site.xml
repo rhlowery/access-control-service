@@ -1,50 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/DECORATION/1.8.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
-         name="Access Control Service">
-    
-    <publishDate position="right" format="yyyy-MM-dd"/>
-    <version position="right"/>
-
+         name="ACS Frontend">
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
         <version>1.12.0</version>
     </skin>
-
     <body>
+        <breadcrumbs>
+            <item name="Access Control Service" href="../index.html"/>
+            <item name="Frontend" href="index.html"/>
+        </breadcrumbs>
         <head><![CDATA[
             <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
-                    // 1. Locate all Doxia-generated code blocks for mermaid
                     var mermaidBlocks = document.querySelectorAll('code.language-mermaid');
                     mermaidBlocks.forEach(function(block) {
                         var pre = block.parentElement;
-                        // Skip if already transformed or not in a <pre>
                         if (pre && pre.tagName.toLowerCase() === 'pre') {
                             var parent = pre.parentElement;
                             var div = document.createElement('div');
                             div.className = 'mermaid';
-                            // Extract raw text to avoid <span> tags from prettify
                             div.textContent = block.textContent;
-                            // Replace the entire <pre> structure with the new <div>
                             parent.replaceChild(div, pre);
                         }
                     });
-                    // 2. Initialize and render with the new elements
                     mermaid.initialize({ startOnLoad: true });
                     mermaid.init();
                 });
             </script>
         ]]></head>
-
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="Architecture" href="architecture.html"/>
         </menu>
-
-        <menu ref="modules"/>
+        <menu ref="reports"/>
     </body>
 </project>
