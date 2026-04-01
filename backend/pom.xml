@@ -279,8 +279,8 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>index</report>
                             <report>summary</report>
+                            <report>dependency-info</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -289,6 +289,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

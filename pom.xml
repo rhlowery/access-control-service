@@ -233,10 +233,43 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.doxia</groupId>
+                        <artifactId>doxia-module-markdown</artifactId>
+                        <version>${doxia.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>com.github.davidmoten</groupId>
                 <artifactId>plantuml-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-allure-to-staging</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/staging/backend/allure-report"/>
+                                <copy todir="${project.build.directory}/staging/backend/allure-report">
+                                    <fileset dir="${project.basedir}/backend/target/site/allure-report" erroronmissingdir="false"/>
+                                </copy>
+                                <mkdir dir="${project.build.directory}/staging/helm/allure-report"/>
+                                <copy todir="${project.build.directory}/staging/helm/allure-report">
+                                    <fileset dir="${project.basedir}/helm/target/site/allure-report" erroronmissingdir="false"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -254,9 +287,9 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>index</report>
                             <report>summary</report>
                             <report>modules</report>
+                            <report>dependency-info</report>
                         </reports>
                     </reportSet>
                 </reportSets>

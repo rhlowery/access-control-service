@@ -7,39 +7,61 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 import org.jboss.logging.Logger;
 
+/**
+ * JPA-based implementation of the {@link AuditService}.
+ * Handles persistent storage of audit entries and real-time broadcasting
+ * of events using Mutiny {@link io.smallrye.mutiny.Multi}.
+ */
 @ApplicationScoped
 public class DatabaseAuditService implements AuditService {
-    private static final Logger LOG = Logger.getLogger(DatabaseAuditService.class);
-    private final com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-    private final io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor<AuditEntry> processor = io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor.create();
+  private static final Logger LOG = Logger.getLogger(DatabaseAuditService.class);
+  private final com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+  private final io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor<AuditEntry> processor = io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor.create();
 
-    @Override
-    @jakarta.transaction.Transactional
-    public void log(AuditEntry entry) {
-        LOG.debug("Logging audit entry: " + entry.type() + " by " + entry.actor());
-        String detailsStr = "";
-        try {
-            detailsStr = mapper.writeValueAsString(entry.details());
-        } catch (Exception e) {}
-        
-        AuditEntryEntity entity = new AuditEntryEntity(
-            entry.id(), entry.type(), entry.actor(), entry.userId(), 
-            entry.timestamp(), entry.serverTimestamp(), detailsStr, 
-            entry.signature(), entry.signer()
-        );
-        entity.persist();
-        processor.onNext(entry); // Broadcast to active streams
-    }
+  /**
+   * Persists a new audit entry and broadcasts it to any active subscribers.
+   *
+   * @param entry The audit entry to record
+   */
+  @Override
+  @jakarta.transaction.Transactional
+  public void log(AuditEntry entry) {
+    LOG.debug("Logging audit entry: " + entry.type() + " by " + entry.actor());
+    String detailsStr = "";
+    try {
+      detailsStr = mapper.writeValueAsString(entry.details());
+    } catch (Exception e) {}
 
-    @Override
-    public List<AuditEntry> getLogs() {
-        return AuditEntryEntity.<AuditEntryEntity>listAll().stream().map(this::mapToDomain).collect(java.util.stream.Collectors.toList());
-    }
+    AuditEntryEntity entity = new AuditEntryEntity(
+      entry.id(), entry.type(), entry.actor(), entry.userId(), 
+      entry.timestamp(), entry.serverTimestamp(), detailsStr, 
+      entry.signature(), entry.signer()
+    );
+    entity.persist();
+    processor.onNext(entry); // Broadcast to active streams
+  }
 
-    @Override
-    public io.smallrye.mutiny.Multi<AuditEntry> streamLogs() {
-        return processor;
-    }
+  /**
+   * Retrieves all historical audit logs from the database.
+   *
+   * @return A list of domain {@link AuditEntry} objects
+   */
+  @Override
+  public List<AuditEntry> getLogs() {
+    return AuditEntryEntity.<AuditEntryEntity>listAll().stream()
+      .map(this::mapToDomain)
+      .collect(java.util.stream.Collectors.toList());
+  }
+
+  /**
+   * Provides a live stream of audit events as they are recorded.
+   *
+   * @return A Multi stream of {@link AuditEntry} objects
+   */
+  @Override
+  public io.smallrye.mutiny.Multi<AuditEntry> streamLogs() {
+    return processor;
+  }
 
     private AuditEntry mapToDomain(AuditEntryEntity entity) {
         java.util.Map<String, Object> details = java.util.Map.of();

@@ -144,7 +144,6 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>index</report>
                             <report>summary</report>
                             <report>dependency-info</report>
                             <report>plugins</report>

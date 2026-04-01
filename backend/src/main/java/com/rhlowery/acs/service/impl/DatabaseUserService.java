@@ -12,117 +12,195 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 
+/**
+ * JPA-based implementation of the {@link UserService}.
+ * Uses Panache entities for database interaction and persona management.
+ */
 @ApplicationScoped
 @Transactional
 public class DatabaseUserService implements UserService {
-    private static final Logger LOG = Logger.getLogger(DatabaseUserService.class);
+  private static final Logger LOG = Logger.getLogger(DatabaseUserService.class);
 
-    @Override
-    public List<User> listUsers() {
-        return UserEntity.<UserEntity>listAll().stream()
-            .map(this::mapToDomain)
-            .collect(Collectors.toList());
-    }
+  /**
+   * Retrieves all users currently stored in the system.
+   *
+   * @return A list of domain {@link User} objects mapped from persistent entities
+   */
+  @Override
+  public List<User> listUsers() {
+    return UserEntity.<UserEntity>listAll().stream()
+      .map(this::mapToDomain)
+      .collect(Collectors.toList());
+  }
 
-    @Override
-    public List<Group> listGroups() {
-        return GroupEntity.<GroupEntity>listAll().stream()
-            .map(this::mapToDomain)
-            .collect(Collectors.toList());
-    }
+  /**
+   * Retrieves all user groups currently defined in the system.
+   *
+   * @return A list of domain {@link Group} objects
+   */
+  @Override
+  public List<Group> listGroups() {
+    return GroupEntity.<GroupEntity>listAll().stream()
+      .map(this::mapToDomain)
+      .collect(Collectors.toList());
+  }
 
-    @Override
-    public Optional<User> getUser(String userId) {
-        return UserEntity.<UserEntity>findByIdOptional(userId).map(this::mapToDomain);
-    }
+  /**
+   * Finds a specific user by their unique identifier.
+   *
+   * @param userId The unique ID (e.g. email or username) of the user
+   * @return An {@link Optional} containing the user if found, or empty otherwise
+   */
+  @Override
+  public Optional<User> getUser(String userId) {
+    return UserEntity.<UserEntity>findByIdOptional(userId).map(this::mapToDomain);
+  }
 
-    @Override
-    public Optional<Group> getGroup(String groupId) {
-        return GroupEntity.<GroupEntity>findByIdOptional(groupId).map(this::mapToDomain);
-    }
+  /**
+   * Finds a specific group by its unique identifier.
+   *
+   * @param groupId The unique ID of the group
+   * @return An {@link Optional} containing the group if found, or empty otherwise
+   */
+  @Override
+  public Optional<Group> getGroup(String groupId) {
+    return GroupEntity.<GroupEntity>findByIdOptional(groupId).map(this::mapToDomain);
+  }
 
-    @Override
-    public User updateUserGroups(String userId, List<String> groupsToUpdate) {
-        LOG.info("Updating groups for user: " + userId);
-        UserEntity entity = UserEntity.findById(userId);
-        if (entity == null) {
-            throw new IllegalArgumentException("User not found: " + userId);
-        }
-        entity.groups = groupsToUpdate;
-        return mapToDomain(entity);
+  /**
+   * Updates the list of groups associated with a specific user.
+   *
+   * @param userId The ID of the user to update
+   * @param groupsToUpdate The new list of group IDs
+   * @return The updated domain {@link User} object
+   * @throws IllegalArgumentException if the user is not found
+   */
+  @Override
+  public User updateUserGroups(String userId, List<String> groupsToUpdate) {
+    LOG.info("Updating groups for user: " + userId);
+    UserEntity entity = UserEntity.findById(userId);
+    if (entity == null) {
+      throw new IllegalArgumentException("User not found: " + userId);
     }
+    entity.groups = groupsToUpdate;
+    return mapToDomain(entity);
+  }
 
-    @Override
-    public User updateUserPersona(String userId, String persona) {
-        LOG.infof("Updating user %s persona to %s", userId, persona);
-        UserEntity entity = UserEntity.findById(userId);
-        if (entity == null) {
-            throw new IllegalArgumentException("User not found: " + userId);
-        }
-        entity.persona = persona;
-        return mapToDomain(entity);
+  /**
+   * Updates the system persona assigned to a specific user.
+   *
+   * @param userId The ID of the user to update
+   * @param persona The new persona ID to assign
+   * @return The updated domain {@link User} object
+   * @throws IllegalArgumentException if the user is not found
+   */
+  @Override
+  public User updateUserPersona(String userId, String persona) {
+    LOG.infof("Updating user %s persona to %s", userId, persona);
+    UserEntity entity = UserEntity.findById(userId);
+    if (entity == null) {
+      throw new IllegalArgumentException("User not found: " + userId);
     }
+    entity.persona = persona;
+    return mapToDomain(entity);
+  }
 
-    @Override
-    @Transactional
-    public Group updateGroupPersona(String groupId, String persona) {
-        LOG.infof("Updating group %s persona to %s", groupId, persona);
-        GroupEntity entity = GroupEntity.findById(groupId);
-        if (entity == null) {
-            throw new IllegalArgumentException("Group not found: " + groupId);
-        }
-        entity.persona = persona;
-        GroupEntity.getEntityManager().flush();
-        return mapToDomain(entity);
+  /**
+   * Updates the system persona assigned to a specific group.
+   *
+   * @param groupId The ID of the group to update
+   * @param persona The new persona ID to assign
+   * @return The updated domain {@link Group} object
+   * @throws IllegalArgumentException if the group is not found
+   */
+  @Override
+  @Transactional
+  public Group updateGroupPersona(String groupId, String persona) {
+    LOG.infof("Updating group %s persona to %s", groupId, persona);
+    GroupEntity entity = GroupEntity.findById(groupId);
+    if (entity == null) {
+      throw new IllegalArgumentException("Group not found: " + groupId);
     }
+    entity.persona = persona;
+    GroupEntity.getEntityManager().flush();
+    return mapToDomain(entity);
+  }
 
-    @Override
-    public User saveUser(User user) {
-        LOG.info("Saving user: " + user.id());
-        UserEntity entity = UserEntity.findById(user.id());
-        if (entity == null) {
-            entity = new UserEntity(user.id(), user.name(), user.email(), user.role(), user.groups(), user.persona());
-            entity.persist();
-        } else {
-            entity.name = user.name();
-            entity.email = user.email();
-            entity.role = user.role();
-            entity.groups = user.groups();
-            entity.persona = user.persona();
-        }
-        return mapToDomain(entity);
+  /**
+   * Saves or updates a user in the system.
+   *
+   * @param user The user domain object to persist
+   * @return The persisted domain {@link User} object
+   */
+  @Override
+  public User saveUser(User user) {
+    LOG.info("Saving user: " + user.id());
+    UserEntity entity = UserEntity.findById(user.id());
+    if (entity == null) {
+      entity = new UserEntity(user.id(), user.name(), user.email(), user.role(), user.groups(), user.persona());
+      entity.persist();
+    } else {
+      entity.name = user.name();
+      entity.email = user.email();
+      entity.role = user.role();
+      entity.groups = user.groups();
+      entity.persona = user.persona();
     }
+    return mapToDomain(entity);
+  }
 
-    @Override
-    public Group saveGroup(Group group) {
-        LOG.info("Saving group: " + group.id());
-        GroupEntity entity = GroupEntity.findById(group.id());
-        if (entity == null) {
-            entity = new GroupEntity(group.id(), group.name(), group.description(), group.persona());
-            entity.persist();
-        } else {
-            entity.name = group.name();
-            entity.description = group.description();
-            entity.persona = group.persona();
-        }
-        return mapToDomain(entity);
+  /**
+   * Saves or updates a group in the system.
+   *
+   * @param group The group domain object to persist
+   * @return The persisted domain {@link Group} object
+   */
+  @Override
+  public Group saveGroup(Group group) {
+    LOG.info("Saving group: " + group.id());
+    GroupEntity entity = GroupEntity.findById(group.id());
+    if (entity == null) {
+      entity = new GroupEntity(group.id(), group.name(), group.description(), group.persona());
+      entity.persist();
+    } else {
+      entity.name = group.name();
+      entity.description = group.description();
+      entity.persona = group.persona();
     }
+    return mapToDomain(entity);
+  }
 
-    @Override
-    @Transactional
-    public void clear() {
-        UserEntity.deleteAll();
-        GroupEntity.deleteAll();
-        UserEntity.getEntityManager().flush();
-    }
+  /**
+   * Clears all users and groups from the database.
+   * Primarily used for testing purposes.
+   */
+  @Override
+  @Transactional
+  public void clear() {
+    UserEntity.deleteAll();
+    GroupEntity.deleteAll();
+    UserEntity.getEntityManager().flush();
+  }
 
-    private User mapToDomain(UserEntity entity) {
-        return new User(entity.id, entity.name, entity.email, entity.role, 
-            entity.groups != null ? new java.util.ArrayList<>(entity.groups) : java.util.List.of(), 
-            entity.persona);
-    }
+  /**
+   * Maps a JPA UserEntity to the Domain User record.
+   *
+   * @param entity The source database entity
+   * @return The domain representation
+   */
+  private User mapToDomain(UserEntity entity) {
+    return new User(entity.id, entity.name, entity.email, entity.role,
+      entity.groups != null ? new java.util.ArrayList<>(entity.groups) : java.util.List.of(),
+      entity.persona);
+  }
 
-    private Group mapToDomain(GroupEntity entity) {
-        return new Group(entity.id, entity.name, entity.description, entity.persona);
-    }
+  /**
+   * Maps a JPA GroupEntity to the Domain Group record.
+   *
+   * @param entity The source database entity
+   * @return The domain representation
+   */
+  private Group mapToDomain(GroupEntity entity) {
+    return new Group(entity.id, entity.name, entity.description, entity.persona);
+  }
 }
