@@ -190,10 +190,10 @@
                     <artifactId>maven-scm-publish-plugin</artifactId>
                     <version>${maven-scm-publish-plugin.version}</version>
                     <configuration>
-                        <scmBranch>gh-pages</scmBranch>
+                        <scmBranch>${github.branch}</scmBranch>
                         <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
                         <checkinComment>Deploying site to GitHub Pages for version ${project.version}</checkinComment>
-                        <content>${project.build.directory}/site</content>
+                        <content>${project.build.directory}/staging</content>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -328,6 +328,40 @@
                 <!-- Use the user-specific socket location commonly used by Docker Desktop on macOS -->
                 <docker.host>unix://${user.home}/.docker/run/docker.sock</docker.host>
             </properties>
+        </profile>
+        <profile>
+            <id>site-deploy</id>
+            <build>
+                <defaultGoal>site</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>stage-site</id>
+                                <phase>site</phase>
+                                <goals>
+                                    <goal>stage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-scm-publish-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>publish-site</id>
+                                <phase>post-site</phase>
+                                <goals>
+                                    <goal>publish-scm</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

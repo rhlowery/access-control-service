@@ -31,15 +31,15 @@ jobs:
     - name: Build and Test with Maven
       run: ./mvnw clean package
 
-    - name: Generate Maven Site
-      run: ./mvnw site allure:report
+    - name: Generate Multi-Module Maven Site
+      run: ./mvnw clean site site:stage -DskipTests -Dmaven.javadoc.failOnError=false
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/site
+        publish_dir: ./target/staging
         force_orphan: true
 
     - name: Build and Push Container Images (Only on Main)
