@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/DECORATION/1.8.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
-         name="ACS Backend">
+         name="ACS Frontend">
     <skin>
         <groupId>org.apache.maven.skins</groupId>
         <artifactId>maven-fluido-skin</artifactId>
@@ -10,7 +10,7 @@
     <body>
         <breadcrumbs>
             <item name="Access Control Service" href="../index.html"/>
-            <item name="Backend" href="index.html"/>
+            <item name="Frontend" href="index.html"/>
         </breadcrumbs>
         <head><![CDATA[
             <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -34,18 +34,6 @@
         ]]></head>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="Architecture" href="architecture.html"/>
-        </menu>
-        <menu name="API Documentation">
-            <item name="Javadoc" href="apidocs/index.html"/>
-            <item name="Test Javadoc" href="testapidocs/index.html"/>
-            <item name="Source Xref" href="xref/index.html"/>
-        </menu>
-        <menu name="Quality &amp; Compliance">
-            <item name="Allure Test Report" href="allure-report/index.html"/>
-            <item name="Jacoco Coverage" href="jacoco/index.html"/>
-            <item name="PMD Analysis" href="pmd.html"/>
-            <item name="SpotBugs" href="spotbugs.html"/>
         </menu>
         <menu ref="reports"/>
     </body>

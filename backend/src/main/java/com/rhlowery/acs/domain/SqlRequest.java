@@ -10,7 +10,7 @@ import java.util.Map;
 @RegisterForReflection
 @Schema(name = "SqlRequest", description = "A request to execute a SQL statement on a target warehouse")
 public record SqlRequest(
-    @Schema(description = "The SQL statement to execute", example = "SELECT * FROM sales LIMIT 10", required = true)
+    @Schema(description = "The SQL statement to execute", examples = {"SELECT * FROM sales LIMIT 10"}, required = true)
     String statement,
     @Schema(description = "Optional parameters for the SQL statement")
     Map<String, Object> parameters

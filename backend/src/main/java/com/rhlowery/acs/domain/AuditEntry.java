@@ -8,13 +8,13 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
  */
 @Schema(name = "AuditEntry", description = "A single documented action or event with security/compliance significance")
 public record AuditEntry(
-    @Schema(description = "Unique ID of the audit entry", example = "ev-88219")
+    @Schema(description = "Unique ID of the audit entry", examples = {"ev-88219"})
     String id,
-    @Schema(description = "The category of the event", example = "ACCESS_DENIED")
+    @Schema(description = "The category of the event", examples = {"ACCESS_DENIED"})
     String type,
-    @Schema(description = "The client application or system that reported the event", example = "acs-ui")
+    @Schema(description = "The client application or system that reported the event", examples = {"acs-ui"})
     String actor,
-    @Schema(description = "The identity of the user involved in the event", example = "john_doe")
+    @Schema(description = "The identity of the user involved in the event", examples = {"john_doe"})
     String userId,
     @Schema(description = "When the event occurred on the client side")
     Long timestamp,
