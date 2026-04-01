@@ -56,7 +56,8 @@
         <node.version>v20.19.0</node.version>
         <github.repository>rhlowery/access-control-service</github.repository>
         <github.branch>gh-pages</github.branch>
-        <docker.host>unix://${user.home}/.docker/run/docker.sock</docker.host>
+        <!-- Standard Unix socket location used by GitHub Actions / Linux -->
+        <docker.host>unix:///var/run/docker.sock</docker.host>
     </properties>
     
     <scm>
@@ -325,7 +326,17 @@
             <id>container</id>
             <properties>
                 <quarkus.container-image.build>true</quarkus.container-image.build>
-                <!-- Use the user-specific socket location commonly used by Docker Desktop on macOS -->
+            </properties>
+        </profile>
+        <profile>
+            <id>mac-docker</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <!-- Docker Desktop on macOS socket location -->
                 <docker.host>unix://${user.home}/.docker/run/docker.sock</docker.host>
             </properties>
         </profile>
