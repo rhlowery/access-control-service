@@ -50,7 +50,7 @@ public class DefaultCatalogService implements CatalogService {
     @Override
     public List<String> listProviders() {
         return providers.stream()
-            .map(p -> String.format("%s (%s) - %s", p.getProviderName(), p.getCatalogId(), p.getClass().getSimpleName()))
+            .map(p -> String.format("%s (%s) - %s", p.getProviderName(), p.getCatalogId(), p.getClass().getName()))
             .collect(Collectors.toList());
     }
 

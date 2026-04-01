@@ -54,7 +54,7 @@ public class CatalogRegistrationResource {
     @GET
     @Operation(summary = "List registered catalogs", description = "Returns a list of all currently registered catalog connections")
     public Response listRegistrations() {
-        return Response.ok(catalogService.getProviderRegistrations()).build();
+        return Response.ok(new java.util.ArrayList<>(registrations.values())).build();
     }
 
     @GET
