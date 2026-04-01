@@ -190,10 +190,10 @@
                     <artifactId>maven-scm-publish-plugin</artifactId>
                     <version>${maven-scm-publish-plugin.version}</version>
                     <configuration>
-                        <scmBranch>gh-pages</scmBranch>
+                        <scmBranch>${github.branch}</scmBranch>
                         <pubScmUrl>${project.scm.developerConnection}</pubScmUrl>
                         <checkinComment>Deploying site to GitHub Pages for version ${project.version}</checkinComment>
-                        <content>${project.build.directory}/site</content>
+                        <content>${project.build.directory}/staging</content>
                     </configuration>
                 </plugin>
                 <plugin>
