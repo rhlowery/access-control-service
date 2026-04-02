@@ -1,0 +1,14 @@
+# CODEOWNERS file for access-control-service
+# Automates reviewer assignment based on project area
+
+# Default owner for all files
+* @rhlowery
+
+# Subsystem specific owners (for demonstration and future scalability)
+/backend/ @rhlowery
+/frontend/ @rhlowery
+/helm/ @rhlowery
+
+# Governance and Infrastructure
+/.github/ @rhlowery
+/pom.xml @rhlowery
