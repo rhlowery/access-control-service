@@ -6,7 +6,7 @@
 
     <groupId>com.rhlowery</groupId>
     <artifactId>access-control-service</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>access-control-service</name>

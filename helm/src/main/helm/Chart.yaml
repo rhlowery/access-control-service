@@ -2,7 +2,7 @@ apiVersion: v2
 name: access-control-service
 description: A Helm library chart for Access Control Service
 type: application
-version: 1.0.0-SNAPSHOT
+version: 1.0.0
 appVersion: "1.0.0"
 
 dependencies:
@@ -32,12 +32,12 @@ dependencies:
     repository: https://charts.jetstack.io
     condition: cert-manager.enabled
   - name: acs-backend
-    version: 1.0.0-SNAPSHOT
+    version: 1.0.0
     repository: "file://../../../../backend/src/main/helm/acs-backend"
     condition: acs-backend.enabled
   - name: frontend
     alias: acs-ui
-    version: 1.0.0-SNAPSHOT
+    version: 1.0.0
     repository: "file://../../../../frontend/helm/frontend"
     condition: acs-ui.enabled
   - name: minio
