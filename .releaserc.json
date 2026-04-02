@@ -7,7 +7,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "./mvnw versions:set -DnewVersion=${nextRelease.version} && ./mvnw versions:commit && find . -name \"Chart.yaml\" -exec sed -i \"s/^version: .*/version: ${nextRelease.version}/\" {} + && find . -name \"Chart.yaml\" -exec sed -i \"s/^appVersion: .*/appVersion: \\\"${nextRelease.version}\\\"/\" {} + && sed -i \"/- name: acs-backend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml && sed -i \"/- name: frontend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml"
+        "prepareCmd": "./mvnw versions:set -DnewVersion=${nextRelease.version} && ./mvnw versions:commit && find . -name \"Chart.yaml\" -exec sed -i \"s/^version: .*/version: ${nextRelease.version}/\" {} + && find . -name \"Chart.yaml\" -exec sed -i \"s/^appVersion: .*/appVersion: \\\"${nextRelease.version}\\\"/\" {} + && sed -i \"/- name: acs-backend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml && sed -i \"/- name: frontend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml && ./mvnw -pl helm helm:dependency-build"
       }
     ],
     [
@@ -21,6 +21,7 @@
           "backend/src/main/helm/acs-backend/Chart.yaml",
           "frontend/helm/frontend/Chart.yaml",
           "helm/src/main/helm/Chart.yaml",
+          "helm/src/main/helm/Chart.lock",
           "CHANGELOG.md"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
