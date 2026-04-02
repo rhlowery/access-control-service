@@ -1,0 +1,31 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "./mvnw versions:set -DnewVersion=${nextRelease.version} && ./mvnw versions:commit && find . -name \"Chart.yaml\" -exec sed -i \"s/^version: .*/version: ${nextRelease.version}/\" {} + && find . -name \"Chart.yaml\" -exec sed -i \"s/^appVersion: .*/appVersion: \\\"${nextRelease.version}\\\"/\" {} + && sed -i \"/- name: acs-backend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml && sed -i \"/- name: frontend/,/version:/ s/version: .*/version: ${nextRelease.version}/\" helm/src/main/helm/Chart.yaml"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "pom.xml",
+          "backend/pom.xml",
+          "frontend/pom.xml",
+          "helm/pom.xml",
+          "backend/src/main/helm/acs-backend/Chart.yaml",
+          "frontend/helm/frontend/Chart.yaml",
+          "helm/src/main/helm/Chart.yaml",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
