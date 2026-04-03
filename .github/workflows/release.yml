@@ -40,7 +40,7 @@ jobs:
 
       - name: Cofnigure PATH for Helm
         run: |
-          echo "$(helm env HELM_BIN}" >> $GITHUB_PATH
+          echo "$(helm env HELM_BIN)" >> $GITHUB_PATH
 
       - name: Release
         env:
