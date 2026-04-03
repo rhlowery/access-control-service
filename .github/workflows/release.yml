@@ -25,6 +25,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+ 
+      - name: Setup Git
+        run: |
+          apt-get update
+          apt-get install -y git
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -44,8 +49,7 @@ jobs:
           PATH: ${{ env.PATH }}:/usr/local/bin
         run: |
           echo $PATH
-          which git || echo "Git not found in PATH"
-          which helm || echo "Helm not found in PATH"
+          git version
           helm version
           npm install -g \
            semantic-release \
