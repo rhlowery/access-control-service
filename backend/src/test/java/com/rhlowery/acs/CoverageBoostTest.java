@@ -17,6 +17,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -153,7 +154,7 @@ public class CoverageBoostTest {
         assertEquals(404, registrationResource.getRegistration("ghost").getStatus());
         
         com.rhlowery.acs.dto.CatalogRegistration update = new com.rhlowery.acs.dto.CatalogRegistration();
-        update.settings = new java.util.HashMap<>(Map.of("key", "val"));
+        update.settings = new HashMap<>(Map.of("key", "val"));
         update.name = "val";
         registrationResource.updateRegistration(id, update);
         

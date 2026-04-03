@@ -7,6 +7,7 @@ import com.rhlowery.acs.infrastructure.entity.GroupEntity;
 import com.rhlowery.acs.service.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -190,7 +191,7 @@ public class DatabaseUserService implements UserService {
    */
   private User mapToDomain(UserEntity entity) {
     return new User(entity.id, entity.name, entity.email, entity.role,
-      entity.groups != null ? new java.util.ArrayList<>(entity.groups) : java.util.List.of(),
+      entity.groups != null ? new ArrayList<>(entity.groups) : List.of(),
       entity.persona);
   }
 

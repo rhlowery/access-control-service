@@ -1,12 +1,16 @@
 package com.rhlowery.acs.service.impl;
 
+import com.rhlowery.acs.dto.CatalogRegistration;
 import com.rhlowery.acs.service.CatalogProvider;
 import com.rhlowery.acs.service.CatalogService;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
-
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Default implementation of the {@link CatalogService}.
@@ -21,8 +25,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class DefaultCatalogService implements CatalogService {
   private static final Logger LOG = Logger.getLogger(DefaultCatalogService.class);
 
-  @jakarta.inject.Inject
-  jakarta.enterprise.inject.Instance<CatalogProvider> providersInstance;
+  @Inject
+  Instance<CatalogProvider> providersInstance;
 
   private final List<CatalogProvider> providers = new java.util.concurrent.CopyOnWriteArrayList<>();
 
@@ -30,7 +34,7 @@ public class DefaultCatalogService implements CatalogService {
    * Automatically initializes the service by collecting all CDI-managed 
    * {@link CatalogProvider} instances.
    */
-  @jakarta.annotation.PostConstruct
+  @PostConstruct
   void init() {
     providersInstance.stream().forEach(providers::add);
   }
@@ -99,17 +103,17 @@ public class DefaultCatalogService implements CatalogService {
   /**
    * Retrieves structured registration metadata for all providers.
    *
-   * @return A list of {@link com.rhlowery.acs.dto.CatalogRegistration} DTOs
+   * @return A list of {@link CatalogRegistration} DTOs
    */
   @Override
-  public List<com.rhlowery.acs.dto.CatalogRegistration> getProviderRegistrations() {
+  public List<CatalogRegistration> getProviderRegistrations() {
     return providers.stream()
       .map(p -> {
-        com.rhlowery.acs.dto.CatalogRegistration reg = new com.rhlowery.acs.dto.CatalogRegistration();
+        CatalogRegistration reg = new CatalogRegistration();
         reg.id = p.getCatalogId();
         reg.name = p.getProviderName();
         reg.type = p.getCapabilities().getOrDefault("type", "unknown");
-        reg.settings = new java.util.HashMap<>(p.getCapabilities());
+        reg.settings = new HashMap<>(p.getCapabilities());
         return reg;
       })
       .collect(Collectors.toList());
@@ -195,8 +199,8 @@ public class DefaultCatalogService implements CatalogService {
   @Override
   public void clear() {
     for (CatalogProvider provider : providers) {
-      if (provider instanceof com.rhlowery.acs.service.impl.AbstractMockProvider) {
-        ((com.rhlowery.acs.service.impl.AbstractMockProvider) provider).clear();
+      if (provider instanceof AbstractMockProvider) {
+        ((AbstractMockProvider) provider).clear();
       }
     }
   }

@@ -3,8 +3,14 @@ package com.rhlowery.acs.service.impl;
 import com.rhlowery.acs.domain.AuditEntry;
 import com.rhlowery.acs.infrastructure.entity.AuditEntryEntity;
 import com.rhlowery.acs.service.AuditService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.jboss.logging.Logger;
 
 /**
@@ -15,8 +21,8 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class DatabaseAuditService implements AuditService {
   private static final Logger LOG = Logger.getLogger(DatabaseAuditService.class);
-  private final com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-  private final io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor<AuditEntry> processor = io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor.create();
+  private final ObjectMapper mapper = new ObjectMapper();
+  private final BroadcastProcessor<AuditEntry> processor = BroadcastProcessor.create();
 
   /**
    * Persists a new audit entry and broadcasts it to any active subscribers.
@@ -30,7 +36,9 @@ public class DatabaseAuditService implements AuditService {
     String detailsStr = "";
     try {
       detailsStr = mapper.writeValueAsString(entry.details());
-    } catch (Exception e) {}
+    } catch (Exception e) {
+      LOG.error("Failed to serialize audit details", e);
+    }
 
     AuditEntryEntity entity = new AuditEntryEntity(
       entry.id(), entry.type(), entry.actor(), entry.userId(), 
@@ -50,7 +58,7 @@ public class DatabaseAuditService implements AuditService {
   public List<AuditEntry> getLogs() {
     return AuditEntryEntity.<AuditEntryEntity>listAll().stream()
       .map(this::mapToDomain)
-      .collect(java.util.stream.Collectors.toList());
+      .collect(Collectors.toList());
   }
 
   /**
@@ -59,15 +67,17 @@ public class DatabaseAuditService implements AuditService {
    * @return A Multi stream of {@link AuditEntry} objects
    */
   @Override
-  public io.smallrye.mutiny.Multi<AuditEntry> streamLogs() {
+  public Multi<AuditEntry> streamLogs() {
     return processor;
   }
 
     private AuditEntry mapToDomain(AuditEntryEntity entity) {
-        java.util.Map<String, Object> details = java.util.Map.of();
+        Map<String, Object> details = Map.of();
         try {
-            details = mapper.readValue(entity.details, new com.fasterxml.jackson.core.type.TypeReference<java.util.Map<String, Object>>() {});
-        } catch (Exception e) {}
+            details = mapper.readValue(entity.details, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            LOG.error("Failed to deserialize audit details for entry " + entity.id, e);
+        }
         
         return new AuditEntry(
             entity.id, entity.type, entity.actor, entity.userId, 

@@ -47,9 +47,19 @@ public class HelmStepDefinitions {
         renderedTemplates = new ArrayList<>();
         for (Object doc : docs) {
             if (doc instanceof Map) {
-                renderedTemplates.add((Map<String, Object>) doc);
+                renderedTemplates.add(castToMap(doc));
             }
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> castToMap(Object obj) {
+        return (Map<String, Object>) obj;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> castToList(Object obj) {
+        return (List<Map<String, Object>>) obj;
     }
 
     @Then("the output should contain {string}")
@@ -62,15 +72,15 @@ public class HelmStepDefinitions {
         Map<String, Object> resource = findResource(kind, name);
         assertNotNull(resource, "Resource not found: " + kind + "/" + name);
         
-        Map<String, Object> spec = (Map<String, Object>) resource.get("spec");
-        Map<String, Object> template = (Map<String, Object>) spec.get("template");
-        Map<String, Object> podSpec = (Map<String, Object>) template.get("spec");
-        List<Map<String, Object>> containers = (List<Map<String, Object>>) podSpec.get("containers");
+        Map<String, Object> spec = castToMap(resource.get("spec"));
+        Map<String, Object> template = castToMap(spec.get("template"));
+        Map<String, Object> podSpec = castToMap(template.get("spec"));
+        List<Map<String, Object>> containers = castToList(podSpec.get("containers"));
         
         boolean found = false;
         for (Map<String, Object> container : containers) {
-            Map<String, Object> resources = (Map<String, Object>) container.get("resources");
-            Map<String, Object> requests = (Map<String, Object>) resources.get("requests");
+            Map<String, Object> resources = castToMap(container.get("resources"));
+            Map<String, Object> requests = castToMap(resources.get("requests"));
             if (cpu.equals(requests.get("cpu"))) {
                 found = true;
                 break;
@@ -84,15 +94,15 @@ public class HelmStepDefinitions {
         Map<String, Object> resource = findResource(kind, name);
         assertNotNull(resource);
         
-        Map<String, Object> spec = (Map<String, Object>) resource.get("spec");
-        Map<String, Object> template = (Map<String, Object>) spec.get("template");
-        Map<String, Object> podSpec = (Map<String, Object>) template.get("spec");
-        List<Map<String, Object>> containers = (List<Map<String, Object>>) podSpec.get("containers");
+        Map<String, Object> spec = castToMap(resource.get("spec"));
+        Map<String, Object> template = castToMap(spec.get("template"));
+        Map<String, Object> podSpec = castToMap(template.get("spec"));
+        List<Map<String, Object>> containers = castToList(podSpec.get("containers"));
         
         boolean found = false;
         for (Map<String, Object> container : containers) {
-            Map<String, Object> resources = (Map<String, Object>) container.get("resources");
-            Map<String, Object> requests = (Map<String, Object>) resources.get("requests");
+            Map<String, Object> resources = castToMap(container.get("resources"));
+            Map<String, Object> requests = castToMap(resources.get("requests"));
             if (memory.equals(requests.get("memory"))) {
                 found = true;
                 break;
@@ -106,8 +116,8 @@ public class HelmStepDefinitions {
         Map<String, Object> resource = findResource(kind, name);
         assertNotNull(resource);
         
-        Map<String, Object> spec = (Map<String, Object>) resource.get("spec");
-        List<Map<String, Object>> rules = (List<Map<String, Object>>) spec.get("rules");
+        Map<String, Object> spec = castToMap(resource.get("spec"));
+        List<Map<String, Object>> rules = castToList(spec.get("rules"));
         
         boolean found = false;
         for (Map<String, Object> rule : rules) {
@@ -146,7 +156,7 @@ public class HelmStepDefinitions {
     private Map<String, Object> findResource(String kind, String name) {
         for (Map<String, Object> doc : renderedTemplates) {
             String docKind = (String) doc.get("kind");
-            Map<String, Object> metadata = (Map<String, Object>) doc.get("metadata");
+            Map<String, Object> metadata = castToMap(doc.get("metadata"));
             String docName = (String) metadata.get("name");
             
             if (kind.equalsIgnoreCase(docKind) && name.equals(docName)) {
