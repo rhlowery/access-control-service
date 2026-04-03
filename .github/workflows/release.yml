@@ -43,7 +43,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PATH: ${{ env.PATH }}:/usr/local/bin
         run: |
-          export PATH="/usr/local/bin:$PATH"
+          echo $PATH
+          which git || echo "Git not found in PATH"
+          which helm || echo "Helm not found in PATH"
           helm version
           npm install -g \
            semantic-release \
