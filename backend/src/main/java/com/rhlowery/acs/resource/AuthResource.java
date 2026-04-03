@@ -9,7 +9,14 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -152,7 +159,7 @@ public class AuthResource {
             }
 
             // Group-based role (legacy)
-            String role = (groups != null && groups.contains("admins")) ? "ADMIN" : "STANDARD_USER";
+            String role = groups != null && groups.contains("admins") ? "ADMIN" : "STANDARD_USER";
 
             // If still null, we'll let it be null in the token so Augmentor can resolve it.
             String token = tokenService.generateToken(userId, userName, groups, role, finalPersona);

@@ -254,7 +254,7 @@ public class AccessRequestResource {
         r.tableName(),
         r.resourceType() != null ? r.resourceType() : "TABLE",
         r.privileges(),
-        (isAdmin && r.status() != null) ? r.status() : "PENDING",
+        isAdmin && r.status() != null ? r.status() : "PENDING",
         System.currentTimeMillis(),
         null,
         r.justification(),
@@ -336,7 +336,7 @@ public class AccessRequestResource {
         meta.put("approvals", signs);
 
         boolean isSystemApprover = securityIdentity.hasRole("APPROVER") || securityIdentity.hasRole("GOVERNANCE_ADMIN");
-        boolean fullyApproved = isAdmin || isSystemApprover || (r.approverGroups() == null || r.approverGroups().isEmpty() || signs.size() >= r.approverGroups().size());
+        boolean fullyApproved = isAdmin || isSystemApprover || r.approverGroups() == null || r.approverGroups().isEmpty() || signs.size() >= r.approverGroups().size();
         String newStatus = fullyApproved ? "APPROVED" : "PARTIALLY_APPROVED";
 
         AccessRequest updated = new AccessRequest(

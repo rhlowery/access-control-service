@@ -72,7 +72,7 @@ public class MockIdentityProvider implements IdentityProvider {
                 LOG.infof("Mock IdP: authenticated existing user '%s' with updated groups %s", userId, updatedGroups);
             }
             
-            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            Map<String, Object> result = new java.util.HashMap<>();
             result.put("userId", user.userId());
             result.put("userName", user.name());
             result.put("email", user.email());
@@ -95,7 +95,7 @@ public class MockIdentityProvider implements IdentityProvider {
             MockUser newUser = new MockUser(userId, password, userId, userId + "@mock.local", persona, groups);
             users.put(userId, newUser);
             LOG.infof("Mock IdP: auto-registered new user '%s' with groups %s and persona %s", userId, groups, persona);
-            java.util.Map<String, Object> result = new java.util.HashMap<>();
+            Map<String, Object> result = new java.util.HashMap<>();
             result.put("userId", userId);
             result.put("userName", userId);
             result.put("email", newUser.email());

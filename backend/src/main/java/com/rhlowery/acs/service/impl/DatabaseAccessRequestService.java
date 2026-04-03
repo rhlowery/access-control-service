@@ -5,6 +5,7 @@ import com.rhlowery.acs.infrastructure.entity.AccessRequestEntity;
 import com.rhlowery.acs.service.AccessRequestService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class DatabaseAccessRequestService implements AccessRequestService {
       entities = all.stream()
         .filter(r -> r.requesterId.equals(userId) ||
           r.userId.equals(userId) ||
-          (r.approverGroups != null && groups != null && r.approverGroups.stream().anyMatch(groups::contains)))
+          r.approverGroups != null && groups != null && r.approverGroups.stream().anyMatch(groups::contains))
         .collect(Collectors.toList());
     }
 
@@ -158,13 +159,13 @@ public class DatabaseAccessRequestService implements AccessRequestService {
       entity.schemaName,
       entity.tableName,
       entity.resourceType,
-      entity.privileges != null ? new java.util.ArrayList<>(entity.privileges) : java.util.List.of(),
+      entity.privileges != null ? new ArrayList<>(entity.privileges) : List.of(),
       entity.status,
       entity.createdAt,
       entity.updatedAt,
       entity.justification,
       entity.rejectionReason,
-      entity.approverGroups != null ? new java.util.ArrayList<>(entity.approverGroups) : java.util.List.of(),
+      entity.approverGroups != null ? new ArrayList<>(entity.approverGroups) : List.of(),
       null, // metadata is mapped to individual fields or could be a map if needed
       entity.expirationTime
     );

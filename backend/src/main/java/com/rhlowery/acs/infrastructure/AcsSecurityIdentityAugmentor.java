@@ -92,12 +92,10 @@ public class AcsSecurityIdentityAugmentor implements SecurityIdentityAugmentor {
       }
 
       // 4. Ensure admin personas get corresponding roles, unless explicitly restricted to REQUESTER
-      if (!"REQUESTER".equals(persona)) {
-        if (rolesToApply.contains("admins") || "ADMIN".equals(persona) || "GOVERNANCE_ADMIN".equals(persona) || "SECURITY_ADMIN".equals(persona)) {
-          rolesToApply.add("ADMIN");
-          rolesToApply.add("SECURITY_ADMIN");
-          rolesToApply.add("AUDITOR");
-        }
+      if (!"REQUESTER".equals(persona) && (rolesToApply.contains("admins") || "ADMIN".equals(persona) || "GOVERNANCE_ADMIN".equals(persona) || "SECURITY_ADMIN".equals(persona))) {
+        rolesToApply.add("ADMIN");
+        rolesToApply.add("SECURITY_ADMIN");
+        rolesToApply.add("AUDITOR");
       }
 
       for (String role : rolesToApply) {
