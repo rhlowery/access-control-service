@@ -28,7 +28,7 @@ dependencies:
     repository: https://hevaweb.github.io/heva-helm-charts/
     condition: hive-metastore.enabled
   - name: cert-manager
-    version: 1.14.4
+    version: v1.14.4
     repository: https://charts.jetstack.io
     condition: cert-manager.enabled
   - name: acs-backend
