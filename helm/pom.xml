@@ -49,9 +49,9 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>helm-dependency-build</id>
+                        <id>helm-dependency-update</id>
                         <goals>
-                            <goal>dependency-build</goal>
+                            <goal>dependency-update</goal>
                         </goals>
                     </execution>
                     <execution>

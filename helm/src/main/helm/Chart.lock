@@ -19,10 +19,10 @@ dependencies:
   version: v1.14.4
 - name: acs-backend
   repository: file://../../../../backend/src/main/helm/acs-backend
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 - name: frontend
   repository: file://../../../../frontend/helm/frontend
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 - name: minio
   repository: https://charts.min.io/
   version: 5.4.0
@@ -32,5 +32,5 @@ dependencies:
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.147.1
-digest: sha256:f0ff7dc4af4dec0114cd927177e15d29365bb42e89b917bb660ffaf84a5c7f4d
-generated: "2026-04-03T11:35:21.736352-04:00"
+digest: sha256:5d774c7404900937a264bf6686e0b8451bf5a4f65c6067569d3d94f87aacf4d5
+generated: "2026-04-03T12:16:41.382855-04:00"
