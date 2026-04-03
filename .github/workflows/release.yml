@@ -46,6 +46,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATH: ${{ runner.tool_cache }}/helm/linux-amd64:$PATH
         run: |
           npx \
           -p semantic-release \
