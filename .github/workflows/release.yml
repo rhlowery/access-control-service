@@ -38,9 +38,10 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Cofnigure PATH for Helm
+      - name: Configure PATH for Helm
         run: |
-          echo "$(helm env HELM_BIN)" >> $GITHUB_PATH
+          HELM_BIN_DIR=$(dirname $(which helm))
+          echo "$HELM_BIN_DIR" >> $GITHUB_PATH
 
       - name: Release
         env:
