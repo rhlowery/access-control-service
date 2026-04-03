@@ -43,6 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PATH="/usr/local/bin:$PATH"
+          helm version
           npx \
           -p semantic-release \
           -p @semantic-release/commit-analyzer \
