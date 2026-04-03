@@ -48,6 +48,6 @@ nb-configuration.xml
 
 # Node
 node_modules/
-frontent/node/node_modules
+frontend/node/node_modules
 dist/
 build/
