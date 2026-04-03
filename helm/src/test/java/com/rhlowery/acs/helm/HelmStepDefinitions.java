@@ -119,6 +119,30 @@ public class HelmStepDefinitions {
         assertTrue(found, "Host " + host + " not found for Ingress " + name);
     }
 
+    @When("I verify the chart dependencies")
+    public void verify_chart_dependencies() throws Exception {
+        ProcessBuilder pb = new ProcessBuilder("helm", "dependency", "build", chartPath);
+        pb.redirectErrorStream(true);
+        Process p = pb.start();
+
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+        }
+        int exitCode = p.waitFor();
+        this.output = sb.toString();
+        assertEquals(0, exitCode, "Helm dependency synchronization failed: " + sb.toString());
+    }
+
+    @Then("the dependencies should be successfully synchronized")
+    public void dependencies_synchronized() {
+        assertNotNull(output);
+        assertFalse(output.contains("out of sync"), "Dependencies are reported as out of sync: " + output);
+    }
+
     private Map<String, Object> findResource(String kind, String name) {
         for (Map<String, Object> doc : renderedTemplates) {
             String docKind = (String) doc.get("kind");

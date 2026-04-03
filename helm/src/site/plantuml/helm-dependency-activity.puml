@@ -1,0 +1,19 @@
+@startuml
+start
+:Run Maven Build (helm module);
+if (Goal is dependency-build?) then (yes)
+  :Check Chart.lock existence;
+  if (Chart.lock matches Chart.yaml?) then (yes)
+    :Build dependencies from lock;
+  else (no)
+    :Fail Build (out of sync);
+    stop
+  endif
+else if (Goal is dependency-update?) then (yes)
+  :Fetch latest versions from repos;
+  :Update Chart.lock;
+  :Download charts to charts/ directory;
+endif
+:Package Helm Chart;
+stop
+@enduml
