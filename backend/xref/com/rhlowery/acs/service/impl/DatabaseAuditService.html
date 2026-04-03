@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>DatabaseAuditService xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/com/rhlowery/acs/service/impl/DatabaseAuditService.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.rhlowery.acs.service.impl;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> com.rhlowery.acs.domain.AuditEntry;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> com.rhlowery.acs.infrastructure.entity.AuditEntryEntity;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> com.rhlowery.acs.service.AuditService;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.core.type.TypeReference;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> com.fasterxml.jackson.databind.ObjectMapper;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> io.smallrye.mutiny.Multi;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> jakarta.enterprise.context.ApplicationScoped;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.util.stream.Collectors;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.jboss.logging.Logger;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <em class="jxr_javadoccomment"> * JPA-based implementation of the {@link AuditService}.</em>
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <em class="jxr_javadoccomment"> * Handles persistent storage of audit entries and real-time broadcasting</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment"> * of events using Mutiny {@link io.smallrye.mutiny.Multi}.</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  @ApplicationScoped
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="DatabaseAuditService" href="../../../../../com/rhlowery/acs/service/impl/DatabaseAuditService.html#DatabaseAuditService">DatabaseAuditService</a> <strong class="jxr_keyword">implements</strong> <a name="AuditService" href="../../../../../com/rhlowery/acs/service/AuditService.html#AuditService">AuditService</a> {
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = Logger.getLogger(DatabaseAuditService.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> ObjectMapper mapper = <strong class="jxr_keyword">new</strong> ObjectMapper();
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> BroadcastProcessor&lt;AuditEntry&gt; processor = BroadcastProcessor.create();
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">   * Persists a new audit entry and broadcasts it to any active subscribers.</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment">   * @param entry The audit entry to record</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>    @Override
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>    @jakarta.transaction.Transactional
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> log(AuditEntry entry) {
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      LOG.debug(<span class="jxr_string">"Logging audit entry: "</span> + entry.type() + <span class="jxr_string">" by "</span> + entry.actor());
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>      String detailsStr = <span class="jxr_string">""</span>;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>        detailsStr = mapper.writeValueAsString(entry.details());
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>      } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>        LOG.error(<span class="jxr_string">"Failed to serialize audit details"</span>, e);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>      <a name="AuditEntryEntity" href="../../../../../com/rhlowery/acs/infrastructure/entity/AuditEntryEntity.html#AuditEntryEntity">AuditEntryEntity</a> entity = <strong class="jxr_keyword">new</strong> <a name="AuditEntryEntity" href="../../../../../com/rhlowery/acs/infrastructure/entity/AuditEntryEntity.html#AuditEntryEntity">AuditEntryEntity</a>(
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>        entry.id(), entry.type(), entry.actor(), entry.userId(), 
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>        entry.timestamp(), entry.serverTimestamp(), detailsStr, 
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>        entry.signature(), entry.signer()
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>      );
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>      entity.persist();
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>      processor.onNext(entry); <em class="jxr_comment">// Broadcast to active streams</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>    }
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">   * Retrieves all historical audit logs from the database.</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">   * @return A list of domain {@link AuditEntry} objects</em>
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>    @Override
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>    <strong class="jxr_keyword">public</strong> List&lt;AuditEntry&gt; getLogs() {
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <strong class="jxr_keyword">return</strong> AuditEntryEntity.&lt;AuditEntryEntity&gt;listAll().stream()
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>        .map(<strong class="jxr_keyword">this</strong>::mapToDomain)
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>        .collect(Collectors.toList());
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>    }
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">   * Provides a live stream of audit events as they are recorded.</em>
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_javadoccomment">   * @return A Multi stream of {@link AuditEntry} objects</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>    @Override
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>    <strong class="jxr_keyword">public</strong> Multi&lt;AuditEntry&gt; streamLogs() {
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>      <strong class="jxr_keyword">return</strong> processor;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>    }
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>      <strong class="jxr_keyword">private</strong> AuditEntry mapToDomain(<a name="AuditEntryEntity" href="../../../../../com/rhlowery/acs/infrastructure/entity/AuditEntryEntity.html#AuditEntryEntity">AuditEntryEntity</a> entity) {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          Map&lt;String, Object&gt; details = Map.of();
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>          <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>              details = mapper.readValue(entity.details, <strong class="jxr_keyword">new</strong> TypeReference&lt;Map&lt;String, Object&gt;&gt;() {});
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>          } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>              LOG.error(<span class="jxr_string">"Failed to deserialize audit details for entry "</span> + entity.id, e);
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>          }
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>          
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> AuditEntry(
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>              entity.id, entity.type, entity.actor, entity.userId, 
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>              entity.timestamp, entity.serverTimestamp, details, 
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>              entity.signature, entity.signer
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>          );
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      }
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2026. All rights reserved.</div>
+</body>
+</html>
