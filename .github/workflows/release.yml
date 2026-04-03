@@ -51,6 +51,8 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATH: /usr/local/bin:${{ env.PATH }}
+          HELM_EXXPERIMENTAL_ENABLE_NEW_PACKAGE_FORMAT: false
         run: |
           echo $PATH
           git version
