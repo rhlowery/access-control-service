@@ -41,6 +41,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATH: ${{ env.PATH }}:/usr/local/bin
         run: |
           export PATH="$(which helm):/usr/local/bin:$PATH"
           helm version
