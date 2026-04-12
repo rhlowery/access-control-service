@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   release:
-    name: Release
+    name: Build, Version, and Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,25 +43,55 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      - name: Install Helm
-        uses: azure/setup-helm@v4
+      - name: Calculate Next Version
+        id: versioning
+        uses: mathieudutour/github-tag-action@v6.2
         with:
-          version: 'latest'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+          default_bump: patch
 
-      - name: Release
+      - name: Update Version Configurations
+        env:
+          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
+        run: |
+          # 1. Update Maven pom.xml files
+          mvn versions:set -DnewVersion=${NEW_VERSION} -DgenerateBackupPoms=false
+          
+          # 2. Update Helm Chart version
+          sed -i "s/^version:.*/version: ${NEW_VERSION}/" helm/src/main/helm/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${NEW_VERSION}\"/" helm/src/main/helm/Chart.yaml
+          
+          # 3. Generate Changelog
+          npx -y conventional-changelog-cli -p angular -i CHANGELOG.md -s
+
+      - name: Branch, Commit and Tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HELM_EXXPERIMENTAL_ENABLE_NEW_PACKAGE_FORMAT: false
+          NEW_VERSION: ${{ steps.versioning.outputs.new_version }}
+          NEW_TAG: ${{ steps.versioning.outputs.new_tag }}
         run: |
-          echo $PATH
-          git version
-          helm version
-          npm install -g \
-           semantic-release \
-           @semantic-release/commit-analyzer \
-           @semantic-release/release-notes-generator \
-           @semantic-release/changelog \
-           @semantic-release/exec \
-           @semantic-release/git \
-           @semantic-release/github 
-          semantic-release
+          # Checkout new release branch
+          git checkout -b release/${NEW_VERSION}
+          
+          # Add modified files
+          git add "pom.xml" "*/pom.xml" "helm/src/main/helm/Chart.yaml" "CHANGELOG.md"
+          
+          # Only commit and push if there are actual changes
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          
+          # Commit the changes
+          git commit -m "chore(release): system version ${NEW_VERSION}"
+          
+          # Tag the release
+          git tag -a ${NEW_TAG} -m "Release ${NEW_TAG}"
+          
+          # Push the release branch
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git push origin release/${NEW_VERSION}
+          
+          # Push the tag
+          git push origin ${NEW_TAG}
