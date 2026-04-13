@@ -3,7 +3,7 @@
 Welcome to the ACS project. This monorepo contains the following components:
 
 - **[backend/](backend/README.md)**: Quarkus-based middleware for access governance.
-- **[frontend/](frontend/)**: React-based administrative UI.
+- **[frontend/](frontend/)**: React & TypeScript-based administrative UI.
 - **[helm/](helm/)**: Unified Helm charts for local (Docker Desktop / Kind) and production deployment.
 
 ## Stabilized Stack (Local Development)
