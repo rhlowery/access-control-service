@@ -139,45 +139,42 @@ describe('AuthService', () => {
     });
 
     it('returns false for unknown role', async () => {
-        AuthService.user = { persona: 'ADMIN' };
+        (AuthService as any).user = { persona: 'ADMIN' };
         expect(AuthService.hasRole('UNKNOWN')).toBe(false);
     });
 
-    it('isMockAuth returns true when config.isMock is true', async () => {
-        AuthService.config = { isMock: true };
+    it('detects mock configuration properly', () => {
+        (AuthService as any).config = { isMock: true };
         expect(AuthService.isMockAuth()).toBe(true);
-    });
 
-    it('isMockAuth returns false when config.isMock is false', async () => {
-        AuthService.config = { isMock: false };
+        (AuthService as any).config = { isMock: false };
         expect(AuthService.isMockAuth()).toBe(false);
-    });
 
-    it('isMockAuth returns false for oidc config without isMock', async () => {
-        AuthService.config = { authType: 'oidc', authServerUrl: 'http://idp' };
+        (AuthService as any).config = { authType: 'oidc', authServerUrl: 'http://idp' };
         expect(AuthService.isMockAuth()).toBe(false);
     });
 
     it('isMockAuth returns false when config is null', () => {
-        AuthService.config = null;
+        (AuthService as any).config = null;
         expect(AuthService.isMockAuth()).toBe(false);
     });
 
-    it('getMockUsers returns default users when config has no mockUsers', () => {
-        AuthService.config = { authType: 'mock' };
+    it('returns default mock users', () => {
+        (AuthService as any).config = { authType: 'mock' };
         const users = AuthService.getMockUsers();
         expect(users.length).toBe(4);
         expect(users[0].persona).toBe('ADMIN');
     });
 
-    it('getMockUsers returns custom users from config', () => {
-        const customUsers = [{ userId: 'dev', name: 'Developer', persona: 'REQUESTER' }];
-        AuthService.config = { authType: 'mock', mockUsers: customUsers };
-        expect(AuthService.getMockUsers()).toEqual(customUsers);
+    it('returns configured mock users', () => {
+        const customUsers = [{ userId: 'custom', name: 'Custom', persona: 'ADMIN' }];
+        (AuthService as any).config = { authType: 'mock', mockUsers: customUsers };
+        const users = AuthService.getMockUsers();
+        expect(users).toEqual(customUsers);
     });
 
     it('getMockUsers returns empty array when config is null', () => {
-        AuthService.config = null;
+        (AuthService as any).config = null;
         expect(AuthService.getMockUsers()).toEqual([]);
     });
 });

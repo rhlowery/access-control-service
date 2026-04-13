@@ -5,7 +5,12 @@ const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 class MockEventSource {
-    constructor(url) {
+    public url: string;
+    public close: any;
+    public onmessage: any;
+    public onerror: any;
+
+    constructor(url: string) {
         this.url = url;
         this.close = vi.fn();
     }
@@ -40,12 +45,12 @@ describe('AuditService', () => {
         const callback = vi.fn();
         const es = AuditService.streamLogs(callback);
         
-        const mockEvent = { data: JSON.stringify({ action: 'ACCESS_GRANTED' }) };
-        es.onmessage(mockEvent);
+        const mockEvent = { data: JSON.stringify({ id: 'new-log' }) };
+        es.onmessage(mockEvent as any);
         
-        expect(callback).toHaveBeenCalledWith({ action: 'ACCESS_GRANTED' });
+        expect(callback).toHaveBeenCalledWith({ id: 'new-log' });
         
-        es.onerror();
+        es.onerror(new Event('error') as any);
         expect(es.close).toHaveBeenCalled();
     });
 });

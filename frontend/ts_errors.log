@@ -1,0 +1,193 @@
+src/App.test.tsx(25,27): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(26,30): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(27,25): error TS2339: Property 'mockReturnValue' does not exist on type '(role: any) => boolean'.
+src/App.test.tsx(31,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(39,32): error TS2339: Property 'mockRejectedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(46,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(60,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(61,25): error TS2339: Property 'mockReturnValue' does not exist on type '(role: any) => boolean'.
+src/App.test.tsx(73,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(74,25): error TS2339: Property 'mockReturnValue' does not exist on type '(role: any) => boolean'.
+src/App.test.tsx(85,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(86,25): error TS2339: Property 'mockImplementation' does not exist on type '(role: any) => boolean'.
+src/App.test.tsx(96,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/App.test.tsx(97,25): error TS2339: Property 'mockImplementation' does not exist on type '(role: any) => boolean'.
+src/App.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/App.tsx(6,3): error TS6133: 'Link' is declared but its value is never read.
+src/App.tsx(9,3): error TS6133: 'useLocation' is declared but its value is never read.
+src/App.tsx(19,3): error TS6133: 'Plus' is declared but its value is never read.
+src/App.tsx(21,3): error TS6133: 'ChevronRight' is declared but its value is never read.
+src/App.tsx(24,3): error TS6133: 'XCircle' is declared but its value is never read.
+src/App.tsx(25,3): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/App.tsx(34,1): error TS6133: 'getApiUrl' is declared but its value is never read.
+src/components/catalog/__tests__/CatalogTree.test.tsx(1,37): error TS6133: 'waitFor' is declared but its value is never read.
+src/components/catalog/__tests__/CatalogTree.test.tsx(18,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/components/catalog/__tests__/CatalogTree.test.tsx(26,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/components/catalog/__tests__/CatalogTree.test.tsx(27,29): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '(catalogId: any, path?: string) => Promise<any>'.
+src/components/catalog/__tests__/CatalogTree.test.tsx(46,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/components/catalog/__tests__/CatalogTree.test.tsx(58,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/components/catalog/CatalogTree.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/catalog/CatalogTree.tsx(133,12): error TS2741: Property 'catalogId' is missing in type '{ key: any; node: any; level: number; onSelect: any; onRightClick: any; }' but required in type '{ node: any; catalogId: any; level?: number; onSelect: any; onRightClick: any; }'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(6,1): error TS6133: 'AuthService' is declared but its value is never read.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(34,17): error TS2741: Property 'onSuccess' is missing in type '{ node: { id: string; name: string; type: string; path: string; }; onClose: () => void; }' but required in type '{ node: any; onClose: any; onSuccess: any; }'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(41,17): error TS2741: Property 'onSuccess' is missing in type '{ node: { id: string; name: string; type: string; path: string; }; onClose: () => void; }' but required in type '{ node: any; onClose: any; onSuccess: any; }'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(54,38): error TS2339: Property 'mockResolvedValue' does not exist on type '(request: any) => Promise<any>'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(74,38): error TS2339: Property 'mockRejectedValue' does not exist on type '(request: any) => Promise<any>'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(75,17): error TS2741: Property 'onSuccess' is missing in type '{ node: { id: string; name: string; type: string; path: string; }; onClose: () => void; }' but required in type '{ node: any; onClose: any; onSuccess: any; }'.
+src/components/requests/__tests__/AccessRequestForm.test.tsx(85,17): error TS2741: Property 'onSuccess' is missing in type '{ node: { id: string; name: string; type: string; path: string; }; onClose: () => void; }' but required in type '{ node: any; onClose: any; onSuccess: any; }'.
+src/components/requests/AccessRequestForm.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/components/requests/AccessRequestForm.tsx(8,65): error TS2339: Property 'userId' does not exist on type 'Promise<any>'.
+src/components/requests/AccessRequestForm.tsx(36,43): error TS2339: Property 'userId' does not exist on type 'Promise<any>'.
+src/components/requests/AccessRequestForm.tsx(144,29): error TS2322: Type 'string' is not assignable to type 'number'.
+src/config.ts(2,24): error TS2339: Property 'ACS_CONFIG' does not exist on type 'Window & typeof globalThis'.
+src/config.ts(2,45): error TS2339: Property 'ACS_CONFIG' does not exist on type 'Window & typeof globalThis'.
+src/config.ts(2,73): error TS2339: Property 'ACS_CONFIG' does not exist on type 'Window & typeof globalThis'.
+src/context/ThemeContext.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/context/ThemeContext.tsx(3,22): error TS2554: Expected 1 arguments, but got 0.
+src/pages/__tests__/ApproverDashboard.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/__tests__/ApproverDashboard.test.tsx(26,32): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/ApproverDashboard.test.tsx(96,35): error TS2339: Property 'mockRejectedValue' does not exist on type '(id: any) => Promise<any>'.
+src/pages/__tests__/ApproverDashboard.test.tsx(105,34): error TS2339: Property 'mockRejectedValue' does not exist on type '(id: any, reason: any) => Promise<any>'.
+src/pages/__tests__/ApproverDashboard.test.tsx(128,35): error TS2339: Property 'mockImplementation' does not exist on type '(callback: any) => EventSource'.
+src/pages/__tests__/ApproverDashboard.test.tsx(152,35): error TS2339: Property 'mockImplementation' does not exist on type '(callback: any) => EventSource'.
+src/pages/__tests__/ApproverDashboard.test.tsx(169,32): error TS2339: Property 'mockRejectedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(31,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(37,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(50,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(66,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(84,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/CatalogPage.test.tsx(95,37): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(20,27): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(21,30): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(22,28): error TS2339: Property 'mockReturnValue' does not exist on type '() => boolean'.
+src/pages/__tests__/LoginPage.test.tsx(23,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => any'.
+src/pages/__tests__/LoginPage.test.tsx(27,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(35,23): error TS2339: Property 'mockResolvedValue' does not exist on type '(userId: any, password: any, providerId?: string) => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(51,23): error TS2339: Property 'mockRejectedValue' does not exist on type '(userId: any, password: any, providerId?: string) => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(67,30): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(82,28): error TS2339: Property 'mockReturnValue' does not exist on type '() => boolean'.
+src/pages/__tests__/LoginPage.test.tsx(83,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => any'.
+src/pages/__tests__/LoginPage.test.tsx(108,28): error TS2339: Property 'mockReturnValue' does not exist on type '() => boolean'.
+src/pages/__tests__/LoginPage.test.tsx(109,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => any'.
+src/pages/__tests__/LoginPage.test.tsx(112,23): error TS2339: Property 'mockResolvedValue' does not exist on type '(userId: any, password: any, providerId?: string) => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(126,28): error TS2339: Property 'mockReturnValue' does not exist on type '() => boolean'.
+src/pages/__tests__/LoginPage.test.tsx(127,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => any'.
+src/pages/__tests__/LoginPage.test.tsx(130,23): error TS2339: Property 'mockRejectedValue' does not exist on type '(userId: any, password: any, providerId?: string) => Promise<any>'.
+src/pages/__tests__/LoginPage.test.tsx(141,28): error TS2339: Property 'mockReturnValue' does not exist on type '() => boolean'.
+src/pages/__tests__/LoginPage.test.tsx(142,30): error TS2339: Property 'mockReturnValue' does not exist on type '() => any'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/__tests__/ReviewerDashboard.test.tsx(31,30): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(32,36): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(55,38): error TS2339: Property 'mockRejectedValue' does not exist on type '(id: any) => Promise<any>'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(74,39): error TS2339: Property 'mockImplementation' does not exist on type '(callback: any) => EventSource'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(101,39): error TS2339: Property 'mockImplementation' does not exist on type '(callback: any) => EventSource'.
+src/pages/__tests__/ReviewerDashboard.test.tsx(122,33): error TS2339: Property 'mockImplementation' does not exist on type '(callback: any) => EventSource'.
+src/pages/__tests__/SettingsPage.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/__tests__/SettingsPage.test.tsx(18,18): error TS2339: Property 'mockReturnValue' does not exist on type '() => unknown'.
+src/pages/__tests__/SettingsPage.test.tsx(33,18): error TS2339: Property 'mockReturnValue' does not exist on type '() => unknown'.
+src/pages/__tests__/SettingsPage.test.tsx(54,23): error TS2339: Property 'checked' does not exist on type 'HTMLElement'.
+src/pages/__tests__/SettingsPage.test.tsx(56,23): error TS2339: Property 'checked' does not exist on type 'HTMLElement'.
+src/pages/__tests__/UserGroupManagement.test.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/__tests__/UserGroupManagement.test.tsx(32,26): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(33,27): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(34,29): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(38,26): error TS2339: Property 'mockImplementation' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(77,35): error TS2339: Property 'mockResolvedValue' does not exist on type '(userId: any, persona: any) => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(95,35): error TS2339: Property 'mockRejectedValue' does not exist on type '(userId: any, persona: any) => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(112,36): error TS2339: Property 'mockResolvedValue' does not exist on type '(groupId: any, persona: any) => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(132,36): error TS2339: Property 'mockRejectedValue' does not exist on type '(groupId: any, persona: any) => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(152,26): error TS2339: Property 'mockRejectedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(167,29): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(181,26): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(182,27): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/__tests__/UserGroupManagement.test.tsx(183,29): error TS2339: Property 'mockResolvedValue' does not exist on type '() => Promise<any>'.
+src/pages/ApproverDashboard.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ApproverDashboard.tsx(11,3): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/ApproverDashboard.tsx(192,41): error TS2322: Type 'string' is not assignable to type 'number'.
+src/pages/CatalogPage.tsx(37,29): error TS6133: 'e' is declared but its value is never read.
+src/pages/LoginPage.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ReviewerDashboard.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/ReviewerDashboard.tsx(4,1): error TS6133: 'CatalogService' is declared but its value is never read.
+src/pages/ReviewerDashboard.tsx(7,3): error TS6133: 'Search' is declared but its value is never read.
+src/pages/ReviewerDashboard.tsx(8,3): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/ReviewerDashboard.tsx(162,45): error TS2322: Type 'string' is not assignable to type 'number'.
+src/pages/SettingsPage.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/SettingsPage.tsx(8,3): error TS6133: 'Database' is declared but its value is never read.
+src/pages/SettingsPage.tsx(11,3): error TS6133: 'Activity' is declared but its value is never read.
+src/pages/SettingsPage.tsx(16,13): error TS2339: Property 'isDarkMode' does not exist on type '{}'.
+src/pages/SettingsPage.tsx(16,25): error TS2339: Property 'toggleDarkMode' does not exist on type '{}'.
+src/pages/UserGroupManagement.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/UserGroupManagement.tsx(3,10): error TS6133: 'Users' is declared but its value is never read.
+src/pages/UserGroupManagement.tsx(3,37): error TS6133: 'Settings2' is declared but its value is never read.
+src/pages/UserGroupManagement.tsx(3,59): error TS6133: 'Search' is declared but its value is never read.
+src/pages/UserGroupManagement.tsx(145,49): error TS2322: Type 'string' is not assignable to type 'number'.
+src/pages/UserGroupManagement.tsx(190,49): error TS2322: Type 'string' is not assignable to type 'number'.
+src/services/__tests__/AuditService.test.ts(9,14): error TS2339: Property 'url' does not exist on type 'MockEventSource'.
+src/services/__tests__/AuditService.test.ts(10,14): error TS2339: Property 'close' does not exist on type 'MockEventSource'.
+src/services/__tests__/AuditService.test.ts(44,22): error TS2345: Argument of type '{ data: string; }' is not assignable to parameter of type 'MessageEvent<any>'.
+  Type '{ data: string; }' is missing the following properties from type 'MessageEvent<any>': lastEventId, origin, ports, source, and 23 more.
+src/services/__tests__/AuditService.test.ts(48,12): error TS2554: Expected 1 arguments, but got 0.
+src/services/__tests__/AuthService.test.ts(11,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(12,21): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(130,21): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(136,21): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(142,21): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(147,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(152,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(157,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(162,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(167,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(175,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/AuthService.test.ts(180,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/__tests__/CatalogService.test.ts(10,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(22,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(33,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(44,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(56,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(67,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(72,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(77,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/CatalogService.test.ts(82,11): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/RequestService.test.ts(9,10): error TS2339: Property 'url' does not exist on type 'MockEventSource'.
+src/services/__tests__/RequestService.test.ts(10,10): error TS2339: Property 'close' does not exist on type 'MockEventSource'.
+src/services/__tests__/RequestService.test.ts(95,18): error TS2345: Argument of type '{ data: string; }' is not assignable to parameter of type 'MessageEvent<any>'.
+  Type '{ data: string; }' is missing the following properties from type 'MessageEvent<any>': lastEventId, origin, ports, source, and 23 more.
+src/services/__tests__/RequestService.test.ts(99,8): error TS2554: Expected 1 arguments, but got 0.
+src/services/__tests__/UserService.test.ts(19,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(27,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(33,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(41,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(47,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(55,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(60,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(72,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(77,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/__tests__/UserService.test.ts(88,18): error TS2339: Property 'mockResolvedValueOnce' does not exist on type '{ (input: URL | RequestInfo, init?: RequestInit): Promise<Response>; (input: string | URL | Request, init?: RequestInit): Promise<...>; }'.
+src/services/ApiService.ts(5,10): error TS2339: Property 'baseUrl' does not exist on type 'ApiService'.
+src/services/ApiService.ts(9,66): error TS2339: Property 'baseUrl' does not exist on type 'ApiService'.
+src/services/ApiService.ts(20,20): error TS2339: Property 'headers' does not exist on type '{}'.
+src/services/AuthService.ts(5,14): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(6,14): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(10,18): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(10,38): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(12,18): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(13,25): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(32,14): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(38,36): error TS2339: Property 'baseUrl' does not exist on type 'ApiService'.
+src/services/AuthService.ts(43,23): error TS2554: Expected 2-3 arguments, but got 1.
+src/services/AuthService.ts(47,14): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(52,18): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(52,36): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(54,18): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(55,25): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(58,18): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(64,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(68,19): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(69,21): error TS2339: Property 'config' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(78,19): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/AuthService.ts(79,30): error TS2339: Property 'user' does not exist on type 'AuthServiceWrapper'.
+src/services/RequestService.ts(15,22): error TS2554: Expected 2-3 arguments, but got 1.
+src/services/RequestService.ts(23,22): error TS2554: Expected 2-3 arguments, but got 1.
+src/services/RequestService.ts(27,45): error TS2339: Property 'baseUrl' does not exist on type 'ApiService'.
+src/test/setup.ts(2,8): error TS2339: Property 'ACS_CONFIG' does not exist on type 'Window & typeof globalThis'.

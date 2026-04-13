@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   NavLink,
-  Navigate,
-  useLocation
+  Navigate
 } from 'react-router-dom';
 import { 
   Users, 
@@ -16,13 +14,9 @@ import {
   Settings, 
   LogOut, 
   Search, 
-  Plus, 
   Bell, 
-  ChevronRight,
   Clock,
-  CheckCircle2,
-  XCircle,
-  AlertCircle
+  CheckCircle2
 } from 'lucide-react';
 import { ThemeProvider } from './context/ThemeContext';
 import { CatalogPage } from './pages/CatalogPage';
@@ -31,7 +25,6 @@ import { ReviewerDashboard } from './pages/ReviewerDashboard';
 import { SettingsPage } from './pages/SettingsPage';
 import { UserGroupManagement } from './pages/UserGroupManagement';
 import { AuthService } from './services/AuthService';
-import { getApiUrl } from './config';
 import { api } from './services/ApiService';
 import { LoginPage } from './pages/LoginPage';
 
@@ -87,7 +80,7 @@ const Sidebar = () => (
   </aside>
 );
 
-const Header = ({ username }) => (
+const Header = ({ username }: { username: string | undefined }) => (
   <header className="flex items-center justify-between p-6 bg-transparent">
     <div className="search-bar glass px-6 py-2 flex items-center gap-3 w-[380px] hover:ring-2 ring-primary/20 transition-all">
       <Search size={18} className="text-[var(--text-muted)]" />
@@ -112,7 +105,7 @@ const Header = ({ username }) => (
   </header>
 );
 
-const Dashboard = ({ stats, requests }) => (
+const Dashboard = ({ stats, requests }: { stats: any, requests: any[] }) => (
   <div className="dashboard-content space-y-8 p-6">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="stat-card glass p-6 border-l-4 border-primary group hover:translate-y-[-4px] transition-all">
@@ -158,8 +151,8 @@ const Dashboard = ({ stats, requests }) => (
 );
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [requests, setRequests] = useState([]);
+  const [user, setUser] = useState<any>(null);
+  const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

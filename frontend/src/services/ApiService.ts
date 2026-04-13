@@ -1,11 +1,12 @@
 import { getApiUrl } from '../config';
 
 class ApiService {
+  public baseUrl: string;
   constructor() {
     this.baseUrl = getApiUrl('');
   }
 
-  async fetch(endpoint, options = {}) {
+  async fetch<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = endpoint.startsWith('http') ? endpoint : `${this.baseUrl}${endpoint}`;
     
     const defaultHeaders = {
@@ -13,11 +14,13 @@ class ApiService {
       'X-Requested-With': 'XMLHttpRequest'
     };
 
-    const config = {
+    const optionsHeaders: Record<string, string> = (options.headers as Record<string, string>) || {};
+
+    const config: RequestInit = {
       ...options,
       headers: {
         ...defaultHeaders,
-        ...options.headers
+        ...optionsHeaders
       }
     };
 
@@ -26,7 +29,6 @@ class ApiService {
       
       if (response.status === 401) {
         // Handle unauthorized (session expired)
-        // You might want to trigger a logout or redirect to login here
         console.warn('Session expired or unauthorized request');
       }
 
@@ -36,45 +38,45 @@ class ApiService {
       }
 
       // Check if response is No Content
-      if (response.status === 204) return null;
+      if (response.status === 204) return null as T;
 
-      return await response.json();
+      return await response.json() as T;
     } catch (error) {
       console.error(`API Error [${endpoint}]:`, error);
       throw error;
     }
   }
 
-  get(endpoint, options = {}) {
-    return this.fetch(endpoint, { ...options, method: 'GET' });
+  get<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    return this.fetch<T>(endpoint, { ...options, method: 'GET' });
   }
 
-  post(endpoint, body, options = {}) {
-    return this.fetch(endpoint, {
-      ...options,
-      method: 'POST',
-      body: JSON.stringify(body)
-    });
+  post<T = any>(endpoint: string, body?: any, options: RequestInit = {}): Promise<T> {
+    const methodOptions: RequestInit = { ...options, method: 'POST' };
+    if (body !== undefined) {
+      methodOptions.body = JSON.stringify(body);
+    }
+    return this.fetch<T>(endpoint, methodOptions);
   }
 
-  put(endpoint, body, options = {}) {
-    return this.fetch(endpoint, {
-      ...options,
-      method: 'PUT',
-      body: JSON.stringify(body)
-    });
+  put<T = any>(endpoint: string, body?: any, options: RequestInit = {}): Promise<T> {
+    const methodOptions: RequestInit = { ...options, method: 'PUT' };
+    if (body !== undefined) {
+      methodOptions.body = JSON.stringify(body);
+    }
+    return this.fetch<T>(endpoint, methodOptions);
   }
 
-  patch(endpoint, body, options = {}) {
-    return this.fetch(endpoint, {
-      ...options,
-      method: 'PATCH',
-      body: JSON.stringify(body)
-    });
+  patch<T = any>(endpoint: string, body?: any, options: RequestInit = {}): Promise<T> {
+    const methodOptions: RequestInit = { ...options, method: 'PATCH' };
+    if (body !== undefined) {
+      methodOptions.body = JSON.stringify(body);
+    }
+    return this.fetch<T>(endpoint, methodOptions);
   }
 
-  delete(endpoint, options = {}) {
-    return this.fetch(endpoint, { ...options, method: 'DELETE' });
+  delete<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    return this.fetch<T>(endpoint, { ...options, method: 'DELETE' });
   }
 }
 

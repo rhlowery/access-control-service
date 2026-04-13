@@ -1,8 +1,9 @@
-import React from 'react';
+// React import removed
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SettingsPage } from '../SettingsPage';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme as _useTheme } from '../../context/ThemeContext';
+const useTheme = _useTheme as any;
 
 vi.mock('../../context/ThemeContext', () => ({
     useTheme: vi.fn()
@@ -16,7 +17,7 @@ describe('SettingsPage', () => {
     beforeEach(() => {
         toggleMock = vi.fn();
         useTheme.mockReturnValue({
-            isDarkMode: true,
+            darkMode: true,
             toggleDarkMode: toggleMock
         });
         vi.clearAllMocks();
@@ -31,7 +32,7 @@ describe('SettingsPage', () => {
 
     it('renders in light mode', () => {
         useTheme.mockReturnValue({
-            isDarkMode: false,
+            darkMode: false,
             toggleDarkMode: vi.fn()
         });
         render(<SettingsPage />);
@@ -51,9 +52,9 @@ describe('SettingsPage', () => {
         expect(checkboxes.length).toBe(2);
         
         checkboxes.forEach(cb => {
-            expect(cb.checked).toBe(true);
+            expect((cb as any).checked).toBe(true);
             fireEvent.click(cb);
-            expect(cb.checked).toBe(false);
+            expect((cb as any).checked).toBe(false);
         });
     });
 

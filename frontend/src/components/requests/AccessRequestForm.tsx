@@ -3,23 +3,29 @@ import { X, Shield, Calendar, AlignLeft, User, Database, Plus } from 'lucide-rea
 import { RequestService } from '../../services/RequestService';
 import { AuthService } from '../../services/AuthService';
 
-export const AccessRequestForm = ({ node, onClose, onSuccess }) => {
-    const currentUser = AuthService.getCurrentUser();
-    const [principalId, setPrincipalId] = useState(currentUser?.userId || '');
-    const [privileges, setPrivileges] = useState([]);
+interface AccessRequestFormProps {
+    node: { id?: string; name: string; type: string; path: string };
+    onClose: () => void;
+    onSuccess?: () => void;
+}
+
+export const AccessRequestForm = ({ node, onClose, onSuccess }: AccessRequestFormProps) => {
+    const currentUser = AuthService.getCurrentUser() as any;
+    const [principalId, setPrincipalId] = useState<string>(currentUser?.userId || '');
+    const [privileges, setPrivileges] = useState<string[]>([]);
     const [justification, setJustification] = useState('');
     const [expiration, setExpiration] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const availablePrivileges = ['SELECT', 'UPDATE', 'INSERT', 'DELETE', 'CREATE', 'DROP', 'USE_CATALOG', 'USE_SCHEMA'];
 
-    const togglePrivilege = (priv) => {
+    const togglePrivilege = (priv: string) => {
         setPrivileges(prev => 
             prev.includes(priv) ? prev.filter(p => p !== priv) : [...prev, priv]
         );
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (privileges.length === 0) {
             window.alert('Please select at least one privilege.');
@@ -47,7 +53,7 @@ export const AccessRequestForm = ({ node, onClose, onSuccess }) => {
             window.alert('Access request submitted successfully!');
             onSuccess?.();
             onClose();
-        } catch (err) {
+        } catch (err: any) {
             window.alert(`Error: ${err.message}`);
         } finally {
             setIsSubmitting(false);
@@ -141,7 +147,7 @@ export const AccessRequestForm = ({ node, onClose, onSuccess }) => {
                         </label>
                         <textarea 
                             id="justification"
-                            rows="4" 
+                            rows={4} 
                             value={justification} 
                             onChange={e => setJustification(e.target.value)} 
                             placeholder="Please explain why you need this access..."

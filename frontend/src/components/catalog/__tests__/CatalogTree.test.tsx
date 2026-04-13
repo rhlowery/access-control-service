@@ -1,7 +1,8 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { CatalogTree } from '../CatalogTree';
-import { CatalogService } from '../../../services/CatalogService';
+import { CatalogService as _CatalogService } from '../../../services/CatalogService';
+const CatalogService = _CatalogService as any;
 
 vi.mock('../../../services/CatalogService');
 

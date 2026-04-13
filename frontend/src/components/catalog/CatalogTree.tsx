@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Database, 
   Folder as FolderIcon, 
@@ -11,9 +11,25 @@ import {
 } from 'lucide-react';
 import { CatalogService } from '../../services/CatalogService';
 
-const TreeNode = ({ node, catalogId, level = 0, onSelect, onRightClick }) => {
+export interface CatalogNode {
+  id?: string;
+  name?: string;
+  path?: string;
+  type?: string;
+  access?: string;
+}
+
+interface TreeNodeProps {
+  node: CatalogNode;
+  catalogId?: string;
+  level?: number;
+  onSelect: (node: CatalogNode) => void;
+  onRightClick: (e: any, node: CatalogNode) => void;
+}
+
+const TreeNode = ({ node, catalogId, level = 0, onSelect, onRightClick }: TreeNodeProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [children, setChildren] = useState([]);
+  const [children, setChildren] = useState<CatalogNode[]>([]);
   const [loading, setLoading] = useState(false);
 
   const toggleOpen = async (e) => {
@@ -94,8 +110,8 @@ const TreeNode = ({ node, catalogId, level = 0, onSelect, onRightClick }) => {
   );
 };
 
-export const CatalogTree = ({ onSelect, onRightClick }) => {
-  const [catalogs, setCatalogs] = useState([]);
+export const CatalogTree = ({ onSelect, onRightClick }: { onSelect: (node: CatalogNode) => void, onRightClick: (e: any, node: CatalogNode) => void }) => {
+  const [catalogs, setCatalogs] = useState<CatalogNode[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

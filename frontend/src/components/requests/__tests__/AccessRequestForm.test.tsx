@@ -1,9 +1,11 @@
-import React from 'react';
+// React import removed
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AccessRequestForm } from '../AccessRequestForm';
-import { RequestService } from '../../../services/RequestService';
-import { AuthService } from '../../../services/AuthService';
+import { RequestService as _RequestService } from '../../../services/RequestService';
+import { AuthService as _AuthService } from '../../../services/AuthService';
+const RequestService = _RequestService as any;
+// AuthService alias removed as it was unused
 
 vi.mock('../../../services/RequestService', () => ({
     RequestService: {

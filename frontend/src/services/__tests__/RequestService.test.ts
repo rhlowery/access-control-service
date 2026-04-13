@@ -5,7 +5,12 @@ const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
 
 class MockEventSource {
-  constructor(url) {
+  public url: string;
+  public close: any;
+  public onmessage: any;
+  public onerror: any;
+
+  constructor(url: string) {
     this.url = url;
     this.close = vi.fn();
   }
@@ -92,11 +97,11 @@ describe('RequestService', () => {
     const es = RequestService.streamRequests(callback);
     
     const mockEvent = { data: JSON.stringify({ id: 'new-req' }) };
-    es.onmessage(mockEvent);
+    es.onmessage(mockEvent as any);
     
     expect(callback).toHaveBeenCalledWith({ id: 'new-req' });
     
-    es.onerror();
+    es.onerror(new Event('error') as any);
     expect(es.close).toHaveBeenCalled();
   });
 });

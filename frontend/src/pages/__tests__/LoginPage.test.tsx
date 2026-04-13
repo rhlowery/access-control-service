@@ -1,7 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { LoginPage } from '../LoginPage';
-import { AuthService } from '../../services/AuthService';
+import { AuthService as _AuthService } from '../../services/AuthService';
+const AuthService = _AuthService as any;
 
 vi.mock('../../services/AuthService', () => ({
   AuthService: {

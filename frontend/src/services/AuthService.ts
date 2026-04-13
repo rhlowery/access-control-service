@@ -1,12 +1,29 @@
 import { api } from './ApiService';
 
+export interface AuthConfig {
+  authServerUrl: string;
+  clientId: string;
+  isMock?: boolean;
+  mockUsers?: { userId: string; name: string; persona: string }[];
+}
+
+export interface UserContext {
+  userId?: string;
+  name?: string;
+  persona?: string;
+  [key: string]: any;
+}
+
 class AuthServiceWrapper {
+    public config: AuthConfig | null = null;
+    public user: UserContext | null = null;
+
     constructor() {
         this.config = null;
         this.user = null;
     }
 
-    async getConfig() {
+    async getConfig(): Promise<AuthConfig> {
         if (this.config) return this.config;
         try {
             this.config = await api.get('/api/auth/config');
@@ -17,28 +34,28 @@ class AuthServiceWrapper {
         return { authServerUrl: '', clientId: '' };
     }
 
-    async getProviders() {
+    async getProviders(): Promise<any[]> {
         try {
             // Using cb query param to bypass cache if needed, although ApiService can handle headers
-            return await api.get(`/api/auth/providers?cb=${Date.now()}`);
+            return await api.get<any[]>(`/api/auth/providers?cb=${Date.now()}`);
         } catch (error) {
             console.error('Failed to fetch providers', error);
         }
         return [];
     }
 
-    async login(userId, password, providerId = 'local') {
+    async login(userId: string, password?: string, providerId = 'local'): Promise<any> {
         const result = await api.post('/api/auth/login', { userId, password, providerId });
         this.user = result;
         return result;
     }
 
-    authorize(providerId) {
+    authorize(providerId: string) {
         // Redirection is still handled via direct URL
         window.location.href = api.baseUrl + `/api/auth/authorize/${providerId}`;
     }
 
-    async logout() {
+    async logout(): Promise<void> {
         try {
             await api.post('/api/auth/logout');
         } catch (e) {
@@ -48,10 +65,10 @@ class AuthServiceWrapper {
         window.location.reload();
     }
 
-    async getCurrentUser() {
+    async getCurrentUser(): Promise<UserContext | null> {
         if (this.user) return this.user;
         try {
-            this.user = await api.get('/api/auth/me');
+            this.user = await api.get<UserContext>('/api/auth/me');
             return this.user;
         } catch (error) {
             // 401 is handled by ApiService (redirecting or just throwing)
@@ -60,11 +77,11 @@ class AuthServiceWrapper {
         return null;
     }
 
-    isMockAuth() {
+    isMockAuth(): boolean {
         return this.config?.isMock === true;
     }
 
-    getMockUsers() {
+    getMockUsers(): any[] {
         if (!this.config) return [];
         return this.config.mockUsers || [
             { userId: 'admin', name: 'Admin User', persona: 'ADMIN' },
@@ -74,7 +91,7 @@ class AuthServiceWrapper {
         ];
     }
 
-    hasRole(role) {
+    hasRole(role: string): boolean {
         if (!this.user) return false;
         const persona = this.user.persona || 'NONE';
         if (role === 'ADMIN') return ['ADMIN', 'SECURITY_ADMIN', 'PLATFORM_ADMIN'].includes(persona);

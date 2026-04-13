@@ -7,7 +7,7 @@ describe('CatalogService', () => {
   });
   it('getRegistrations fetches from the correct endpoint', async () => {
     const mockData = [{ id: 'main', name: 'main' }];
-    fetch.mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
     });
@@ -19,7 +19,7 @@ describe('CatalogService', () => {
 
   it('getNodes fetches with catalogId and path', async () => {
     const mockData = [{ name: 'default', type: 'schema' }];
-    fetch.mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
     });
@@ -30,7 +30,7 @@ describe('CatalogService', () => {
   });
 
   it('getNodes handles root path correctly', async () => {
-    fetch.mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => [],
     });
@@ -41,7 +41,7 @@ describe('CatalogService', () => {
 
   it('getPermissions fetches with catalogId and path', async () => {
     const mockData = { permissions: ['SELECT'] };
-    fetch.mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
     });
@@ -53,7 +53,7 @@ describe('CatalogService', () => {
 
   it('searchCatalog fetches with query', async () => {
     const mockData = [{ name: 'sales' }];
-    fetch.mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockData,
     });
@@ -64,22 +64,22 @@ describe('CatalogService', () => {
   });
 
   it('throws error when fetch fails', async () => {
-    fetch.mockResolvedValueOnce(new Response(null, { status: 400 }));
+    (fetch as any).mockResolvedValueOnce(new Response(null, { status: 400 }));
     await expect(CatalogService.getRegistrations()).rejects.toThrow(/HTTP error!/);
   });
 
   it('throws error when getNodes fails', async () => {
-    fetch.mockResolvedValueOnce(new Response(null, { status: 400 }));
+    (fetch as any).mockResolvedValueOnce(new Response(null, { status: 400 }));
     await expect(CatalogService.getNodes('main', '/')).rejects.toThrow(/HTTP error!/);
   });
 
   it('throws error when getPermissions fails', async () => {
-    fetch.mockResolvedValueOnce(new Response(null, { status: 400 }));
+    (fetch as any).mockResolvedValueOnce(new Response(null, { status: 400 }));
     await expect(CatalogService.getPermissions('main', '/')).rejects.toThrow(/HTTP error!/);
   });
 
   it('throws error when searchCatalog fails', async () => {
-    fetch.mockResolvedValueOnce(new Response(null, { status: 400 }));
+    (fetch as any).mockResolvedValueOnce(new Response(null, { status: 400 }));
     await expect(CatalogService.searchCatalog('test')).rejects.toThrow(/HTTP error!/);
   });
 });

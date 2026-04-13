@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   User, 
   Bell, 
   Shield, 
   Moon, 
   Sun, 
-  Database, 
   ExternalLink, 
-  Save,
-  Activity
+  Save
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export const SettingsPage = () => {
-    const { isDarkMode, toggleDarkMode } = useTheme();
+    const { darkMode, toggleDarkMode } = useTheme();
     const [notifications, setNotifications] = useState(true);
     const [streamEnabled, setStreamEnabled] = useState(true);
 
@@ -70,8 +68,8 @@ export const SettingsPage = () => {
                                 onClick={toggleDarkMode}
                                 className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-[var(--border)] hover:bg-white/10 rounded-lg transition-colors font-medium text-sm"
                             >
-                                {isDarkMode ? <Moon size={18} className="text-sky-400" /> : <Sun size={18} className="text-amber-500" />}
-                                {isDarkMode ? 'Dark' : 'Light'}
+                                {darkMode ? <Moon size={18} className="text-sky-400" /> : <Sun size={18} className="text-amber-500" />}
+                                {darkMode ? 'Dark' : 'Light'}
                             </button>
                         </div>
 

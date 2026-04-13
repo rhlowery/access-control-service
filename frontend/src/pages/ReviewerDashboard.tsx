@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AuditService } from '../services/AuditService';
 import { RequestService } from '../services/RequestService';
-import { CatalogService } from '../services/CatalogService';
 import { 
   History, 
-  Search, 
-  Filter, 
   RefreshCcw, 
   CheckCircle2, 
   Activity, 
@@ -15,9 +12,24 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
+interface AuditLog {
+    id?: string;
+    timestamp: string;
+    principalId: string;
+    action: string;
+    resourcePath: string;
+    result: string;
+}
+
+interface RequestItem {
+    id: string;
+    status: string;
+    resourcePath: string;
+}
+
 export const ReviewerDashboard = () => {
-    const [auditLogs, setAuditLogs] = useState([]);
-    const [requests, setRequests] = useState([]);
+    const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+    const [requests, setRequests] = useState<RequestItem[]>([]);
     const [isLiveEnabled, setIsLiveEnabled] = useState(false);
     const [selectedTab, setSelectedTab] = useState('AUDIT_LOG'); // AUDIT_LOG, REQUESTS, INTEGRITY
     const [isLoading, setIsLoading] = useState(false);
@@ -67,12 +79,12 @@ export const ReviewerDashboard = () => {
         } finally { setIsLoading(false); }
     };
 
-    const handleVerify = async (id) => {
+    const handleVerify = async (id: string) => {
         try {
             await RequestService.verifyRequest(id);
             alert(`Request ${id} verified and audit entry created.`);
             fetchRequests();
-        } catch (err) { alert(err.message); }
+        } catch (err: any) { alert(err.message); }
     };
 
     return (
@@ -159,7 +171,7 @@ export const ReviewerDashboard = () => {
                                 ))}
                                 {auditLogs.length === 0 && !isLoading && (
                                     <tr>
-                                        <td colSpan="5" className="text-center py-24 opacity-30">
+                                        <td colSpan={5} className="text-center py-24 opacity-30">
                                             <div className="flex flex-col items-center">
                                                 <History size={64} className="mb-4" />
                                                 <p className="text-xl font-medium italic">No audit logs available.</p>

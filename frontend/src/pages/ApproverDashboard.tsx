@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RequestService } from '../services/RequestService';
 import { 
   CheckCircle2, 
@@ -7,17 +7,25 @@ import {
   Radio, 
   Activity, 
   MessageSquare, 
-  ShieldAlert, 
-  Filter 
+  ShieldAlert
 } from 'lucide-react';
 
+interface AccessRequest {
+    id: string;
+    principalId: string;
+    resourcePath: string;
+    permission: string;
+    justification: string;
+    status: string;
+}
+
 export const ApproverDashboard = () => {
-    const [requests, setRequests] = useState([]);
+    const [requests, setRequests] = useState<AccessRequest[]>([]);
     const [isLiveEnabled, setIsLiveEnabled] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [selectedTab, setSelectedTab] = useState('PENDING'); // PENDING, APPROVED, REJECTED
     const [showRejectionModal, setShowRejectionModal] = useState(false);
-    const [currentRequestId, setCurrentRequestId] = useState(null);
+    const [currentRequestId, setCurrentRequestId] = useState<string | null>(null);
     const [rejectionReason, setRejectionReason] = useState('');
 
     useEffect(() => {
@@ -46,25 +54,25 @@ export const ApproverDashboard = () => {
         try {
             const data = await RequestService.getRequests();
             setRequests(data);
-        } catch (err) {
+        } catch (err: any) {
             setError(err.message);
         }
     };
 
-    const handleApprove = async (id) => {
+    const handleApprove = async (id: string) => {
         try {
             await RequestService.approveRequest(id);
             fetchRequests(); // Refresh table
-        } catch (err) { alert(err.message); }
+        } catch (err: any) { alert(err.message); }
     };
 
-    const handleRejectClick = (id) => {
+    const handleRejectClick = (id: string) => {
         setCurrentRequestId(id);
         setShowRejectionModal(true);
     };
 
     const handleConfirmReject = async () => {
-        if (!rejectionReason) {
+        if (!rejectionReason || !currentRequestId) {
             alert('Rejection reason is required.');
             return;
         }
@@ -73,7 +81,7 @@ export const ApproverDashboard = () => {
             setShowRejectionModal(false);
             setRejectionReason('');
             fetchRequests();
-        } catch (err) { alert(err.message); }
+        } catch (err: any) { alert(err.message); }
     };
 
     const filteredRequests = requests.filter(r => r.status === selectedTab || (selectedTab === 'PENDING' && !r.status));
@@ -189,7 +197,7 @@ export const ApproverDashboard = () => {
                             ))}
                             {filteredRequests.length === 0 && (
                                 <tr>
-                                    <td colSpan="5" className="text-center py-20 opacity-30">
+                                    <td colSpan={5} className="text-center py-20 opacity-30">
                                         <div className="flex flex-col items-center">
                                             <Clock size={64} className="mb-4" />
                                             <p className="text-lg font-medium italic">No {selectedTab.toLowerCase()} requests found.</p>

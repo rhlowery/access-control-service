@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { UserService } from '../services/UserService';
-import { Users, Users as UsersIcon, Settings2, UserCheck, Search, Activity, RefreshCcw } from 'lucide-react';
+import { Users as UsersIcon, UserCheck, Activity, RefreshCcw } from 'lucide-react';
+
+interface User {
+    id?: string;
+    userId?: string;
+    name?: string;
+    groups?: string[];
+    roles?: string[];
+}
+
+interface Group {
+    id?: string;
+    name?: string;
+    members?: string[];
+}
 
 export const UserGroupManagement = () => {
-    const [users, setUsers] = useState([]);
-    const [groups, setGroups] = useState([]);
-    const [personas, setPersonas] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
+    const [personas, setPersonas] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedTab, setSelectedTab] = useState('USERS');
 
@@ -31,22 +45,22 @@ export const UserGroupManagement = () => {
         fetchData();
     }, []);
 
-    const handleAssignUserPersona = async (userId, persona) => {
+    const handleAssignUserPersona = async (userId: string, persona: string) => {
         try {
             await UserService.assignUserPersona(userId, persona);
             alert(`Persona ${persona} explicitly assigned to user ${userId}`);
             fetchData();
-        } catch (err) {
+        } catch (err: any) {
             alert(err.message);
         }
     };
 
-    const handleAssignGroupPersona = async (groupId, persona) => {
+    const handleAssignGroupPersona = async (groupId: string, persona: string) => {
         try {
             await UserService.assignGroupPersona(groupId, persona);
             alert(`Persona ${persona} explicitly assigned to group ${groupId}`);
             fetchData();
-        } catch (err) {
+        } catch (err: any) {
             alert(err.message);
         }
     };
@@ -142,7 +156,7 @@ export const UserGroupManagement = () => {
                                     ))}
                                     {users.length === 0 && (
                                         <tr>
-                                            <td colSpan="4" className="text-center py-24 opacity-30">
+                                            <td colSpan={4} className="text-center py-24 opacity-30">
                                                 <UsersIcon size={48} className="mx-auto mb-4" />
                                                 <p className="text-lg italic font-medium">No users found.</p>
                                             </td>
@@ -187,7 +201,7 @@ export const UserGroupManagement = () => {
                                     ))}
                                     {groups.length === 0 && (
                                         <tr>
-                                            <td colSpan="3" className="text-center py-24 opacity-30">
+                                            <td colSpan={3} className="text-center py-24 opacity-30">
                                                 <UsersIcon size={48} className="mx-auto mb-4" />
                                                 <p className="text-lg italic font-medium">No groups found.</p>
                                             </td>

@@ -1,8 +1,9 @@
-import React from 'react';
+// React import removed
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ApproverDashboard } from '../ApproverDashboard';
-import { RequestService } from '../../services/RequestService';
+import { RequestService as _RequestService } from '../../services/RequestService';
+const RequestService = _RequestService as any;
 
 vi.stubGlobal('alert', vi.fn());
 

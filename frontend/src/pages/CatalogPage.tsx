@@ -1,40 +1,40 @@
-import React, { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Database, ChevronRight, CheckCircle2, Shield, Info, Plus, Search, Activity } from 'lucide-react';
-import { CatalogTree } from '../components/catalog/CatalogTree';
+import { CatalogTree, CatalogNode } from '../components/catalog/CatalogTree';
 import { AccessRequestForm } from '../components/requests/AccessRequestForm';
 
-const Breadcrumbs = ({ path }) => {
+const Breadcrumbs = ({ path }: { path: string[] }) => {
   const parts = ['Catalog', ...path.filter(p => p)];
   return (
     <nav className="flex items-center gap-2 mb-8 text-sm px-1 py-2 overflow-x-auto whitespace-nowrap">
       {parts.map((part, index) => (
-        <React.Fragment key={`${part}-${index}`}>
+        <Fragment key={`${part}-${index}`}>
           <span className={`font-medium ${index === parts.length - 1 ? 'text-[var(--text)]' : 'text-[var(--text-muted)] hover:text-[var(--text)] cursor-pointer transition-colors underline-offset-4 hover:underline'}`}>
             {part}
           </span>
           {index < parts.length - 1 && <ChevronRight size={14} className="text-gray-400 opacity-50 flex-shrink-0" />}
-        </React.Fragment>
+        </Fragment>
       ))}
     </nav>
   );
 };
 
 export const CatalogPage = () => {
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [breadcrumbPath, setBreadcrumbPath] = useState([]);
+  const [selectedNode, setSelectedNode] = useState<CatalogNode | null>(null);
+  const [breadcrumbPath, setBreadcrumbPath] = useState<string[]>([]);
   const [showRequestForm, setShowRequestForm] = useState(false);
 
-  const handleSelect = (node) => {
+  const handleSelect = (node: CatalogNode) => {
     setSelectedNode(node);
-    const newPath = node.path.split('/').filter(p => p);
+    const newPath = (node.path || '').split('/').filter(p => p);
     if (node.type !== 'catalog') {
       setBreadcrumbPath(['main', ...newPath]);
     } else {
-      setBreadcrumbPath([node.name]);
+      setBreadcrumbPath([node.name || '']);
     }
   };
 
-  const handleRightClick = (e, node) => {
+  const handleRightClick = (_e: any, node: CatalogNode) => {
     console.log('Right click on', node);
   };
 
@@ -163,7 +163,7 @@ export const CatalogPage = () => {
 
         {showRequestForm && selectedNode && (
           <AccessRequestForm 
-            node={selectedNode} 
+            node={selectedNode as any} 
             onClose={() => setShowRequestForm(false)} 
             onSuccess={() => {
                // Show a global toast or banner here if needed
