@@ -27,7 +27,7 @@ public record User(
   String email,
   @Schema(description = "Primary role", examples = {"ADMIN"})
   String role, // ADMIN, STANDARD_USER
-  @Schema(description = "List of associated group IDs", examples = {"[\"admins\"]"})
+  @Schema(description = "List of associated group IDs", examples = {"admins", "security"})
   List<String> groups,
   @Schema(description = "Current persona assignment", examples = {"ADMIN"})
   String persona

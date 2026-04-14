@@ -18,7 +18,7 @@ public class CatalogRegistration {
     @Schema(description = "The type of catalog (e.g., UNITY_CATALOG, GLUE, HIVE)", examples = {"UNITY_CATALOG"})
     public String type;
 
-    @Schema(description = "Configuration settings for the catalog (e.g., host, port, token)")
+    @Schema(description = "Configuration settings for the catalog (e.g., host, port, token)", examples = {"{\"host\": \"localhost\", \"token\": \"secure-token\"}"})
     public Map<String, Object> settings;
 
     public CatalogRegistration() {}

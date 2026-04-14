@@ -33,20 +33,37 @@ public class SchemaMetadataTest {
                     }
                 }
 
-                // Check field-level @Schema
+                // Check field-level documentation requirements
                 for (Field field : clazz.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(Schema.class)) {
-                        Schema schema = field.getAnnotation(Schema.class);
-                        if (!schema.example().isEmpty()) {
-                            violations.add("Field " + clazz.getSimpleName() + "." + field.getName() + " uses deprecated 'example' in @Schema");
-                        }
+                    if (field.isSynthetic()) continue; // Skip synthetic fields (like in records/lambdas)
+                    
+                    if (!field.isAnnotationPresent(Schema.class)) {
+                        violations.add("Field " + clazz.getSimpleName() + "." + field.getName() + " is missing @Schema annotation");
+                        continue;
+                    }
+
+                    Schema schema = field.getAnnotation(Schema.class);
+                    
+                    // 1. Check for deprecated 'example' usage
+                    if (!schema.example().isEmpty()) {
+                        violations.add("Field " + clazz.getSimpleName() + "." + field.getName() + " uses deprecated 'example' in @Schema");
+                    }
+
+                    // 2. Enforce non-empty description
+                    if (schema.description().isBlank()) {
+                        violations.add("Field " + clazz.getSimpleName() + "." + field.getName() + " has an empty description in @Schema");
+                    }
+
+                    // 3. Enforce non-empty examples array
+                    if (schema.examples().length == 0) {
+                        violations.add("Field " + clazz.getSimpleName() + "." + field.getName() + " is missing example(s) in @Schema.examples");
                     }
                 }
             }
         }
 
         if (!violations.isEmpty()) {
-            StringBuilder sb = new StringBuilder("Found @Schema(example = ...) violations:\n");
+            StringBuilder sb = new StringBuilder("Found OpenAPI validation violations:\n");
             violations.forEach(v -> sb.append("- ").append(v).append("\n"));
             fail(sb.toString());
         }

@@ -24,7 +24,7 @@ public class LoginRequest {
     @Schema(description = "Persona to assume for this session", examples = {"ADMIN"}, required = false)
     public String persona;
 
-    @Schema(description = "Optional list of groups for mock authentication", examples = {"[\"admins\"]"}, required = false)
+    @Schema(description = "Optional list of groups for mock authentication", examples = {"admins", "devs"}, required = false)
     public List<String> groups;
 
     public LoginRequest() {}
