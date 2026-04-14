@@ -23,7 +23,7 @@ public class TokenService {
                 .upn(userId)
                 .groups(roles)
                 .claim("userName", userName)
-                .claim("role", role)
+                .claim("role", role != null ? role : "STANDARD_USER")
                 .claim("persona", persona != null ? persona : "NONE")
                 .sign();
     }

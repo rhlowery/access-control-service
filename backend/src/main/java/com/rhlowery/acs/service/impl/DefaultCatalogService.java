@@ -212,6 +212,7 @@ public class DefaultCatalogService implements CatalogService {
    * @return The CatalogProvider if found, null otherwise
    */
   private CatalogProvider findProvider(String id) {
+    if (id == null) return null;
     return providers.stream()
       .filter(p -> id.equals(p.getCatalogId()))
       .findFirst()
