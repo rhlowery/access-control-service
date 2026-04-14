@@ -55,22 +55,22 @@ public record AccessRequest(
   String tableName,
   @Schema(description = "The type of resource", examples = {"TABLE"})
   String resourceType, // TABLE, VOLUME, MODEL
-  @Schema(description = "The list of privileges being requested", examples = {"[\"SELECT\", \"DESCRIBE\"]"})
+  @Schema(description = "The list of privileges being requested", examples = {"SELECT", "DESCRIBE"})
   List<String> privileges,
   @Schema(description = "The current status of the request", examples = {"PENDING"})
   String status, // PENDING, APPROVED, REJECTED, VERIFIED, PARTIALLY_APPROVED
-  @Schema(description = "Timestamp of creation")
+  @Schema(description = "Timestamp when the request was created (epoch ms)", examples = {"1713093600000"})
   Long createdAt,
-  @Schema(description = "Timestamp of last update")
+  @Schema(description = "Timestamp of the last status update (epoch ms)", examples = {"1713094000000"})
   Long updatedAt,
   @Schema(description = "Business justification for the access request", examples = {"Need access for Q3 financial reporting"})
   String justification,
   @Schema(description = "Reason for rejection if applicable", examples = {"Incomplete justification"})
   String rejectionReason,
-  @Schema(description = "Groups required to approve this request", examples = {"[\"data-owners\", \"security-leads\"]"})
+  @Schema(description = "Groups required to approve this request", examples = {"data-owners", "security-leads"})
   List<String> approverGroups,
-  @Schema(description = "Additional key-value metadata")
+  @Schema(description = "Additional key-value metadata for the request", examples = {"{\"priority\": \"high\"}"})
   Map<String, Object> metadata,
-  @Schema(description = "Requested expiration time for the access")
+  @Schema(description = "Requested expiration time for the access (epoch ms)", examples = {"1715685600000"})
   Long expirationTime
 ) {}

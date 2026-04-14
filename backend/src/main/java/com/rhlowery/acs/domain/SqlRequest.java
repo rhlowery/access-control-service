@@ -12,6 +12,6 @@ import java.util.Map;
 public record SqlRequest(
     @Schema(description = "The SQL statement to execute", examples = {"SELECT * FROM sales LIMIT 10"}, required = true)
     String statement,
-    @Schema(description = "Optional parameters for the SQL statement")
+    @Schema(description = "Optional key-value parameters for the SQL statement", examples = {"{\"limit\": 10, \"dept\": \"sales\"}"})
     Map<String, Object> parameters
 ) {}
