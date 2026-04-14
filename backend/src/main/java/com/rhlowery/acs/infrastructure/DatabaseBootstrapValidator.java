@@ -18,9 +18,9 @@ public class DatabaseBootstrapValidator {
     private static final Logger LOG = Logger.getLogger(DatabaseBootstrapValidator.class);
 
     @Inject
-    DataSource dataSource;
+    public DataSource dataSource;
 
-    void onStart(@Observes StartupEvent ev) {
+    public void onStart(@Observes StartupEvent ev) {
         LOG.info("Validating database connection on bootstrap...");
         try (Connection conn = dataSource.getConnection()) {
             if (conn.isValid(5)) {
