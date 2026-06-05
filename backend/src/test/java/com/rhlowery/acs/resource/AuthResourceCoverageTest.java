@@ -93,16 +93,23 @@ public class AuthResourceCoverageTest {
         given()
             .redirects().follow(false)
             .queryParam("code", "valid-code")
+            .queryParam("state", "my_state")
+            .cookie("oidc_state", "my_state")
             .get("/api/auth/callback")
             .then()
             .statusCode(303);
             
         given()
             .redirects().follow(false)
+            .queryParam("code", "valid-code")
+            .queryParam("state", "my_state")
+            .cookie("oidc_state", "different")
             .get("/api/auth/callback")
             .then()
-            .statusCode(302);
+            .statusCode(302)
+            .header("Location", containsString("CSRF_FAILED"));
     }
+
 
     @Test
     public void testMeAnonymous() {
