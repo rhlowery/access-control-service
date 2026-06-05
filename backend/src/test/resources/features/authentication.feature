@@ -21,3 +21,21 @@ Feature: Authentication Lifecycle
       | alice | password |
       | bob   | password |
       | admin | admin    |
+
+  Scenario Outline: Login with optional role and persona parameters
+    Given the ACS Backend is initialized with mock data
+    When I login with userId "<user>" and role "<role>" and persona "<persona>"
+    Then the response status should be 200
+    And the JWT token should be returned in a cookie
+    When I call the me endpoint
+    Then the response status should be 200
+    And the response user should be "<user>"
+    And the response persona should be "<expected_persona>"
+
+    Examples:
+      | user  | role          | persona | expected_persona |
+      | user1 |               |         | NONE             |
+      | user2 | STANDARD_USER |         | NONE             |
+      | user3 | ADMIN         |         | ADMIN            |
+      | user4 |               | AUDITOR | AUDITOR          |
+
