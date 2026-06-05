@@ -28,8 +28,10 @@ public class OidcCallbackTest {
   @Test
   public void testCallbackCsrfFailure() {
     given()
+      .redirects().follow(false)
       .queryParam("code", "auth_code")
       .queryParam("state", "state_param")
+      .queryParam("providerId", "oidc")
       .cookie("oidc_state", "different_state")
       .get("/api/auth/callback")
       .then()
@@ -52,8 +54,10 @@ public class OidcCallbackTest {
     when(oidcClient.getTokens(any())).thenReturn(Uni.createFrom().item(mockTokens));
 
     given()
+      .redirects().follow(false)
       .queryParam("code", "auth_code")
       .queryParam("state", "state_param")
+      .queryParam("providerId", "oidc")
       .cookie("oidc_state", "state_param")
       .get("/api/auth/callback")
       .then()
