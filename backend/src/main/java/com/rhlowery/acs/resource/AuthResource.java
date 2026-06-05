@@ -20,6 +20,8 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
@@ -71,6 +73,19 @@ public class AuthResource {
     
     @Inject
     SecurityIdentity securityIdentity;
+
+    @Inject
+    @ConfigProperty(name = "oidc.auth-server-url")
+    Optional<String> authServerUrlProp;
+
+    @Inject
+    @ConfigProperty(name = "oidc.client-id")
+    Optional<String> clientIdProp;
+
+    @Inject
+    @ConfigProperty(name = "mock.auth.enabled")
+    Optional<Boolean> mockAuthEnabledProp;
+
 
     @POST
     @Path("/login")
@@ -192,12 +207,13 @@ public class AuthResource {
     @PermitAll
     @Operation(summary = "Authorize Redirect", description = "Redirects the browser to the OIDC provider login page")
     public Response authorize(@PathParam("providerId") String providerId, @Context UriInfo uriInfo) {
-        String authServerUrl = System.getenv("OIDC_AUTH_SERVER_URL");
-        String clientId = System.getenv("OIDC_CLIENT_ID");
+        String authServerUrl = authServerUrlProp.orElse("");
+        String clientId = clientIdProp.orElse("");
         String redirectUri = uriInfo.getBaseUriBuilder()
                 .path("/api/auth/callback")
                 .queryParam("providerId", providerId)
                 .build().toString();
+
 
         if (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl)) {
              return Response.status(302).location(URI.create("/login?error=OIDC_DISABLED")).build();
@@ -281,12 +297,13 @@ public class AuthResource {
     @PermitAll
     @Operation(summary = "Get Auth Configuration", description = "Returns public OIDC configuration for the frontend")
     public Response getConfig() {
-        String authServerUrl = System.getenv("OIDC_AUTH_SERVER_URL");
-        String clientId = System.getenv("OIDC_CLIENT_ID");
-        String mockAuth = System.getenv("MOCK_AUTH_ENABLED");
-        boolean isMock = "true".equals(mockAuth) || authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl);
+        String authServerUrl = authServerUrlProp.orElse("");
+        String clientId = clientIdProp.orElse("");
+        boolean isMock = mockAuthEnabledProp.orElse(false)
+                || authServerUrl.isEmpty()
+                || "mock".equals(authServerUrl);
 
-        if (isMock && (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl))) {
+        if (isMock && (authServerUrl.isEmpty() || "mock".equals(authServerUrl))) {
             return Response.ok(Map.of(
                     "authServerUrl", "http://localhost:8080/realms/quarkus",
                     "clientId", "quarkus-app",
@@ -295,8 +312,8 @@ public class AuthResource {
         }
 
         return Response.ok(Map.of(
-                "authServerUrl", authServerUrl != null ? authServerUrl : "",
-                "clientId", clientId != null ? clientId : "",
+                "authServerUrl", authServerUrl,
+                "clientId", clientId,
                 "isMock", isMock,
                 "discoveryEnabled", true)).build();
     }
