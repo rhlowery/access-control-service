@@ -1,7 +1,7 @@
 package com.rhlowery.acs.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
+import io.quarkus.test.InjectMock;
 import io.quarkus.oidc.client.OidcClient;
 import io.quarkus.oidc.client.Tokens;
 import io.smallrye.mutiny.Uni;
@@ -17,7 +17,7 @@ import java.util.Base64;
 @QuarkusTest
 public class OidcCallbackTest {
 
-  @Inject
+  @InjectMock
   OidcClient oidcClient;
 
   @BeforeEach

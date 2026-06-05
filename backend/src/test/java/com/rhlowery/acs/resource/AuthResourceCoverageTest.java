@@ -6,11 +6,20 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.UUID;
+import io.quarkus.test.InjectMock;
+import io.quarkus.oidc.client.OidcClient;
+import io.quarkus.oidc.client.Tokens;
+import io.smallrye.mutiny.Uni;
+import org.mockito.Mockito;
+import org.mockito.ArgumentMatchers;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 @QuarkusTest
 public class AuthResourceCoverageTest {
+
+  @InjectMock
+  OidcClient oidcClient;
 
     @Test
     public void testLoginValidationPaths() {
@@ -90,24 +99,34 @@ public class AuthResourceCoverageTest {
 
     @Test
     public void testCallback() {
-        given()
-            .redirects().follow(false)
-            .queryParam("code", "valid-code")
-            .queryParam("state", "my_state")
-            .cookie("oidc_state", "my_state")
-            .get("/api/auth/callback")
-            .then()
-            .statusCode(303);
-            
-        given()
-            .redirects().follow(false)
-            .queryParam("code", "valid-code")
-            .queryParam("state", "my_state")
-            .cookie("oidc_state", "different")
-            .get("/api/auth/callback")
-            .then()
-            .statusCode(302)
-            .header("Location", containsString("CSRF_FAILED"));
+      Tokens mockTokens = Mockito.mock(Tokens.class);
+      String header = java.util.Base64.getUrlEncoder().encodeToString("{\"alg\":\"RS256\"}".getBytes());
+      String payload = java.util.Base64.getUrlEncoder().encodeToString(
+        "{\"preferred_username\":\"admin\",\"name\":\"Admin User\",\"groups\":[\"admins\"]}".getBytes()
+      );
+      String mockIdToken = header + "." + payload + ".sig";
+      Mockito.when(mockTokens.get("id_token")).thenReturn(mockIdToken);
+      Mockito.when(oidcClient.getTokens(ArgumentMatchers.any()))
+          .thenReturn(Uni.createFrom().item(mockTokens));
+
+      given()
+          .redirects().follow(false)
+          .queryParam("code", "valid-code")
+          .queryParam("state", "my_state")
+          .cookie("oidc_state", "my_state")
+          .get("/api/auth/callback")
+          .then()
+          .statusCode(303);
+          
+      given()
+          .redirects().follow(false)
+          .queryParam("code", "valid-code")
+          .queryParam("state", "my_state")
+          .cookie("oidc_state", "different")
+          .get("/api/auth/callback")
+          .then()
+          .statusCode(302)
+          .header("Location", containsString("CSRF_FAILED"));
     }
 
 
