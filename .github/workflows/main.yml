@@ -57,7 +57,7 @@ jobs:
         run: ./mvnw -pl helm helm:package
 
       - name: Generate Multi-Module Maven Site
-        run: ./mvnw clean site site:stage -DskipTests -Dmaven.javadoc.failOnError=false -Dmaven.resoler.transport=wagon
+        run: ./mvnw clean site site:stage -DskipTests -Dmaven.javadoc.failOnError=false -Dmaven.resolver.transport=wagon
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
