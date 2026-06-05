@@ -27,11 +27,6 @@ import org.jboss.logging.Logger;
  * REST Resource for managing the lifecycle of data access requests.
  * Supports submission, approval, rejection, and verification of requests.
  * Provides real-time updates via Server-Sent Events (SSE).
- */
-/**
- * REST Resource for managing the lifecycle of data access requests.
- * Supports submission, approval, rejection, and verification of requests.
- * Provides real-time updates via Server-Sent Events (SSE).
  *
  * <pre>
  * {@code
