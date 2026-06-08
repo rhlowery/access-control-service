@@ -494,6 +494,33 @@ public class StepDefinitions {
         lastResponse.then().body("userId", equalTo(expectedUser));
     }
 
+  @When("I login with userId {string} and role {string} and persona {string}")
+  public void i_login_with_userId_role_and_persona(String userId, String role, String persona) {
+    Map<String, Object> body = new java.util.HashMap<>();
+    body.put("userId", userId);
+    body.put("password", "password");
+    if (role != null && !role.isEmpty()) {
+      body.put("role", role);
+    }
+    if (persona != null && !persona.isEmpty()) {
+      body.put("persona", persona);
+    }
+    lastResponse = RestAssured.given()
+      .contentType(ContentType.JSON)
+      .body(body)
+      .post("/api/auth/login");
+    
+    if (lastResponse.getStatusCode() == 200) {
+      currentToken = lastResponse.getCookie("bff_jwt");
+    }
+  }
+
+  @Then("the response persona should be {string}")
+  public void response_persona_should_be(String expectedPersona) {
+    lastResponse.then().body("persona", equalTo(expectedPersona));
+  }
+
+
     @When("I try to login with no userId")
     public void i_try_to_login_with_no_user_id() {
         lastResponse = RestAssured.given()
