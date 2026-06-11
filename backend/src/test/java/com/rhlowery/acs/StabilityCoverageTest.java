@@ -166,9 +166,11 @@ public class StabilityCoverageTest {
     // Authorize with mock (OIDC_AUTH_SERVER_URL null)
     authResource.authorize("mock", mockUriInfo);
     // Callback with code
-    authResource.callback("code", "mock", mockUriInfo);
+    authResource.callback("code", "state", "mock", "state", mockUriInfo);
     // Callback without code (code==null)
-    authResource.callback(null, "mock", mockUriInfo);
+    authResource.callback(null, "state", "mock", "state", mockUriInfo);
+    // Callback CSRF failure
+    authResource.callback("code", "state", "mock", "different", mockUriInfo);
     authResource.logout();
     authResource.getConfig();
 
@@ -205,8 +207,8 @@ public class StabilityCoverageTest {
 
     authResource.authorize("oidc", mockUriInfo);
     authResource.authorize("saml", mockUriInfo);
-    authResource.callback("code", "oidc", mockUriInfo);
-    authResource.callback("code", "saml", mockUriInfo);
+    authResource.callback("code", "state", "oidc", "state", mockUriInfo);
+    authResource.callback("code", "state", "saml", "state", mockUriInfo);
   }
 
   // ── AccessRequest ADMIN paths ──────────────────────

@@ -86,6 +86,10 @@ public class AuthResource {
     @ConfigProperty(name = "mock.auth.enabled")
     Optional<Boolean> mockAuthEnabledProp;
 
+    @Inject
+    Instance<io.quarkus.oidc.client.OidcClient> oidcClient;
+
+
 
     @POST
     @Path("/login")
@@ -202,57 +206,116 @@ public class AuthResource {
                 .build();
     }
 
-    @GET
-    @Path("/authorize/{providerId}")
-    @PermitAll
-    @Operation(summary = "Authorize Redirect", description = "Redirects the browser to the OIDC provider login page")
-    public Response authorize(@PathParam("providerId") String providerId, @Context UriInfo uriInfo) {
-        String authServerUrl = authServerUrlProp.orElse("");
-        String clientId = clientIdProp.orElse("");
+  @GET
+  @Path("/authorize/{providerId}")
+  @PermitAll
+  @Operation(summary = "Authorize Redirect", description = "Redirects the browser to the OIDC provider login page")
+  public Response authorize(@PathParam("providerId") String providerId, @Context UriInfo uriInfo) {
+    String authServerUrl = authServerUrlProp.orElse("");
+    String clientId = clientIdProp.orElse("");
+    
+    // Generate unique random state for CSRF protection
+    String state = UUID.randomUUID().toString();
+    
+    String redirectUri = uriInfo.getBaseUriBuilder()
+        .path("/api/auth/callback")
+        .queryParam("providerId", providerId)
+        .build().toString();
+
+    if (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl)) {
+      return Response.status(302).location(URI.create("/login?error=OIDC_DISABLED")).build();
+    }
+
+    String authUrl = authServerUrl + "/protocol/openid-connect/auth" +
+        "?client_id=" + clientId +
+        "&response_type=code" +
+        "&scope=openid profile email" +
+        "&redirect_uri=" + URLEncoder.encode(redirectUri, StandardCharsets.UTF_8) +
+        "&state=" + state;
+
+    return Response.status(302).location(URI.create(authUrl))
+        .header("Set-Cookie", "oidc_state=" + state + "; Path=/; HttpOnly; SameSite=Lax; Max-Age=300")
+        .build();
+  }
+
+  @GET
+  @Path("/callback")
+  @PermitAll
+  @Operation(summary = "OIDC Callback", description = "Handles the return from the OIDC provider")
+  public Response callback(
+      @QueryParam("code") String code,
+      @QueryParam("state") String state,
+      @QueryParam("providerId") String providerId,
+      @jakarta.ws.rs.CookieParam("oidc_state") String stateCookie,
+      @Context UriInfo uriInfo) {
+    
+    if (state == null || stateCookie == null || !state.equals(stateCookie)) {
+      return Response.status(302).location(URI.create("/login?error=CSRF_FAILED")).build();
+    }
+
+    if (code == null) {
+      return Response.status(302).location(URI.create("/login?error=INVALID_CODE")).build();
+    }
+
+    String userId = "admin";
+    String userName = "Admin User";
+    List<String> groups = List.of("admins");
+    String persona = "ADMIN";
+
+    // Perform OIDC token exchange if the client is resolvable
+    if (oidcClient != null && oidcClient.isResolvable()) {
+      try {
         String redirectUri = uriInfo.getBaseUriBuilder()
-                .path("/api/auth/callback")
-                .queryParam("providerId", providerId)
-                .build().toString();
+            .path("/api/auth/callback")
+            .queryParam("providerId", providerId)
+            .build().toString();
 
+        Map<String, String> params = new HashMap<>();
+        params.put("grant_type", "authorization_code");
+        params.put("code", code);
+        params.put("redirect_uri", redirectUri);
 
-        if (authServerUrl == null || authServerUrl.isEmpty() || "mock".equals(authServerUrl)) {
-             return Response.status(302).location(URI.create("/login?error=OIDC_DISABLED")).build();
+        io.quarkus.oidc.client.Tokens tokens = oidcClient.get().getTokens(params).await().indefinitely();
+        if (tokens != null && tokens.get("id_token") != null) {
+          String idToken = tokens.get("id_token");
+          String[] parts = idToken.split("\\.");
+          if (parts.length > 1) {
+            String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> claims = (Map<String, Object>) mapper.readValue(payloadJson, Map.class);
+            
+            userId = (String) claims.getOrDefault("preferred_username", claims.getOrDefault("sub", "unknown"));
+            userName = (String) claims.getOrDefault("name", userId);
+            
+            Object groupsObj = claims.get("groups");
+            if (groupsObj instanceof List) {
+              groups = ((List<?>) groupsObj).stream().map(Object::toString).collect(Collectors.toList());
+            } else {
+              groups = List.of("oidc-users");
+            }
+            
+            persona = groups.contains("admins") ? "ADMIN" : "STANDARD_USER";
+          }
         }
-
-        String authUrl = authServerUrl + "/protocol/openid-connect/auth" +
-                "?client_id=" + clientId +
-                "&response_type=code" +
-                "&scope=openid profile email" +
-                "&redirect_uri=" + URLEncoder.encode(redirectUri, StandardCharsets.UTF_8);
-
-        return Response.status(302).location(URI.create(authUrl)).build();
+      } catch (Exception e) {
+        LOG.error("Failed OIDC token exchange: " + e.getMessage(), e);
+        return Response.status(302).location(URI.create("/login?error=TOKEN_EXCHANGE_FAILED")).build();
+      }
     }
 
-    @GET
-    @Path("/callback")
-    @PermitAll
-    @Operation(summary = "OIDC Callback", description = "Handles the return from the OIDC provider")
-    public Response callback(@QueryParam("code") String code, @QueryParam("providerId") String providerId, @Context UriInfo uriInfo) {
-        if (code == null) {
-            return Response.status(302).location(URI.create("/login?error=INVALID_CODE")).build();
-        }
+    String token = tokenService.generateToken(userId, userName, groups, persona.equals("ADMIN") ? "ADMIN" : "STANDARD_USER", persona);
+    
+    // Redirect back to frontend
+    URI frontendHome = URI.create("http://acs.localtest.me/");
+    
+    return Response.seeOther(frontendHome)
+        .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict")
+        .header("Set-Cookie", "oidc_state=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
+        .build();
+  }
 
-        // Simulating identity resolution for stabilization.
-        // In a real flow, a Token exchange would happen here.
-        String userId = "admin";
-        String userName = "Admin User";
-        List<String> groups = List.of("admins");
-        String persona = "ADMIN";
-        
-        String token = tokenService.generateToken(userId, userName, groups, "ADMIN", persona);
-        
-        // Redirect back to frontend
-        URI frontendHome = URI.create("http://acs.localtest.me/");
-        
-        return Response.seeOther(frontendHome)
-                .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict")
-                .build();
-    }
+
 
     @GET
     @Path("/me")
