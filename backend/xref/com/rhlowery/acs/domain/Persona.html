@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Persona xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../apidocs/com/rhlowery/acs/domain/Persona.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> com.rhlowery.acs.domain;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> io.quarkus.runtime.annotations.RegisterForReflection;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <em class="jxr_javadoccomment"> * Defines the available system-wide personas in the ACS.</em>
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <em class="jxr_javadoccomment"> * Personas are used to drive UI capabilities and security logic.</em>
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <em class="jxr_javadoccomment"> * [Persona system-wide definition and assignment hierarchy]</em>
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  @RegisterForReflection
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">public</strong> record Persona(
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>    String id,
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>    String name,
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>    String description
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  ) {
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona ADMIN = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"ADMIN"</span>, <span class="jxr_string">"Admin"</span>, <span class="jxr_string">"Full system access and configuration"</span>);
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona APPROVER = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"APPROVER"</span>, <span class="jxr_string">"Approver"</span>, <span class="jxr_string">"Can review and approve/reject requests"</span>);
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona REQUESTER = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"REQUESTER"</span>, <span class="jxr_string">"Requester"</span>, <span class="jxr_string">"Can submit and view own access requests"</span>);
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona SECURITY_ADMIN = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"SECURITY_ADMIN"</span>, <span class="jxr_string">"Security Admin"</span>, <span class="jxr_string">"System-wide security configuration and policy management"</span>);
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona PLATFORM_ADMIN = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"PLATFORM_ADMIN"</span>, <span class="jxr_string">"Platform Admin"</span>, <span class="jxr_string">"Infrastructure and platform level administration"</span>);
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona GOVERNANCE_ADMIN = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"GOVERNANCE_ADMIN"</span>, <span class="jxr_string">"Governance Admin"</span>, <span class="jxr_string">"Default data governance and catalog level administration"</span>);
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona AUDITOR = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"AUDITOR"</span>, <span class="jxr_string">"Auditor"</span>, <span class="jxr_string">"Can view and stream full audit logs for historical or real-time review"</span>);
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Persona REVIEWER = <strong class="jxr_keyword">new</strong> Persona(<span class="jxr_string">"REVIEWER"</span>, <span class="jxr_string">"Reviewer"</span>, <span class="jxr_string">"Has read-only access to audit dashboards and live streams"</span>);
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>    <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <em class="jxr_javadoccomment">   * Returns a list of all predefined system personas.</em>
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">   *</em>
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <em class="jxr_javadoccomment">   * @return List of Persona objects</em>
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <em class="jxr_javadoccomment">   */</em>
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>    <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> java.util.List&lt;Persona&gt; all() {
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">return</strong> java.util.List.of(ADMIN, APPROVER, REQUESTER, SECURITY_ADMIN, PLATFORM_ADMIN, GOVERNANCE_ADMIN, AUDITOR, REVIEWER);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>    }
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2026. All rights reserved.</div>
+</body>
+</html>
