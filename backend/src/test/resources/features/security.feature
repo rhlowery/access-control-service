@@ -17,3 +17,12 @@ Feature: Security and Permissions
   Scenario: Login validation
     When I try to login with no userId
     Then the response status should be 400
+
+  Scenario: Verify CORS origin settings in default profile
+    Given a configuration property "quarkus.http.cors.origins" is checked
+    Then the resolved value should be "*"
+
+  Scenario: Verify CORS origin settings in production profile
+    Given a configuration property "%prod.quarkus.http.cors.origins" is checked
+    Then the resolved value should not be empty
+    And the resolved value should not be "*"

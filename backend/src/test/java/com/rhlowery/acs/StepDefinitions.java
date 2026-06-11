@@ -1236,4 +1236,49 @@ public class StepDefinitions {
             assertEquals(expected.get(i).get("type"), sseEvents.get(i).get("type"));
         }
     }
+
+  /**
+   * The resolved value of the last checked configuration property.
+   */
+  private String checkedPropertyValue;
+
+  /**
+   * Checks the value of a configuration property from the MicroProfile Config provider.
+   *
+   * @param property the name of the configuration property to retrieve
+   */
+  @Given("a configuration property {string} is checked")
+  public void a_configuration_property_is_checked(String property) {
+    checkedPropertyValue = org.eclipse.microprofile.config.ConfigProvider.getConfig()
+        .getOptionalValue(property, String.class)
+        .orElse("");
+  }
+
+  /**
+   * Asserts that the checked configuration property value matches the expected value.
+   *
+   * @param expected the expected value of the property
+   */
+  @Then("the resolved value should be {string}")
+  public void the_resolved_value_should_be(String expected) {
+    assertEquals(expected, checkedPropertyValue);
+  }
+
+  /**
+   * Asserts that the checked configuration property value does not match the unexpected value.
+   *
+   * @param unexpected the unexpected value of the property
+   */
+  @Then("the resolved value should not be {string}")
+  public void the_resolved_value_should_not_be(String unexpected) {
+    assertNotEquals(unexpected, checkedPropertyValue);
+  }
+
+  /**
+   * Asserts that the checked configuration property is not empty or missing.
+   */
+  @Then("the resolved value should not be empty")
+  public void the_resolved_value_should_not_be_empty() {
+    assertFalse(checkedPropertyValue.isEmpty(), "Expected configuration property to be explicitly set");
+  }
 }
