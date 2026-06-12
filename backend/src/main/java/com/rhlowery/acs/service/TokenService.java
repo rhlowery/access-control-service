@@ -14,6 +14,9 @@ public class TokenService {
     @ConfigProperty(name = "mp.jwt.verify.issuer")
     String issuer;
 
+    @ConfigProperty(name = "acs.jwt.expiration.seconds", defaultValue = "3600")
+    long expirationSeconds;
+
     public String generateToken(String userId, String userName, List<String> groups, String role, String persona) {
         Set<String> roles = new HashSet<>(groups != null ? groups : List.of());
         if (role != null) roles.add(role);
@@ -25,6 +28,7 @@ public class TokenService {
                 .claim("userName", userName)
                 .claim("role", role != null ? role : "STANDARD_USER")
                 .claim("persona", persona != null ? persona : "NONE")
+                .expiresIn(expirationSeconds)
                 .sign();
     }
 }

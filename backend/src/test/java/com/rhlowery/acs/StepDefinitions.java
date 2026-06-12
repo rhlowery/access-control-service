@@ -489,6 +489,21 @@ public class StepDefinitions {
         assertNotNull(currentToken, "JWT token cookie 'bff_jwt' should be present in the response");
     }
 
+    @Then("the JWT token should have an expiration claim")
+    public void jwt_token_should_have_an_expiration_claim() {
+        assertNotNull(currentToken, "JWT token missing");
+        String[] parts = currentToken.split("\\.");
+        assertEquals(3, parts.length, "Invalid JWT token");
+        String payloadJson = new String(java.util.Base64.getUrlDecoder().decode(parts[1]), java.nio.charset.StandardCharsets.UTF_8);
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            java.util.Map<String, Object> claims = mapper.readValue(payloadJson, java.util.Map.class);
+            assertTrue(claims.containsKey("exp"), "JWT token is missing 'exp' claim");
+        } catch (Exception e) {
+            fail("Failed to parse JWT payload: " + e.getMessage());
+        }
+    }
+
     @Then("the response user should be {string}")
     public void response_user_should_be(String expectedUser) {
         lastResponse.then().body("userId", equalTo(expectedUser));
