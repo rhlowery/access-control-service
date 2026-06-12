@@ -89,6 +89,10 @@ public class AuthResource {
     @Inject
     Instance<io.quarkus.oidc.client.OidcClient> oidcClient;
 
+    @Inject
+    @ConfigProperty(name = "acs.cookie.secure", defaultValue = "false")
+    boolean secureCookie;
+
 
 
     @POST
@@ -188,7 +192,7 @@ public class AuthResource {
                     "userId", userId,
                     "providerId", finalProviderId != null ? finalProviderId : "mock",
                     "token", token))
-                    .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict")
+                    .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict" + (secureCookie ? "; Secure" : ""))
                     .build();
         } catch (Exception e) {
             LOG.error("Login error", e);
@@ -202,7 +206,7 @@ public class AuthResource {
     @Operation(summary = "Logout", description = "Invalidates the current user session")
     public Response logout() {
         return Response.ok(Map.of("status", "success"))
-                .header("Set-Cookie", "bff_jwt=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict")
+                .header("Set-Cookie", "bff_jwt=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict" + (secureCookie ? "; Secure" : ""))
                 .build();
     }
 
@@ -234,7 +238,7 @@ public class AuthResource {
         "&state=" + state;
 
     return Response.status(302).location(URI.create(authUrl))
-        .header("Set-Cookie", "oidc_state=" + state + "; Path=/; HttpOnly; SameSite=Lax; Max-Age=300")
+        .header("Set-Cookie", "oidc_state=" + state + "; Path=/; HttpOnly; SameSite=Lax; Max-Age=300" + (secureCookie ? "; Secure" : ""))
         .build();
   }
 
@@ -310,8 +314,8 @@ public class AuthResource {
     URI frontendHome = URI.create("http://acs.localtest.me/");
     
     return Response.seeOther(frontendHome)
-        .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict")
-        .header("Set-Cookie", "oidc_state=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax")
+        .header("Set-Cookie", "bff_jwt=" + token + "; Path=/; HttpOnly; SameSite=Strict" + (secureCookie ? "; Secure" : ""))
+        .header("Set-Cookie", "oidc_state=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax" + (secureCookie ? "; Secure" : ""))
         .build();
   }
 

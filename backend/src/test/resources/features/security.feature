@@ -26,3 +26,12 @@ Feature: Security and Permissions
     Given a configuration property "%prod.quarkus.http.cors.origins" is checked
     Then the resolved value should not be empty
     And the resolved value should not be "*"
+
+  Scenario: Verify cookie secure flag in production profile
+    Given a configuration property "%prod.acs.cookie.secure" is checked
+    Then the resolved value should be "true"
+
+  Scenario: Verify JWT token has an expiration claim
+    When I login with userId "alice" and password "password"
+    Then the JWT token should be returned in a cookie
+    And the JWT token should have an expiration claim
