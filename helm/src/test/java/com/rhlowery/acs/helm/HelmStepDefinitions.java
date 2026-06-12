@@ -18,6 +18,18 @@ public class HelmStepDefinitions {
     private List<Map<String, Object>> renderedTemplates;
     private String output;
 
+    private String getHelmExecutable() {
+        File homebrewHelm = new File("/opt/homebrew/bin/helm");
+        if (homebrewHelm.exists() && homebrewHelm.canExecute()) {
+            return homebrewHelm.getAbsolutePath();
+        }
+        File usrLocalHelm = new File("/usr/local/bin/helm");
+        if (usrLocalHelm.exists() && usrLocalHelm.canExecute()) {
+            return usrLocalHelm.getAbsolutePath();
+        }
+        return "helm";
+    }
+
     @Given("the Helm chart {string}")
     public void the_helm_chart(String path) {
         this.chartPath = path;
@@ -27,7 +39,7 @@ public class HelmStepDefinitions {
 
     @When("I run {string} with default values")
     public void i_run_helm_template(String command) throws Exception {
-        ProcessBuilder pb = new ProcessBuilder("helm", "template", chartPath);
+        ProcessBuilder pb = new ProcessBuilder(getHelmExecutable(), "template", chartPath);
         pb.redirectErrorStream(true);
         Process p = pb.start();
 
@@ -131,7 +143,7 @@ public class HelmStepDefinitions {
 
     @When("I verify the chart dependencies")
     public void verify_chart_dependencies() throws Exception {
-        ProcessBuilder pb = new ProcessBuilder("helm", "dependency", "build", chartPath);
+        ProcessBuilder pb = new ProcessBuilder(getHelmExecutable(), "dependency", "build", chartPath);
         pb.redirectErrorStream(true);
         Process p = pb.start();
 
